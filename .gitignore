@@ -1,0 +1,7 @@
+tmp 
+simulator
+old*
+**/*.pyc
+build/*
+MIG_DeepGate
+third-party/PolarGate
