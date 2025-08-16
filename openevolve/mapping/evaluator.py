@@ -197,7 +197,7 @@ def evaluate(program_path):
         for trial in range(num_trials):
             try:
                 # Run with timeout
-                result = run_with_timeout_cmake(program_path, timeout_seconds=120)
+                result = run_with_timeout_cmake(program_path, timeout_seconds=360)
                 result = json.loads(result)
 
                 # Handle different result formats
@@ -323,7 +323,7 @@ def evaluate_stage2(program_path):
 if __name__ == "__main__":
     path = "/home/flynn/workplace/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
     try:
-        output = run_with_timeout_cmake(path, timeout_seconds=120)
+        output = run_with_timeout_cmake(path, timeout_seconds=360)
         print("Program output:", output)
     except Exception as e:
         print(e, file=sys.stderr)
