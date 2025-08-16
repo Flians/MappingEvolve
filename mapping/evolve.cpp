@@ -1,3 +1,4 @@
+// EVOLVE-BLOCK-START
 #include "emap.hpp"
 
 namespace mockturtle {
@@ -104,3 +105,7 @@ namespace mockturtle {
 
   } // namespace detail
 } // namespace mockturtle
+// EVOLVE-BLOCK-END
+
+// This part remains fixed (not evolved)
+// self-defined function api (ignoring pre-defined api)

@@ -7,6 +7,9 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 add_subdirectory(mockturtle)
 
 add_library(experiments INTERFACE)
+target_compile_definitions(experiments INTERFACE 
+    EXPERIMENTS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/mockturtle/experiments/"
+)
 target_include_directories(experiments INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/mockturtle/experiments)
 target_link_libraries(experiments INTERFACE fmt json)
 if (ENABLE_MATPLOTLIB)

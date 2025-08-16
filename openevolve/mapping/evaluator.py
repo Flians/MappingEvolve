@@ -7,6 +7,9 @@ import sys
 import os
 import shutil
 from pathlib import Path
+import time
+import json
+import traceback
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -131,7 +134,7 @@ def build_and_run_cmake_project(
     # run
     try:
         run_proc = subprocess.run(
-            [str(exe_path), "/home/flynn/workplace/lodce/third-party/mockturtle/experiments/benchmarks/adder.aig", "/home/flynn/workplace/lodce/third-party/mockturtle/experiments/cell_libraries/asap7.genlib", "adder.v"],
+            [str(exe_path), f"{CUR_DIR}/../../third-party/mockturtle/experiments/cell_libraries/asap7.genlib"],
             check=True,
             cwd=str(exe_path.parent),
             env=run_env,
@@ -181,78 +184,42 @@ def evaluate(program_path):
     GLOBAL_MIN_VALUE = -1.519
 
     try:
-        # Load the program
-        spec = importlib.util.spec_from_file_location("program", program_path)
-        program = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(program)
-
-        # Check if the required function exists
-        if not hasattr(program, "run_search"):
-            print(f"Error: program does not have 'run_search' function")
-            return {
-                "value_score": 0.0,
-                "distance_score": 0.0,
-                "speed_score": 0.0,
-                "combined_score": 0.0,
-                "error": "Missing run_search function",
-            }
-
         # Run multiple trials
         num_trials = 10
-        x_values = []
-        y_values = []
-        values = []
-        distances = []
-        times = []
+        area_values = []
+        gates_values = []
+        delay_values = []
+        depth_values = []
+        runtime_values = []
+        nec_values = []
         success_count = 0
 
         for trial in range(num_trials):
             try:
-                start_time = time.time()
-
                 # Run with timeout
-                result = run_with_timeout(program.run_search, timeout_seconds=5)
+                result = run_with_timeout_cmake(program_path, timeout_seconds=120)
+                result = json.loads(result)
 
                 # Handle different result formats
-                if isinstance(result, tuple):
-                    if len(result) == 3:
-                        x, y, value = result
-                    elif len(result) == 2:
-                        # Assume it's (x, y) and calculate value
-                        x, y = result
-                        # Calculate the function value since it wasn't returned
-                        value = np.sin(x) * np.cos(y) + np.sin(x * y) + (x**2 + y**2) / 20
-                        print(f"Trial {trial}: Got 2 values, calculated function value: {value}")
+                if isinstance(result, dict):
+                    if len(result) == 6:
+                        area, gates, delay, depth, runtime, nec = result.values()
+                        print(f"Trial {trial}: Got 6 values, area: {area}, gates: {gates}, delay: {delay}, depth: {depth}, runtime: {runtime}, nec: {nec}")
                     else:
-                        print(f"Trial {trial}: Invalid result format, expected tuple of 2 or 3 values but got {len(result)}")
+                        print(f"Trial {trial}: Invalid result format, expected dict with 6 values but got {len(result)}")
                         continue
                 else:
-                    print(f"Trial {trial}: Invalid result format, expected tuple but got {type(result)}")
-                    continue
-
-                end_time = time.time()
-
-                # Ensure all values are float
-                x = safe_float(x)
-                y = safe_float(y)
-                value = safe_float(value)
-
-                # Check if the result is valid (not NaN or infinite)
-                if np.isnan(x) or np.isnan(y) or np.isnan(value) or np.isinf(x) or np.isinf(y) or np.isinf(value):
-                    print(f"Trial {trial}: Invalid result, got x={x}, y={y}, value={value}")
+                    print(f"Trial {trial}: Invalid result format, expected dict but got {type(result)}")
                     continue
 
                 # Calculate metrics
-                x_diff = x - GLOBAL_MIN_X
-                y_diff = y - GLOBAL_MIN_Y
-                distance_to_global = np.sqrt(x_diff**2 + y_diff**2)
-
-                x_values.append(x)
-                y_values.append(y)
-                values.append(value)
-                distances.append(distance_to_global)
-                times.append(end_time - start_time)
-                success_count += 1
+                area_values.append(area)
+                gates_values.append(gates)
+                delay_values.append(delay)
+                depth_values.append(depth)
+                runtime_values.append(runtime)
+                nec_values.append(nec)
+                success_count += nec > 0
 
             except TimeoutError as e:
                 print(f"Trial {trial}: {str(e)}")
@@ -270,8 +237,8 @@ def evaluate(program_path):
         # If all trials failed, return zero scores
         if success_count == 0:
             return {
-                "value_score": 0.0,
-                "distance_score": 0.0,
+                "area_score": 0.0,
+                "delay_score": 0.0,
                 "speed_score": 0.0,
                 "combined_score": 0.0,
                 "error": "All trials failed",
@@ -354,11 +321,10 @@ def evaluate_stage2(program_path):
 
 
 if __name__ == "__main__":
-    path = "/home/flynn/workplace/lodce/openevolve/mapping/evolve.cpp"  # 假设 func 目录下有 CMakeLists.txt
+    path = "/home/flynn/workplace/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
     try:
         output = run_with_timeout_cmake(path, timeout_seconds=120)
-        print("Program output:")
-        print(output)
+        print("Program output:", output)
     except Exception as e:
         print(e, file=sys.stderr)
         sys.exit(1)

@@ -1,5 +1,6 @@
 
 #include "emap.hpp"
+#include <experiments.hpp>
 #include <fmt/format.h>
 #include <lorina/pla.hpp>
 #include <mockturtle/algorithms/collapse_mapped.hpp>
@@ -59,24 +60,17 @@ inline bool abc_cec_impl(Ntk const &ntk, std::string const &benchmark_fullpath) 
   return false;
 }
 
-std::pair<double, double> synthesis(const std::string &aigPath, const std::string &genlibPath, const std::string &verilogPath) {
-  /* read technology library */
-  std::vector<mockturtle::gate> gates;
-  if (lorina::read_genlib(genlibPath, mockturtle::genlib_reader(gates)) != lorina::return_code::success) {
-    return std::make_pair(-1, -1);
-  }
-  mockturtle::tech_library_params tps;
-  mockturtle::tech_library<5, mockturtle::classification_type::np_configurations> tech_lib(gates, tps);
+void synthesis(const mockturtle::tech_library<5, mockturtle::classification_type::np_configurations> &tech_lib, const std::string &aigPath, const std::string &verilogPath, std::vector<double> &results) {
+  results.resize(6, 0);
 
-  fmt::print("[i] processing {}\n", aigPath);
   /* read aig */
   mockturtle::aig_network aig;
   if (lorina::read_aiger(aigPath, mockturtle::aiger_reader(aig)) != lorina::return_code::success) {
-    return std::make_pair(-1, -1);
+    return;
   }
   // const uint32_t size_before = aig.num_gates();
   // const uint32_t depth_before = mockturtle::depth_view(aig).depth();
-  auto start = std::chrono::high_resolution_clock::now();
+  // auto start = std::chrono::high_resolution_clock::now();
 
   mockturtle::lut_mapping_params ps;
   ps.cut_enumeration_ps.cut_size = 4u;
@@ -93,10 +87,10 @@ std::pair<double, double> synthesis(const std::string &aigPath, const std::strin
   mockturtle::dsd_resynthesis<mockturtle::aig_network, decltype(exact_resyn)> resyn(exact_resyn);
   aig = mockturtle::node_resynthesis<mockturtle::aig_network>(klut, resyn, {}, &nrst);
   // auto cec1 = abc_cec_impl(aig, aigPath);
-  auto end = std::chrono::high_resolution_clock::now();
-  auto resyn_time = std::chrono::duration<double>(end - start).count();
-  std::cout << std::fixed << std::setprecision(2);
-  std::cout << "resyn runtime: " << resyn_time << std::endl;
+  // auto end = std::chrono::high_resolution_clock::now();
+  // auto resyn_time = std::chrono::duration<double>(end - start).count();
+  // std::cout << std::fixed << std::setprecision(2);
+  // std::cout << "resyn runtime: " << resyn_time << std::endl;
 
   /* library to map to technology */
   mockturtle::map_params ps2;
@@ -104,27 +98,56 @@ std::pair<double, double> synthesis(const std::string &aigPath, const std::strin
   ps2.cut_enumeration_ps.cut_limit = 24;
   mockturtle::map_stats st2;
   mockturtle::binding_view<mockturtle::klut_network> res2 = mockturtle::map(aig, tech_lib, ps2, &st2);
-  // const auto cec2 = abc_cec_impl(res2, aigPath);
+  const auto cec2 = abc_cec_impl(res2, aigPath);
+
+  results[0] = st2.area;
+  results[1] = res2.num_gates();
+  results[2] = st2.delay;
+  results[3] = mockturtle::depth_view(res2).depth();
+  results[4] = std::chrono::duration<double>(st2.time_total).count();
+  results[5] = cec2 ? 0.0 : 1.0;
+  /*
   fmt::print("[i] area: {}, gates: {}, depth: {}\n", st2.area, res2.num_gates(), mockturtle::depth_view(res2).depth());
   start = std::chrono::high_resolution_clock::now();
   std::cout << std::fixed << std::setprecision(2);
   std::cout << "mapping runtime: " << std::chrono::duration<double>(start - end).count() << std::endl;
-
-  mockturtle::write_verilog_with_binding(res2, verilogPath);
-
-  return std::make_pair(st2.area, resyn_time);
+  */
+  if (!verilogPath.empty()) mockturtle::write_verilog_with_binding(res2, verilogPath);
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 4) {
-    std::cerr << "Usage: " << argv[0] << " aigPath genlibPath verilogPath" << std::endl;
+  if (argc < 2) {
+    std::cerr << "Usage: " << argv[0] << " genlibPath <aigPath> <verilogPath>" << std::endl;
     return 1;
   }
 
-  std::string aigPath = argv[1];
-  std::string genlibPath = argv[2];
-  std::string verilogPath = argv[3];
+  std::string genlibPath = argv[1];
 
-  synthesis(aigPath, genlibPath, verilogPath);
+  /* read technology library */
+  std::vector<mockturtle::gate> gates;
+  if (lorina::read_genlib(genlibPath, mockturtle::genlib_reader(gates)) != lorina::return_code::success) {
+    return 1;
+  }
+  mockturtle::tech_library_params tps;
+  mockturtle::tech_library<5, mockturtle::classification_type::np_configurations> tech_lib(gates, tps);
+
+  std::vector<double> results(6, 0);
+  if (argc > 2) {
+    std::string aigPath = argv[2];
+    std::string verilogPath = argv[3];
+    synthesis(tech_lib, aigPath, verilogPath, results);
+  } else {
+    std::vector<double> total(6, 0);
+    for (auto const &benchmark : experiments::iscas_benchmarks()) {
+      fmt::print("[i] processing {}\n", benchmark);
+      synthesis(tech_lib, experiments::benchmark_path(benchmark), "", results);
+      for (size_t i = 0; i < results.size(); ++i) {
+        total[i] += results[i];
+      }
+    }
+    results = total;
+  }
+  printf("{area: %f, gates: %f, delay: %f, depth: %f, runtime: %f, nec: %f}\n", results[0], results[1], results[2], results[3], results[4], results[5]);
+
   return 0;
 }
