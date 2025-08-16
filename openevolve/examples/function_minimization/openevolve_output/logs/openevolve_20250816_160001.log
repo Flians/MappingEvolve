@@ -1,0 +1,804 @@
+2025-08-16 16:00:01,401 - openevolve.controller - INFO - Logging to openevolve_output/logs/openevolve_20250816_160001.log
+2025-08-16 16:00:01,422 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-08-16 16:00:01,628 - openevolve.llm.openai - INFO - Initialized OpenAI LLM with model: deepseek-v3-250324
+2025-08-16 16:00:01,705 - openevolve.llm.openai - INFO - Initialized OpenAI LLM with model: deepseek-v3-241226
+2025-08-16 16:00:01,706 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:01,864 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:01,864 - openevolve.prompt.sampler - INFO - Initialized prompt sampler
+2025-08-16 16:00:01,864 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-16 16:00:01,864 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-08-16 16:00:01,867 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-16 16:00:01,867 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-16 16:00:01,867 - openevolve.controller - INFO - Initialized OpenEvolve with initial_program.py
+2025-08-16 16:00:01,867 - openevolve.controller - INFO - Adding initial program to database
+2025-08-16 16:00:01,980 - openevolve.evaluator - INFO - Evaluated program 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8 in 0.11s: runs_successfully=1.0000, value_score=0.9708, distance_score=0.6559, overall_score=0.2359, standard_deviation_score=0.5515, speed_score=1.0000, reliability_score=1.0000, combined_score=0.7797, success_rate=1.0000
+2025-08-16 16:00:01,980 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 0}
+2025-08-16 16:00:01,984 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-08-16 16:00:01,984 - openevolve.process_parallel - INFO - Worker-to-island mapping: {0: 0, 1: 1, 2: 2, 3: 0}
+2025-08-16 16:00:01,985 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-08-16 16:00:01,986 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-08-16 16:00:01,986 - openevolve.database - INFO - Island Status:
+2025-08-16 16:00:01,986 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.7797, avg=0.7797, diversity=0.00, gen=0 (best: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8)
+2025-08-16 16:00:01,986 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-08-16 16:00:01,986 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-08-16 16:00:01,986 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2025-08-16 16:00:02,152 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,163 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,164 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,190 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,306 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,306 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-16 16:00:02,308 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-16 16:00:02,308 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-16 16:00:02,309 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:02,313 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,315 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,327 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-16 16:00:02,328 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-16 16:00:02,329 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-16 16:00:02,329 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-16 16:00:02,329 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-16 16:00:02,329 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-16 16:00:02,330 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:02,330 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:02,339 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-16 16:00:02,339 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-16 16:00:02,340 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-16 16:00:02,341 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-16 16:00:02,341 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:22,190 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:22,442 - openevolve.evaluator - INFO - Evaluated program 1bf07ec0-14e6-424b-a5d0-b91346f23aee in 0.23s: runs_successfully=1.0000, value_score=0.8547, distance_score=0.2499, overall_score=0.1910, standard_deviation_score=0.3422, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5550, success_rate=1.0000
+2025-08-16 16:00:22,445 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:22,451 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 5}
+2025-08-16 16:00:22,451 - openevolve.process_parallel - INFO - Iteration 4: Program 1bf07ec0-14e6-424b-a5d0-b91346f23aee (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 20.10s
+2025-08-16 16:00:22,451 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8547, distance_score=0.2499, overall_score=0.1910, standard_deviation_score=0.3422, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5550, success_rate=1.0000
+2025-08-16 16:00:22,503 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:22,752 - openevolve.evaluator - INFO - Evaluated program c876859d-a397-48bb-bf3b-764def039e4e in 0.24s: runs_successfully=1.0000, value_score=0.9101, distance_score=0.3120, overall_score=0.9211, standard_deviation_score=0.3881, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6054, success_rate=1.0000
+2025-08-16 16:00:22,756 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:22,763 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 0}
+2025-08-16 16:00:22,763 - openevolve.process_parallel - INFO - Iteration 1: Program c876859d-a397-48bb-bf3b-764def039e4e (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 20.43s
+2025-08-16 16:00:22,763 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9101, distance_score=0.3120, overall_score=0.9211, standard_deviation_score=0.3881, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6054, success_rate=1.0000
+2025-08-16 16:00:24,785 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:25,060 - openevolve.evaluator - INFO - Evaluated program 85ac69bf-b88a-4ac9-b3d8-254d0a9f4efa in 0.26s: runs_successfully=1.0000, value_score=0.8674, distance_score=0.4872, overall_score=0.9320, standard_deviation_score=0.4305, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6602, success_rate=1.0000
+2025-08-16 16:00:25,065 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:25,072 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 9, 'diversity': 5} (fitness: 0.688 -> 0.820)
+2025-08-16 16:00:25,072 - openevolve.process_parallel - INFO - Iteration 2: Program 85ac69bf-b88a-4ac9-b3d8-254d0a9f4efa (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 22.75s
+2025-08-16 16:00:25,072 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8674, distance_score=0.4872, overall_score=0.9320, standard_deviation_score=0.4305, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6602, success_rate=1.0000
+2025-08-16 16:00:35,422 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:35,471 - openevolve.evaluator - INFO - Evaluated program ffbbeb87-c37e-4dac-b4f5-04d4a17f1be6 in 0.02s: runs_successfully=1.0000, value_score=0.6286, distance_score=0.1418, overall_score=0.1000
+2025-08-16 16:00:35,476 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:00:35,480 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 9}
+2025-08-16 16:00:35,481 - openevolve.process_parallel - INFO - Iteration 3: Program ffbbeb87-c37e-4dac-b4f5-04d4a17f1be6 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 33.14s
+2025-08-16 16:00:35,482 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.6286, distance_score=0.1418, overall_score=0.1000
+2025-08-16 16:00:35,482 - openevolve.process_parallel - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.4676) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2025-08-16 16:00:48,099 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:48,127 - openevolve.evaluator - INFO - Evaluated program 0d478f9a-dbc4-43b8-bc04-0aa28a9c6bd0 in 0.02s: runs_successfully=1.0000, value_score=0.6284, distance_score=0.1409, overall_score=0.1000
+2025-08-16 16:00:48,131 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:00:48,132 - openevolve.process_parallel - INFO - Iteration 6: Program 0d478f9a-dbc4-43b8-bc04-0aa28a9c6bd0 (parent: b00388f9-5421-42fe-ada1-ee4ce5728d02) completed in 25.37s
+2025-08-16 16:00:48,133 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.6284, distance_score=0.1409, overall_score=0.1000
+2025-08-16 16:00:50,674 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:50,904 - openevolve.evaluator - INFO - Evaluated program 435611e6-0fa7-4744-acd8-d255cf489573 in 0.23s: runs_successfully=1.0000, value_score=0.8971, distance_score=0.3552, overall_score=0.2024, standard_deviation_score=0.3685, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6120, success_rate=1.0000
+2025-08-16 16:00:50,906 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:00:50,916 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 2}
+2025-08-16 16:00:50,916 - openevolve.process_parallel - INFO - Iteration 7: Program 435611e6-0fa7-4744-acd8-d255cf489573 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 25.84s
+2025-08-16 16:00:50,917 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8971, distance_score=0.3552, overall_score=0.2024, standard_deviation_score=0.3685, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6120, success_rate=1.0000
+2025-08-16 16:00:52,072 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:52,283 - openevolve.evaluator - INFO - Evaluated program c3744ebe-9a5c-40fb-a653-a35ba8d74f40 in 0.21s: runs_successfully=1.0000, value_score=0.8896, distance_score=0.3779, overall_score=0.9245, standard_deviation_score=0.3942, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6225, success_rate=1.0000
+2025-08-16 16:00:52,287 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:00:52,296 - openevolve.process_parallel - INFO - Iteration 5: Program c3744ebe-9a5c-40fb-a653-a35ba8d74f40 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 29.84s
+2025-08-16 16:00:52,297 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8896, distance_score=0.3779, overall_score=0.9245, standard_deviation_score=0.3942, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6225, success_rate=1.0000
+2025-08-16 16:00:58,398 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:00:58,438 - openevolve.evaluator - INFO - Evaluated program 97c50196-4b4a-4e35-9d1d-305f848f4978 in 0.03s: runs_successfully=0.0000, error=cannot access local variable 'step_size' where it is not associated with a value
+2025-08-16 16:00:58,442 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:00:58,444 - openevolve.process_parallel - INFO - Iteration 8: Program 97c50196-4b4a-4e35-9d1d-305f848f4978 (parent: c876859d-a397-48bb-bf3b-764def039e4e) completed in 22.96s
+2025-08-16 16:00:58,445 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'step_size' where it is not associated with a value
+2025-08-16 16:01:23,268 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:23,484 - openevolve.evaluator - INFO - Evaluated program ab08014a-0d5d-49a6-a2e3-7250e2ed9178 in 0.21s: runs_successfully=1.0000, value_score=0.5905, distance_score=0.2342, overall_score=0.8906, standard_deviation_score=0.3209, speed_score=1.0000, reliability_score=1.0000, combined_score=0.4528, success_rate=1.0000
+2025-08-16 16:01:23,486 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 4, 'diversity': 0}
+2025-08-16 16:01:23,486 - openevolve.process_parallel - INFO - Iteration 10: Program ab08014a-0d5d-49a6-a2e3-7250e2ed9178 (parent: 7b3db42c-7cbb-4c74-88a0-ecb20abba6ce) completed in 32.58s
+2025-08-16 16:01:23,486 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:01:23,486 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.5905, distance_score=0.2342, overall_score=0.8906, standard_deviation_score=0.3209, speed_score=1.0000, reliability_score=1.0000, combined_score=0.4528, success_rate=1.0000
+2025-08-16 16:01:23,486 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 10
+2025-08-16 16:01:23,489 - openevolve.database - INFO - Island Status:
+2025-08-16 16:01:23,489 - openevolve.database - INFO -    Island 0: 5 programs, best=0.7797, avg=0.6136, diversity=240.12, gen=3 (best: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8)
+2025-08-16 16:01:23,489 - openevolve.database - INFO -    Island 1: 4 programs, best=0.7797, avg=0.6204, diversity=228.53, gen=3 (best: c3744ebe-9a5c-40fb-a653-a35ba8d74f40)
+2025-08-16 16:01:23,490 - openevolve.database - INFO -  * Island 2: 3 programs, best=0.7797, avg=0.4108, diversity=513.80, gen=3 (best: ab08014a-0d5d-49a6-a2e3-7250e2ed9178)
+2025-08-16 16:01:23,640 - openevolve.database - INFO - Saved database with 12 programs to openevolve_output/checkpoints/checkpoint_10
+2025-08-16 16:01:23,719 - openevolve.controller - INFO - Saved best program at checkpoint 10 with metrics: runs_successfully=1.0000, value_score=0.9708, distance_score=0.6559, overall_score=0.2359, standard_deviation_score=0.5515, speed_score=1.0000, reliability_score=1.0000, combined_score=0.7797, success_rate=1.0000
+2025-08-16 16:01:23,719 - openevolve.controller - INFO - Saved checkpoint at iteration 10 to openevolve_output/checkpoints/checkpoint_10
+2025-08-16 16:01:30,904 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:31,180 - openevolve.evaluator - INFO - Evaluated program 27bda91a-953e-4218-8bb7-4969168e0b9a in 0.27s: runs_successfully=1.0000, value_score=0.9085, distance_score=0.3340, overall_score=0.9219, standard_deviation_score=0.3735, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6096, success_rate=1.0000
+2025-08-16 16:01:31,185 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:01:31,193 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 9, 'diversity': 9} (fitness: 0.468 -> 0.794)
+2025-08-16 16:01:31,193 - openevolve.process_parallel - INFO - Iteration 9: Program 27bda91a-953e-4218-8bb7-4969168e0b9a (parent: c876859d-a397-48bb-bf3b-764def039e4e) completed in 43.05s
+2025-08-16 16:01:31,194 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9085, distance_score=0.3340, overall_score=0.9219, standard_deviation_score=0.3735, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6096, success_rate=1.0000
+2025-08-16 16:01:34,709 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:34,911 - openevolve.evaluator - INFO - Evaluated program 72571ff1-db07-4644-b829-d39bbb734ede in 0.20s: runs_successfully=1.0000, value_score=0.9889, distance_score=0.9332, overall_score=0.9920, standard_deviation_score=0.9375, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9602, success_rate=1.0000
+2025-08-16 16:01:34,918 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:01:34,918 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 3, 'diversity': 2}
+2025-08-16 16:01:34,920 - openevolve.database - INFO - New best program 72571ff1-db07-4644-b829-d39bbb734ede replaces 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8 (combined_score: 0.7797 → 0.9602, +0.1806)
+2025-08-16 16:01:34,922 - openevolve.process_parallel - INFO - Iteration 11: Program 72571ff1-db07-4644-b829-d39bbb734ede (parent: b00388f9-5421-42fe-ada1-ee4ce5728d02) completed in 42.63s
+2025-08-16 16:01:34,923 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9889, distance_score=0.9332, overall_score=0.9920, standard_deviation_score=0.9375, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9602, success_rate=1.0000
+2025-08-16 16:01:34,925 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 11: 72571ff1-db07-4644-b829-d39bbb734ede
+2025-08-16 16:01:41,329 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:41,664 - openevolve.evaluator - INFO - Evaluated program cfd85cc3-6914-4675-937a-1d0641996585 in 0.33s: runs_successfully=1.0000, value_score=0.9869, distance_score=0.9096, overall_score=0.9899, standard_deviation_score=0.9294, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9497, success_rate=1.0000
+2025-08-16 16:01:41,670 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:01:41,678 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 3}
+2025-08-16 16:01:41,678 - openevolve.process_parallel - INFO - Iteration 12: Program cfd85cc3-6914-4675-937a-1d0641996585 (parent: 435611e6-0fa7-4744-acd8-d255cf489573) completed in 43.22s
+2025-08-16 16:01:41,678 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9869, distance_score=0.9096, overall_score=0.9899, standard_deviation_score=0.9294, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9497, success_rate=1.0000
+2025-08-16 16:01:43,541 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:43,796 - openevolve.evaluator - INFO - Evaluated program e267def3-2205-47dd-9a47-cf49a41183c5 in 0.25s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:01:43,802 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:01:43,811 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 9, 'diversity': 9} (fitness: 0.794 -> 1.000)
+2025-08-16 16:01:43,811 - openevolve.database - INFO - New best program e267def3-2205-47dd-9a47-cf49a41183c5 replaces 72571ff1-db07-4644-b829-d39bbb734ede (combined_score: 0.9602 → 0.9997, +0.0395)
+2025-08-16 16:01:43,811 - openevolve.process_parallel - INFO - Iteration 13: Program e267def3-2205-47dd-9a47-cf49a41183c5 (parent: ffbbeb87-c37e-4dac-b4f5-04d4a17f1be6) completed in 20.31s
+2025-08-16 16:01:43,813 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:01:43,815 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 13: e267def3-2205-47dd-9a47-cf49a41183c5
+2025-08-16 16:01:54,978 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:55,239 - openevolve.evaluator - INFO - Evaluated program d057fbcf-71d7-43ee-b23e-3f83c82254c1 in 0.26s: runs_successfully=1.0000, value_score=0.8956, distance_score=0.3854, overall_score=0.9256, standard_deviation_score=0.3992, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6282, success_rate=1.0000
+2025-08-16 16:01:55,244 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 4, 'diversity': 1}
+2025-08-16 16:01:55,244 - openevolve.process_parallel - INFO - Iteration 14: Program d057fbcf-71d7-43ee-b23e-3f83c82254c1 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 24.06s
+2025-08-16 16:01:55,244 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8956, distance_score=0.3854, overall_score=0.9256, standard_deviation_score=0.3992, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6282, success_rate=1.0000
+2025-08-16 16:01:55,245 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:01:55,530 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:01:55,740 - openevolve.evaluator - INFO - Evaluated program 6ff5b7a1-1847-403a-841f-9d28695dd2cf in 0.20s: runs_successfully=1.0000, value_score=0.9065, distance_score=0.7361, overall_score=0.9703, standard_deviation_score=0.8837, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8517, success_rate=1.0000
+2025-08-16 16:01:55,743 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:01:55,750 - openevolve.process_parallel - INFO - Iteration 15: Program 6ff5b7a1-1847-403a-841f-9d28695dd2cf (parent: c3744ebe-9a5c-40fb-a653-a35ba8d74f40) completed in 20.82s
+2025-08-16 16:01:55,750 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9065, distance_score=0.7361, overall_score=0.9703, standard_deviation_score=0.8837, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8517, success_rate=1.0000
+2025-08-16 16:02:04,931 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:05,204 - openevolve.evaluator - INFO - Evaluated program 39d61db4-fa22-4988-98da-3a2320358cb7 in 0.27s: runs_successfully=1.0000, value_score=0.8878, distance_score=0.3340, overall_score=0.9206, standard_deviation_score=0.3768, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6030, success_rate=1.0000
+2025-08-16 16:02:05,211 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:05,219 - openevolve.process_parallel - INFO - Iteration 16: Program 39d61db4-fa22-4988-98da-3a2320358cb7 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 23.54s
+2025-08-16 16:02:05,219 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8878, distance_score=0.3340, overall_score=0.9206, standard_deviation_score=0.3768, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6030, success_rate=1.0000
+2025-08-16 16:02:27,007 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:27,239 - openevolve.evaluator - INFO - Evaluated program e2c2eb6a-d90b-4881-b8f6-85e27ff0b9bb in 0.23s: runs_successfully=1.0000, value_score=0.9295, distance_score=0.3732, overall_score=0.9268, standard_deviation_score=0.3894, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6338, success_rate=1.0000
+2025-08-16 16:02:27,244 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 1}
+2025-08-16 16:02:27,244 - openevolve.database - INFO - MAP-Elites coverage reached 10.0% (10/100 cells)
+2025-08-16 16:02:27,244 - openevolve.process_parallel - INFO - Iteration 18: Program e2c2eb6a-d90b-4881-b8f6-85e27ff0b9bb (parent: 435611e6-0fa7-4744-acd8-d255cf489573) completed in 32.00s
+2025-08-16 16:02:27,244 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9295, distance_score=0.3732, overall_score=0.9268, standard_deviation_score=0.3894, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6338, success_rate=1.0000
+2025-08-16 16:02:27,244 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:28,081 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:28,326 - openevolve.evaluator - INFO - Evaluated program 45a82fac-58a4-4675-b3f6-0fb8a3187ba7 in 0.24s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:02:28,331 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:28,333 - openevolve.process_parallel - INFO - Iteration 19: Program 45a82fac-58a4-4675-b3f6-0fb8a3187ba7 (parent: ffbbeb87-c37e-4dac-b4f5-04d4a17f1be6) completed in 32.58s
+2025-08-16 16:02:28,333 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:02:33,128 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:33,376 - openevolve.evaluator - INFO - Evaluated program 525b9f01-e11a-4a1d-ba3a-efcefaf453c0 in 0.24s: runs_successfully=1.0000, value_score=0.8760, distance_score=0.6524, overall_score=0.9462, standard_deviation_score=0.4792, speed_score=1.0000, reliability_score=1.0000, combined_score=0.7308, success_rate=1.0000
+2025-08-16 16:02:33,381 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:33,389 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 3}
+2025-08-16 16:02:33,389 - openevolve.process_parallel - INFO - Iteration 17: Program 525b9f01-e11a-4a1d-ba3a-efcefaf453c0 (parent: 97c50196-4b4a-4e35-9d1d-305f848f4978) completed in 49.58s
+2025-08-16 16:02:33,390 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8760, distance_score=0.6524, overall_score=0.9462, standard_deviation_score=0.4792, speed_score=1.0000, reliability_score=1.0000, combined_score=0.7308, success_rate=1.0000
+2025-08-16 16:02:48,826 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:48,843 - openevolve.evaluator - INFO - Evaluated program 3179537c-67d6-4532-a5f9-1119632537b4 in 0.01s: runs_successfully=0.0000, error=name 'accept_move' is not defined
+2025-08-16 16:02:48,849 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:48,854 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 5}
+2025-08-16 16:02:48,855 - openevolve.process_parallel - INFO - Iteration 20: Program 3179537c-67d6-4532-a5f9-1119632537b4 (parent: cfd85cc3-6914-4675-937a-1d0641996585) completed in 43.64s
+2025-08-16 16:02:48,858 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=name 'accept_move' is not defined
+2025-08-16 16:02:48,858 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 20
+2025-08-16 16:02:48,862 - openevolve.database - INFO - Island Status:
+2025-08-16 16:02:48,862 - openevolve.database - INFO -  * Island 0: 9 programs, best=0.9997, avg=0.6642, diversity=439.97, gen=8 (best: e267def3-2205-47dd-9a47-cf49a41183c5)
+2025-08-16 16:02:48,863 - openevolve.database - INFO -    Island 1: 7 programs, best=0.8517, avg=0.6520, diversity=200.35, gen=6 (best: 6ff5b7a1-1847-403a-841f-9d28695dd2cf)
+2025-08-16 16:02:48,865 - openevolve.database - INFO -    Island 2: 7 programs, best=0.9997, avg=0.6009, diversity=255.22, gen=6 (best: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7)
+2025-08-16 16:02:49,084 - openevolve.database - INFO - Saved database with 23 programs to openevolve_output/checkpoints/checkpoint_20
+2025-08-16 16:02:49,090 - openevolve.controller - INFO - Saved best program at checkpoint 20 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:02:49,091 - openevolve.controller - INFO - Saved checkpoint at iteration 20 to openevolve_output/checkpoints/checkpoint_20
+2025-08-16 16:02:53,933 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:54,193 - openevolve.evaluator - INFO - Evaluated program 3b79335e-83ee-4e19-84ff-40bfd91d5856 in 0.26s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:02:54,199 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:54,206 - openevolve.process_parallel - INFO - Iteration 21: Program 3b79335e-83ee-4e19-84ff-40bfd91d5856 (parent: ffbbeb87-c37e-4dac-b4f5-04d4a17f1be6) completed in 26.95s
+2025-08-16 16:02:54,206 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:02:59,727 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:02:59,744 - openevolve.evaluator - INFO - Evaluated program bd71a760-2a22-4ffa-9f40-917430cb2a36 in 0.01s: runs_successfully=0.0000, error=cannot access local variable 'delta' where it is not associated with a value
+2025-08-16 16:02:59,749 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:02:59,756 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 6}
+2025-08-16 16:02:59,770 - openevolve.process_parallel - INFO - Iteration 22: Program bd71a760-2a22-4ffa-9f40-917430cb2a36 (parent: cfd85cc3-6914-4675-937a-1d0641996585) completed in 31.41s
+2025-08-16 16:02:59,772 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'delta' where it is not associated with a value
+2025-08-16 16:03:03,865 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:04,096 - openevolve.evaluator - INFO - Evaluated program 688b9e56-321b-4cc6-a446-2992e49de68a in 0.23s: runs_successfully=1.0000, value_score=0.8684, distance_score=0.2632, overall_score=0.9153, standard_deviation_score=0.4011, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5763, success_rate=1.0000
+2025-08-16 16:03:04,102 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:03:04,111 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 1}
+2025-08-16 16:03:04,111 - openevolve.process_parallel - INFO - Iteration 23: Program 688b9e56-321b-4cc6-a446-2992e49de68a (parent: 435611e6-0fa7-4744-acd8-d255cf489573) completed in 30.72s
+2025-08-16 16:03:04,113 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8684, distance_score=0.2632, overall_score=0.9153, standard_deviation_score=0.4011, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5763, success_rate=1.0000
+2025-08-16 16:03:19,411 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:19,631 - openevolve.evaluator - INFO - Evaluated program 8afd7366-6eb1-4434-b1e8-fe14650cd979 in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:03:19,637 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:03:19,644 - openevolve.process_parallel - INFO - Iteration 24: Program 8afd7366-6eb1-4434-b1e8-fe14650cd979 (parent: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7) completed in 30.78s
+2025-08-16 16:03:19,644 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:03:32,523 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:32,756 - openevolve.evaluator - INFO - Evaluated program 81033595-340d-461a-bed0-828c04738ae9 in 0.23s: runs_successfully=1.0000, value_score=0.4854, distance_score=0.2062, overall_score=0.1590, standard_deviation_score=0.2637, speed_score=1.0000, reliability_score=1.0000, combined_score=0.3948, success_rate=1.0000
+2025-08-16 16:03:32,762 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:03:32,769 - openevolve.process_parallel - INFO - Iteration 25: Program 81033595-340d-461a-bed0-828c04738ae9 (parent: 525b9f01-e11a-4a1d-ba3a-efcefaf453c0) completed in 38.56s
+2025-08-16 16:03:32,769 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.4854, distance_score=0.2062, overall_score=0.1590, standard_deviation_score=0.2637, speed_score=1.0000, reliability_score=1.0000, combined_score=0.3948, success_rate=1.0000
+2025-08-16 16:03:37,340 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:37,355 - openevolve.evaluator - INFO - Evaluated program 2cc9afe5-a6f8-48cf-b6ab-16a9c46f454a in 0.01s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:03:37,361 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:03:37,362 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 5}
+2025-08-16 16:03:37,380 - openevolve.process_parallel - INFO - Iteration 27: Program 2cc9afe5-a6f8-48cf-b6ab-16a9c46f454a (parent: 6ff5b7a1-1847-403a-841f-9d28695dd2cf) completed in 33.26s
+2025-08-16 16:03:37,381 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:03:56,958 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:56,973 - openevolve.evaluator - INFO - Evaluated program 14f63490-861d-4f22-b17c-461732370664 in 0.01s: runs_successfully=0.0000, error=cannot access local variable 'current_x' where it is not associated with a value
+2025-08-16 16:03:56,979 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:03:56,983 - openevolve.process_parallel - INFO - Iteration 26: Program 14f63490-861d-4f22-b17c-461732370664 (parent: cfd85cc3-6914-4675-937a-1d0641996585) completed in 57.23s
+2025-08-16 16:03:56,984 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'current_x' where it is not associated with a value
+2025-08-16 16:03:57,318 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:03:57,547 - openevolve.evaluator - INFO - Evaluated program 4de99cab-5eaa-45c7-b318-abc5e0540619 in 0.22s: runs_successfully=1.0000, value_score=0.7335, distance_score=0.3536, overall_score=0.1901, standard_deviation_score=0.3509, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5507, success_rate=1.0000
+2025-08-16 16:03:57,550 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:03:57,555 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 3}
+2025-08-16 16:03:57,556 - openevolve.process_parallel - INFO - Iteration 29: Program 4de99cab-5eaa-45c7-b318-abc5e0540619 (parent: 1bf07ec0-14e6-424b-a5d0-b91346f23aee) completed in 24.79s
+2025-08-16 16:03:57,559 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.7335, distance_score=0.3536, overall_score=0.1901, standard_deviation_score=0.3509, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5507, success_rate=1.0000
+2025-08-16 16:04:04,703 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:04,717 - openevolve.evaluator - INFO - Evaluated program 0c61656b-e951-44ff-a816-b497075cf444 in 0.01s: runs_successfully=0.0000, error=cannot access local variable 'momentum_x' where it is not associated with a value
+2025-08-16 16:04:04,723 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:04:04,734 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 4}
+2025-08-16 16:04:04,734 - openevolve.process_parallel - INFO - Iteration 30: Program 0c61656b-e951-44ff-a816-b497075cf444 (parent: ab08014a-0d5d-49a6-a2e3-7250e2ed9178) completed in 27.36s
+2025-08-16 16:04:04,736 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'momentum_x' where it is not associated with a value
+2025-08-16 16:04:04,738 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 30
+2025-08-16 16:04:04,742 - openevolve.database - INFO - Island Status:
+2025-08-16 16:04:04,742 - openevolve.database - INFO -  * Island 0: 12 programs, best=0.9997, avg=0.5814, diversity=484.47, gen=11 (best: e267def3-2205-47dd-9a47-cf49a41183c5)
+2025-08-16 16:04:04,742 - openevolve.database - INFO -    Island 1: 10 programs, best=0.9997, avg=0.6535, diversity=160.48, gen=9 (best: 8afd7366-6eb1-4434-b1e8-fe14650cd979)
+2025-08-16 16:04:04,742 - openevolve.database - INFO -    Island 2: 10 programs, best=0.9997, avg=0.4757, diversity=118.63, gen=9 (best: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7)
+2025-08-16 16:04:05,517 - openevolve.database - INFO - Saved database with 32 programs to openevolve_output/checkpoints/checkpoint_30
+2025-08-16 16:04:05,524 - openevolve.controller - INFO - Saved best program at checkpoint 30 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:04:05,524 - openevolve.controller - INFO - Saved checkpoint at iteration 30 to openevolve_output/checkpoints/checkpoint_30
+2025-08-16 16:04:12,485 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:12,795 - openevolve.evaluator - INFO - Evaluated program a8f33e2b-3b54-4ef8-8f0e-c520f1d69442 in 0.31s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:04:12,798 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:04:12,804 - openevolve.process_parallel - INFO - Iteration 28: Program a8f33e2b-3b54-4ef8-8f0e-c520f1d69442 (parent: 3b79335e-83ee-4e19-84ff-40bfd91d5856) completed in 53.16s
+2025-08-16 16:04:12,804 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:04:21,157 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:21,194 - openevolve.evaluator - INFO - Evaluated program 02390a83-6707-4a4b-a519-c13d48288af2 in 0.03s: runs_successfully=1.0000, value_score=0.5038, distance_score=0.1948, overall_score=0.1000
+2025-08-16 16:04:21,201 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:04:21,202 - openevolve.process_parallel - INFO - Iteration 31: Program 02390a83-6707-4a4b-a519-c13d48288af2 (parent: c876859d-a397-48bb-bf3b-764def039e4e) completed in 24.22s
+2025-08-16 16:04:21,205 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.5038, distance_score=0.1948, overall_score=0.1000
+2025-08-16 16:04:37,161 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:37,176 - openevolve.evaluator - INFO - Evaluated program fc903d7b-ad71-4b8a-8d04-f99f122cc58c in 0.01s: runs_successfully=0.0000, error=cannot access local variable 'best_value' where it is not associated with a value
+2025-08-16 16:04:37,180 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:37,183 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:04:37,194 - openevolve.process_parallel - INFO - Iteration 34: Program fc903d7b-ad71-4b8a-8d04-f99f122cc58c (parent: 39d61db4-fa22-4988-98da-3a2320358cb7) completed in 24.38s
+2025-08-16 16:04:37,195 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'best_value' where it is not associated with a value
+2025-08-16 16:04:37,410 - openevolve.evaluator - INFO - Evaluated program 41d06de6-ea3e-4639-b015-e646b8d60fe3 in 0.22s: runs_successfully=1.0000, value_score=0.8366, distance_score=0.2500, overall_score=0.9096, standard_deviation_score=0.3388, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5481, success_rate=1.0000
+2025-08-16 16:04:37,417 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:04:37,420 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 2}
+2025-08-16 16:04:37,520 - openevolve.process_parallel - INFO - Iteration 32: Program 41d06de6-ea3e-4639-b015-e646b8d60fe3 (parent: 688b9e56-321b-4cc6-a446-2992e49de68a) completed in 39.86s
+2025-08-16 16:04:37,522 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8366, distance_score=0.2500, overall_score=0.9096, standard_deviation_score=0.3388, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5481, success_rate=1.0000
+2025-08-16 16:04:43,434 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:04:43,466 - openevolve.evaluator - INFO - Evaluated program 025c8c57-5ab0-4913-81b2-dcde64495d4a in 0.03s: runs_successfully=0.0000, error=scale < 0
+2025-08-16 16:04:43,471 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:04:43,474 - openevolve.process_parallel - INFO - Iteration 33: Program 025c8c57-5ab0-4913-81b2-dcde64495d4a (parent: bd71a760-2a22-4ffa-9f40-917430cb2a36) completed in 38.74s
+2025-08-16 16:04:43,474 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=scale < 0
+2025-08-16 16:05:12,453 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:05:12,691 - openevolve.evaluator - INFO - Evaluated program c4e02697-c001-4df9-a5fc-7f3767b769ec in 0.23s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9988, overall_score=0.9998, standard_deviation_score=0.9985, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9992, success_rate=1.0000
+2025-08-16 16:05:12,698 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:05:12,707 - openevolve.process_parallel - INFO - Iteration 35: Program c4e02697-c001-4df9-a5fc-7f3767b769ec (parent: 8afd7366-6eb1-4434-b1e8-fe14650cd979) completed in 51.49s
+2025-08-16 16:05:12,707 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9988, overall_score=0.9998, standard_deviation_score=0.9985, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9992, success_rate=1.0000
+2025-08-16 16:05:23,161 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:05:23,388 - openevolve.evaluator - INFO - Evaluated program d624741a-36ac-4c02-9627-be90c52f6eb6 in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:05:23,393 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:05:23,400 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 4, 'diversity': 1} (fitness: 0.804 -> 1.000)
+2025-08-16 16:05:23,400 - openevolve.process_parallel - INFO - Iteration 36: Program d624741a-36ac-4c02-9627-be90c52f6eb6 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 46.21s
+2025-08-16 16:05:23,400 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:05:31,208 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:05:31,483 - openevolve.evaluator - INFO - Evaluated program 1827ba07-0d29-4358-8746-67f4aee2a8fe in 0.27s: runs_successfully=1.0000, value_score=0.9900, distance_score=0.7146, overall_score=0.9613, standard_deviation_score=0.5496, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8065, success_rate=1.0000
+2025-08-16 16:05:31,489 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:05:31,496 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 5}
+2025-08-16 16:05:31,497 - openevolve.process_parallel - INFO - Iteration 37: Program 1827ba07-0d29-4358-8746-67f4aee2a8fe (parent: 525b9f01-e11a-4a1d-ba3a-efcefaf453c0) completed in 54.07s
+2025-08-16 16:05:31,497 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9900, distance_score=0.7146, overall_score=0.9613, standard_deviation_score=0.5496, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8065, success_rate=1.0000
+2025-08-16 16:05:39,003 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:05:39,232 - openevolve.evaluator - INFO - Evaluated program 27f45b62-73d7-4d06-8993-2883e5939460 in 0.22s: runs_successfully=1.0000, value_score=0.9302, distance_score=0.3339, overall_score=0.2038, standard_deviation_score=0.3832, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6191, success_rate=1.0000
+2025-08-16 16:05:39,235 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:05:39,243 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 2} (fitness: 0.765 -> 0.719)
+2025-08-16 16:05:39,244 - openevolve.process_parallel - INFO - Iteration 38: Program 27f45b62-73d7-4d06-8993-2883e5939460 (parent: 0d478f9a-dbc4-43b8-bc04-0aa28a9c6bd0) completed in 55.76s
+2025-08-16 16:05:39,244 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9302, distance_score=0.3339, overall_score=0.2038, standard_deviation_score=0.3832, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6191, success_rate=1.0000
+2025-08-16 16:06:01,400 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:01,641 - openevolve.evaluator - INFO - Evaluated program a6d9dbd4-bb11-47dd-be2f-f2892e586013 in 0.24s: runs_successfully=1.0000, value_score=0.9053, distance_score=0.4159, overall_score=0.9281, standard_deviation_score=0.3900, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6404, success_rate=1.0000
+2025-08-16 16:06:01,647 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:01,649 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 3, 'diversity': 0}
+2025-08-16 16:06:01,652 - openevolve.process_parallel - INFO - Iteration 40: Program a6d9dbd4-bb11-47dd-be2f-f2892e586013 (parent: 6d3ed36e-7d60-4c05-9ffd-60a235d6c2e8) completed in 38.25s
+2025-08-16 16:06:01,653 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9053, distance_score=0.4159, overall_score=0.9281, standard_deviation_score=0.3900, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6404, success_rate=1.0000
+2025-08-16 16:06:01,654 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 40
+2025-08-16 16:06:01,660 - openevolve.database - INFO - Island Status:
+2025-08-16 16:06:01,660 - openevolve.database - INFO -  * Island 0: 16 programs, best=0.9997, avg=0.6054, diversity=234.57, gen=15 (best: e267def3-2205-47dd-9a47-cf49a41183c5)
+2025-08-16 16:06:01,660 - openevolve.database - INFO -    Island 1: 13 programs, best=0.9997, avg=0.5449, diversity=506.53, gen=12 (best: 8afd7366-6eb1-4434-b1e8-fe14650cd979)
+2025-08-16 16:06:01,660 - openevolve.database - INFO -    Island 2: 13 programs, best=0.9997, avg=0.5817, diversity=171.28, gen=12 (best: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7)
+2025-08-16 16:06:02,777 - openevolve.database - INFO - Saved database with 42 programs to openevolve_output/checkpoints/checkpoint_40
+2025-08-16 16:06:02,783 - openevolve.controller - INFO - Saved best program at checkpoint 40 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:06:02,783 - openevolve.controller - INFO - Saved checkpoint at iteration 40 to openevolve_output/checkpoints/checkpoint_40
+2025-08-16 16:06:03,308 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:03,565 - openevolve.evaluator - INFO - Evaluated program 5a5eee97-d14f-4239-9767-d6c14853c729 in 0.25s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:06:03,572 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:03,572 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 6, 'diversity': 4} (fitness: 0.000 -> 1.000)
+2025-08-16 16:06:03,579 - openevolve.process_parallel - INFO - Iteration 39: Program 5a5eee97-d14f-4239-9767-d6c14853c729 (parent: 39d61db4-fa22-4988-98da-3a2320358cb7) completed in 50.87s
+2025-08-16 16:06:03,580 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:06:12,121 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:12,383 - openevolve.evaluator - INFO - Evaluated program 0f1adf29-9c61-46d6-88d0-74906d200227 in 0.26s: runs_successfully=1.0000, value_score=0.7853, distance_score=0.2306, overall_score=0.1841, standard_deviation_score=0.3241, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5204, success_rate=1.0000
+2025-08-16 16:06:12,389 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:12,392 - openevolve.process_parallel - INFO - Iteration 42: Program 0f1adf29-9c61-46d6-88d0-74906d200227 (parent: c876859d-a397-48bb-bf3b-764def039e4e) completed in 33.15s
+2025-08-16 16:06:12,392 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.7853, distance_score=0.2306, overall_score=0.1841, standard_deviation_score=0.3241, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5204, success_rate=1.0000
+2025-08-16 16:06:21,532 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:21,802 - openevolve.evaluator - INFO - Evaluated program a9234f28-9efb-4c3b-ac8d-8414824c44e6 in 0.26s: runs_successfully=1.0000, value_score=0.8910, distance_score=0.3775, overall_score=0.9247, standard_deviation_score=0.3983, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6236, success_rate=1.0000
+2025-08-16 16:06:21,808 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:21,817 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 3} (fitness: 0.687 -> 0.802)
+2025-08-16 16:06:21,818 - openevolve.process_parallel - INFO - Iteration 41: Program a9234f28-9efb-4c3b-ac8d-8414824c44e6 (parent: e2c2eb6a-d90b-4881-b8f6-85e27ff0b9bb) completed in 50.31s
+2025-08-16 16:06:21,819 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8910, distance_score=0.3775, overall_score=0.9247, standard_deviation_score=0.3983, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6236, success_rate=1.0000
+2025-08-16 16:06:48,390 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:48,630 - openevolve.evaluator - INFO - Evaluated program b1b7b8cb-bd93-495a-a9be-75fe0673d910 in 0.24s: runs_successfully=1.0000, value_score=0.9475, distance_score=0.4551, overall_score=0.2148, standard_deviation_score=0.4158, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6741, success_rate=1.0000
+2025-08-16 16:06:48,637 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:48,647 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 3} (fitness: 0.802 -> 0.745)
+2025-08-16 16:06:48,648 - openevolve.process_parallel - INFO - Iteration 43: Program b1b7b8cb-bd93-495a-a9be-75fe0673d910 (parent: e2c2eb6a-d90b-4881-b8f6-85e27ff0b9bb) completed in 46.98s
+2025-08-16 16:06:48,650 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9475, distance_score=0.4551, overall_score=0.2148, standard_deviation_score=0.4158, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6741, success_rate=1.0000
+2025-08-16 16:06:58,216 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:06:58,429 - openevolve.evaluator - INFO - Evaluated program 5e85e426-b57a-489f-9d1a-3cb7615038e7 in 0.21s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:06:58,435 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:06:58,443 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 4}
+2025-08-16 16:06:58,444 - openevolve.process_parallel - INFO - Iteration 44: Program 5e85e426-b57a-489f-9d1a-3cb7615038e7 (parent: 6ff5b7a1-1847-403a-841f-9d28695dd2cf) completed in 54.86s
+2025-08-16 16:06:58,444 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:02,080 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:02,380 - openevolve.evaluator - INFO - Evaluated program fd7704ec-ca6e-4387-ad69-1e2e987198a5 in 0.30s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:02,384 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:07:02,392 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 8}
+2025-08-16 16:07:02,393 - openevolve.process_parallel - INFO - Iteration 45: Program fd7704ec-ca6e-4387-ad69-1e2e987198a5 (parent: e267def3-2205-47dd-9a47-cf49a41183c5) completed in 49.99s
+2025-08-16 16:07:02,395 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:10,977 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:11,212 - openevolve.evaluator - INFO - Evaluated program c8b8cab2-e4bf-4560-b772-7e23660df615 in 0.23s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:11,219 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:07:11,228 - openevolve.process_parallel - INFO - Iteration 46: Program c8b8cab2-e4bf-4560-b772-7e23660df615 (parent: 8afd7366-6eb1-4434-b1e8-fe14650cd979) completed in 49.41s
+2025-08-16 16:07:11,228 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:31,553 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:31,767 - openevolve.evaluator - INFO - Evaluated program 8066a60a-f9d8-4c14-840e-60f65347767f in 0.21s: runs_successfully=1.0000, value_score=0.9817, distance_score=0.8995, overall_score=0.9889, standard_deviation_score=0.9302, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9445, success_rate=1.0000
+2025-08-16 16:07:31,774 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:07:31,783 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 3, 'diversity': 0} (fitness: 0.809 -> 0.972)
+2025-08-16 16:07:31,784 - openevolve.process_parallel - INFO - Iteration 47: Program 8066a60a-f9d8-4c14-840e-60f65347767f (parent: 72571ff1-db07-4644-b829-d39bbb734ede) completed in 43.13s
+2025-08-16 16:07:31,785 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9817, distance_score=0.8995, overall_score=0.9889, standard_deviation_score=0.9302, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9445, success_rate=1.0000
+2025-08-16 16:07:33,021 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:33,039 - openevolve.evaluator - INFO - Evaluated program 45dd1309-da79-41b4-93fa-ef717a5d1c60 in 0.01s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:07:33,045 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:07:33,052 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:07:33,052 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:07:33,054 - openevolve.process_parallel - INFO - Iteration 49: Program 45dd1309-da79-41b4-93fa-ef717a5d1c60 (parent: c4e02697-c001-4df9-a5fc-7f3767b769ec) completed in 30.66s
+2025-08-16 16:07:33,057 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:07:37,233 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:37,445 - openevolve.evaluator - INFO - Evaluated program 2310df53-5c2f-4960-82cb-87e9019c1020 in 0.21s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:37,448 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:07:37,454 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 4, 'diversity': 3}
+2025-08-16 16:07:37,454 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:07:37,454 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:07:37,456 - openevolve.process_parallel - INFO - Iteration 50: Program 2310df53-5c2f-4960-82cb-87e9019c1020 (parent: c3744ebe-9a5c-40fb-a653-a35ba8d74f40) completed in 26.23s
+2025-08-16 16:07:37,456 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:37,458 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 50
+2025-08-16 16:07:37,462 - openevolve.database - INFO - Island Status:
+2025-08-16 16:07:37,462 - openevolve.database - INFO -    Island 0: 19 programs, best=0.9997, avg=0.6647, diversity=269.55, gen=18 (best: e267def3-2205-47dd-9a47-cf49a41183c5)
+2025-08-16 16:07:37,462 - openevolve.database - INFO -  * Island 1: 16 programs, best=0.9997, avg=0.5563, diversity=448.82, gen=16 (best: 8afd7366-6eb1-4434-b1e8-fe14650cd979)
+2025-08-16 16:07:37,464 - openevolve.database - INFO -    Island 2: 15 programs, best=0.9997, avg=0.7041, diversity=171.28, gen=15 (best: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7)
+2025-08-16 16:07:37,843 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_50
+2025-08-16 16:07:37,849 - openevolve.controller - INFO - Saved best program at checkpoint 50 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:07:37,849 - openevolve.controller - INFO - Saved checkpoint at iteration 50 to openevolve_output/checkpoints/checkpoint_50
+2025-08-16 16:07:54,104 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:07:54,325 - openevolve.evaluator - INFO - Evaluated program 6e467beb-7d37-4104-bebe-6eb8237d5df9 in 0.22s: runs_successfully=1.0000, value_score=0.7431, distance_score=0.2962, overall_score=0.9065, standard_deviation_score=0.3427, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5323, success_rate=1.0000
+2025-08-16 16:07:54,331 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:07:54,340 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:07:54,340 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:07:54,342 - openevolve.process_parallel - INFO - Iteration 48: Program 6e467beb-7d37-4104-bebe-6eb8237d5df9 (parent: 4de99cab-5eaa-45c7-b318-abc5e0540619) completed in 55.89s
+2025-08-16 16:07:54,343 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.7431, distance_score=0.2962, overall_score=0.9065, standard_deviation_score=0.3427, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5323, success_rate=1.0000
+2025-08-16 16:08:03,310 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:08:03,596 - openevolve.evaluator - INFO - Evaluated program 2bccee8c-a471-4e25-a632-3d2ecd74f83f in 0.28s: runs_successfully=1.0000, value_score=0.9711, distance_score=0.4551, overall_score=0.9376, standard_deviation_score=0.4450, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6882, success_rate=1.0000
+2025-08-16 16:08:03,603 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:08:03,606 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 7}
+2025-08-16 16:08:03,607 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:08:03,609 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:08:03,610 - openevolve.process_parallel - INFO - Iteration 51: Program 2bccee8c-a471-4e25-a632-3d2ecd74f83f (parent: a8f33e2b-3b54-4ef8-8f0e-c520f1d69442) completed in 31.83s
+2025-08-16 16:08:03,612 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9711, distance_score=0.4551, overall_score=0.9376, standard_deviation_score=0.4450, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6882, success_rate=1.0000
+2025-08-16 16:08:12,457 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:08:12,678 - openevolve.evaluator - INFO - Evaluated program 6dcd6ad0-6ec2-4062-96db-362276320183 in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:08:12,685 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:08:12,694 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 3} (fitness: 0.745 -> 1.000)
+2025-08-16 16:08:12,695 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:08:12,697 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:08:12,699 - openevolve.database - INFO - New best program 6dcd6ad0-6ec2-4062-96db-362276320183 replaces e267def3-2205-47dd-9a47-cf49a41183c5 (combined_score: 0.9997 → 0.9997, +0.0000)
+2025-08-16 16:08:12,700 - openevolve.process_parallel - INFO - Iteration 52: Program 6dcd6ad0-6ec2-4062-96db-362276320183 (parent: 6ff5b7a1-1847-403a-841f-9d28695dd2cf) completed in 39.63s
+2025-08-16 16:08:12,701 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:08:12,722 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 52: 6dcd6ad0-6ec2-4062-96db-362276320183
+2025-08-16 16:08:27,665 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:08:27,978 - openevolve.evaluator - INFO - Evaluated program 7a6154ee-217f-4ad4-8e1e-ebedd66da007 in 0.31s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:08:27,985 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:08:27,985 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 8, 'diversity': 7} (fitness: 0.833 -> 1.000)
+2025-08-16 16:08:27,986 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:08:27,988 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:08:27,989 - openevolve.process_parallel - INFO - Iteration 53: Program 7a6154ee-217f-4ad4-8e1e-ebedd66da007 (parent: 3b79335e-83ee-4e19-84ff-40bfd91d5856) completed in 50.53s
+2025-08-16 16:08:27,991 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:08:45,895 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:08:46,166 - openevolve.evaluator - INFO - Evaluated program 937b9704-451e-44d2-a2bb-3610180d4822 in 0.26s: runs_successfully=1.0000, value_score=0.9711, distance_score=0.4550, overall_score=0.9376, standard_deviation_score=0.4450, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6881, success_rate=1.0000
+2025-08-16 16:08:46,173 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:08:46,180 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:08:46,180 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:08:46,182 - openevolve.process_parallel - INFO - Iteration 54: Program 937b9704-451e-44d2-a2bb-3610180d4822 (parent: fd7704ec-ca6e-4387-ad69-1e2e987198a5) completed in 51.84s
+2025-08-16 16:08:46,184 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9711, distance_score=0.4550, overall_score=0.9376, standard_deviation_score=0.4450, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6881, success_rate=1.0000
+2025-08-16 16:09:01,180 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:09:01,210 - openevolve.evaluator - INFO - Evaluated program b1adab43-481e-45db-b0e4-93c5663b724b in 0.02s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:09:01,217 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:09:01,224 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:09:01,224 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:09:01,227 - openevolve.process_parallel - INFO - Iteration 57: Program b1adab43-481e-45db-b0e4-93c5663b724b (parent: a8f33e2b-3b54-4ef8-8f0e-c520f1d69442) completed in 33.23s
+2025-08-16 16:09:01,231 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:09:03,665 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-16 16:09:03,791 - openai._base_client - INFO - Retrying request to /chat/completions in 0.404371 seconds
+2025-08-16 16:09:12,746 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-16 16:09:12,748 - openai._base_client - INFO - Retrying request to /chat/completions in 0.422526 seconds
+2025-08-16 16:09:22,301 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:09:22,315 - openevolve.evaluator - INFO - Evaluated program d4bd49c2-074e-4a6c-8279-33475ac4d96c in 0.01s: runs_successfully=0.0000, error=name 'x_grid' is not defined
+2025-08-16 16:09:22,320 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:09:22,320 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:09:22,320 - openevolve.process_parallel - INFO - Iteration 58: Program d4bd49c2-074e-4a6c-8279-33475ac4d96c (parent: d057fbcf-71d7-43ee-b23e-3f83c82254c1) completed in 36.14s
+2025-08-16 16:09:22,321 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:09:22,324 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=name 'x_grid' is not defined
+2025-08-16 16:09:37,504 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:09:37,523 - openevolve.evaluator - INFO - Evaluated program 13c5a800-69be-4edb-969c-6f37131457da in 0.01s: runs_successfully=0.0000, error=cannot access local variable 'momentum_x' where it is not associated with a value
+2025-08-16 16:09:37,529 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:09:37,535 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 6}
+2025-08-16 16:09:37,536 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:09:37,536 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:09:37,540 - openevolve.process_parallel - INFO - Iteration 59: Program 13c5a800-69be-4edb-969c-6f37131457da (parent: 2310df53-5c2f-4960-82cb-87e9019c1020) completed in 36.31s
+2025-08-16 16:09:37,543 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'momentum_x' where it is not associated with a value
+2025-08-16 16:09:57,010 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:01,503 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:04,737 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:04,997 - openevolve.evaluator - INFO - Evaluated program 2184cdb0-9e87-40b0-b5d5-a5f73ddc32e2 in 0.26s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9955, overall_score=0.9995, standard_deviation_score=0.9966, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9976, success_rate=1.0000
+2025-08-16 16:10:05,003 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:10:05,009 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:05,010 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:05,013 - openevolve.process_parallel - INFO - Iteration 55: Program 2184cdb0-9e87-40b0-b5d5-a5f73ddc32e2 (parent: 8afd7366-6eb1-4434-b1e8-fe14650cd979) completed in 121.40s
+2025-08-16 16:10:05,013 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9955, overall_score=0.9995, standard_deviation_score=0.9966, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9976, success_rate=1.0000
+2025-08-16 16:10:07,973 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:08,234 - openevolve.evaluator - INFO - Evaluated program 48c6ff6a-ea59-4dcb-8a5d-88d7624e06a7 in 0.26s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:08,237 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:10:08,243 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:08,244 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:08,247 - openevolve.process_parallel - INFO - Iteration 61: Program 48c6ff6a-ea59-4dcb-8a5d-88d7624e06a7 (parent: 72571ff1-db07-4644-b829-d39bbb734ede) completed in 30.71s
+2025-08-16 16:10:08,247 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:11,498 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:11,804 - openevolve.evaluator - INFO - Evaluated program e1ca9e46-89d3-4f56-98b7-db07868958ee in 0.30s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:11,808 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:10:11,812 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 8}
+2025-08-16 16:10:11,813 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:11,815 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:11,818 - openevolve.process_parallel - INFO - Iteration 56: Program e1ca9e46-89d3-4f56-98b7-db07868958ee (parent: fd7704ec-ca6e-4387-ad69-1e2e987198a5) completed in 119.12s
+2025-08-16 16:10:11,821 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:17,467 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:17,479 - openevolve.evaluator - INFO - Evaluated program 0cdfcb08-49d4-4dba-a4e5-e008e4f02549 in 0.01s: runs_successfully=0.0000, error=invalid syntax. Maybe you meant '==' or ':=' instead of '='? (tmp9o65jl3i.py, line 101)
+2025-08-16 16:10:17,485 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:10:17,495 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:17,496 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:17,498 - openevolve.process_parallel - INFO - Iteration 60: Program 0cdfcb08-49d4-4dba-a4e5-e008e4f02549 (parent: fd7704ec-ca6e-4387-ad69-1e2e987198a5) completed in 55.16s
+2025-08-16 16:10:17,501 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=invalid syntax. Maybe you meant '==' or ':=' instead of '='? (tmp9o65jl3i.py, line 101)
+2025-08-16 16:10:17,503 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 60
+2025-08-16 16:10:17,510 - openevolve.database - INFO - Island Status:
+2025-08-16 16:10:17,511 - openevolve.database - INFO -    Island 0: 16 programs, best=0.9997, avg=0.8236, diversity=802.53, gen=21 (best: e267def3-2205-47dd-9a47-cf49a41183c5)
+2025-08-16 16:10:17,511 - openevolve.database - INFO -    Island 1: 19 programs, best=0.9997, avg=0.6698, diversity=1051.78, gen=21 (best: 6dcd6ad0-6ec2-4062-96db-362276320183)
+2025-08-16 16:10:17,513 - openevolve.database - INFO -  * Island 2: 15 programs, best=0.9997, avg=0.8166, diversity=258.77, gen=19 (best: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7)
+2025-08-16 16:10:19,301 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_60
+2025-08-16 16:10:19,330 - openevolve.controller - INFO - Saved best program at checkpoint 60 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:19,330 - openevolve.controller - INFO - Saved checkpoint at iteration 60 to openevolve_output/checkpoints/checkpoint_60
+2025-08-16 16:10:44,391 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:44,619 - openevolve.evaluator - INFO - Evaluated program 1826a414-83a8-4de0-8855-9d9490378775 in 0.22s: runs_successfully=1.0000, value_score=0.9220, distance_score=0.2619, overall_score=0.2007, standard_deviation_score=0.4464, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6036, success_rate=1.0000
+2025-08-16 16:10:44,626 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:10:44,632 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:44,633 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:44,634 - openevolve.process_parallel - INFO - Iteration 64: Program 1826a414-83a8-4de0-8855-9d9490378775 (parent: 6ff5b7a1-1847-403a-841f-9d28695dd2cf) completed in 32.81s
+2025-08-16 16:10:44,635 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9220, distance_score=0.2619, overall_score=0.2007, standard_deviation_score=0.4464, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6036, success_rate=1.0000
+2025-08-16 16:10:53,674 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:53,977 - openevolve.evaluator - INFO - Evaluated program 22daf20e-c8c4-4c8f-9506-d4b86bfae29c in 0.30s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:53,984 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:10:53,991 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 6}
+2025-08-16 16:10:53,991 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:53,992 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:53,994 - openevolve.process_parallel - INFO - Iteration 63: Program 22daf20e-c8c4-4c8f-9506-d4b86bfae29c (parent: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7) completed in 45.74s
+2025-08-16 16:10:53,995 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:10:54,373 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:10:54,390 - openevolve.evaluator - INFO - Evaluated program 6a44ef5b-f4e4-4714-ab40-7749f23f2463 in 0.01s: runs_successfully=0.0000, error=name 'self' is not defined
+2025-08-16 16:10:54,396 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:10:54,403 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:10:54,403 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:10:54,407 - openevolve.process_parallel - INFO - Iteration 65: Program 6a44ef5b-f4e4-4714-ab40-7749f23f2463 (parent: 2184cdb0-9e87-40b0-b5d5-a5f73ddc32e2) completed in 36.91s
+2025-08-16 16:10:54,410 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=name 'self' is not defined
+2025-08-16 16:11:03,090 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:11:03,125 - openevolve.evaluator - INFO - Evaluated program 2f989365-d527-4be8-82ce-05dd906399c7 in 0.03s: runs_successfully=1.0000, value_score=0.6286, distance_score=0.1415, overall_score=0.1000
+2025-08-16 16:11:03,198 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:11:03,201 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:11:03,202 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:11:03,204 - openevolve.process_parallel - INFO - Iteration 62: Program 2f989365-d527-4be8-82ce-05dd906399c7 (parent: 0f1adf29-9c61-46d6-88d0-74906d200227) completed in 58.19s
+2025-08-16 16:11:03,204 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.6286, distance_score=0.1415, overall_score=0.1000
+2025-08-16 16:11:28,184 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:11:28,409 - openevolve.evaluator - INFO - Evaluated program dbbad2d4-8661-4fab-be31-d4857eeea9ba in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9994, overall_score=0.9999, standard_deviation_score=0.9998, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9996, success_rate=1.0000
+2025-08-16 16:11:28,417 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:11:28,419 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 5}
+2025-08-16 16:11:28,420 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:11:28,422 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:11:28,424 - openevolve.process_parallel - INFO - Iteration 66: Program dbbad2d4-8661-4fab-be31-d4857eeea9ba (parent: 5e85e426-b57a-489f-9d1a-3cb7615038e7) completed in 43.79s
+2025-08-16 16:11:28,427 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9994, overall_score=0.9999, standard_deviation_score=0.9998, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9996, success_rate=1.0000
+2025-08-16 16:11:29,924 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:11:30,209 - openevolve.evaluator - INFO - Evaluated program 4b911577-b9db-4a4f-8d6b-f163ab344d44 in 0.28s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:11:30,216 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:11:30,219 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 8, 'diversity': 7} (fitness: 1.000 -> 1.000)
+2025-08-16 16:11:30,221 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:11:30,225 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:11:30,229 - openevolve.process_parallel - INFO - Iteration 68: Program 4b911577-b9db-4a4f-8d6b-f163ab344d44 (parent: 8afd7366-6eb1-4434-b1e8-fe14650cd979) completed in 35.81s
+2025-08-16 16:11:30,233 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:11:34,611 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:11:34,966 - openevolve.evaluator - INFO - Evaluated program 698bda8c-5b1d-43ff-b349-525bb0f64512 in 0.35s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:11:34,973 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:11:34,974 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:11:34,996 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:11:34,999 - openevolve.process_parallel - INFO - Iteration 69: Program 698bda8c-5b1d-43ff-b349-525bb0f64512 (parent: 72571ff1-db07-4644-b829-d39bbb734ede) completed in 31.77s
+2025-08-16 16:11:35,002 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:11:51,373 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:11:51,636 - openevolve.evaluator - INFO - Evaluated program ef4aed47-5233-4372-a24f-caff9fd89fac in 0.26s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:11:51,644 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:11:51,650 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:11:51,650 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:11:51,652 - openevolve.process_parallel - INFO - Iteration 67: Program ef4aed47-5233-4372-a24f-caff9fd89fac (parent: c4e02697-c001-4df9-a5fc-7f3767b769ec) completed in 57.65s
+2025-08-16 16:11:51,654 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:14,362 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:12:14,644 - openevolve.evaluator - INFO - Evaluated program 27cde2cb-4da0-469d-a5ba-f6d6ef265444 in 0.28s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:14,651 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:12:14,654 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 6}
+2025-08-16 16:12:14,654 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:12:14,655 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:12:14,658 - openevolve.process_parallel - INFO - Iteration 70: Program 27cde2cb-4da0-469d-a5ba-f6d6ef265444 (parent: 3b79335e-83ee-4e19-84ff-40bfd91d5856) completed in 46.23s
+2025-08-16 16:12:14,658 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:14,658 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 70
+2025-08-16 16:12:14,665 - openevolve.database - INFO - Island Status:
+2025-08-16 16:12:14,665 - openevolve.database - INFO -    Island 0: 17 programs, best=0.9997, avg=0.8653, diversity=802.53, gen=24 (best: 4b911577-b9db-4a4f-8d6b-f163ab344d44)
+2025-08-16 16:12:14,665 - openevolve.database - INFO -    Island 1: 17 programs, best=0.9997, avg=0.8034, diversity=856.73, gen=24 (best: 6dcd6ad0-6ec2-4062-96db-362276320183)
+2025-08-16 16:12:14,666 - openevolve.database - INFO -  * Island 2: 16 programs, best=0.9997, avg=0.8375, diversity=244.82, gen=22 (best: 22daf20e-c8c4-4c8f-9506-d4b86bfae29c)
+2025-08-16 16:12:15,846 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_70
+2025-08-16 16:12:15,897 - openevolve.controller - INFO - Saved best program at checkpoint 70 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:15,897 - openevolve.controller - INFO - Saved checkpoint at iteration 70 to openevolve_output/checkpoints/checkpoint_70
+2025-08-16 16:12:24,780 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:12:24,795 - openevolve.evaluator - INFO - Evaluated program b84ff8b8-7ba4-4fdc-9eb9-e783cda683f2 in 0.01s: runs_successfully=0.0000, error=invalid syntax. Maybe you meant '==' or ':=' instead of '='? (tmpgbeii3_s.py, line 109)
+2025-08-16 16:12:24,802 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:12:24,813 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:12:24,813 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:12:24,817 - openevolve.process_parallel - INFO - Iteration 72: Program b84ff8b8-7ba4-4fdc-9eb9-e783cda683f2 (parent: c8b8cab2-e4bf-4560-b772-7e23660df615) completed in 49.82s
+2025-08-16 16:12:24,819 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=invalid syntax. Maybe you meant '==' or ':=' instead of '='? (tmpgbeii3_s.py, line 109)
+2025-08-16 16:12:27,918 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:12:28,148 - openevolve.evaluator - INFO - Evaluated program 74f13cf2-22b3-4b90-a8f0-f0da236fa013 in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:28,154 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:12:28,164 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:12:28,164 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:12:28,167 - openevolve.process_parallel - INFO - Iteration 71: Program 74f13cf2-22b3-4b90-a8f0-f0da236fa013 (parent: 6dcd6ad0-6ec2-4062-96db-362276320183) completed in 57.93s
+2025-08-16 16:12:28,167 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:12:36,766 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:12:37,072 - openevolve.evaluator - INFO - Evaluated program 871ca5dd-5edb-43eb-bdad-2ed95517311b in 0.30s: runs_successfully=1.0000, value_score=0.8696, distance_score=0.3123, overall_score=0.9168, standard_deviation_score=0.3504, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5838, success_rate=1.0000
+2025-08-16 16:12:37,077 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:12:37,089 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:12:37,089 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:12:37,092 - openevolve.process_parallel - INFO - Iteration 73: Program 871ca5dd-5edb-43eb-bdad-2ed95517311b (parent: b1b7b8cb-bd93-495a-a9be-75fe0673d910) completed in 45.43s
+2025-08-16 16:12:37,094 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.8696, distance_score=0.3123, overall_score=0.9168, standard_deviation_score=0.3504, speed_score=1.0000, reliability_score=1.0000, combined_score=0.5838, success_rate=1.0000
+2025-08-16 16:12:48,925 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:12:48,943 - openevolve.evaluator - INFO - Evaluated program f1f96ba0-3049-4974-b827-68f8e5ac459e in 0.01s: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:12:48,950 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:12:48,955 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:12:48,955 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:12:48,958 - openevolve.process_parallel - INFO - Iteration 74: Program f1f96ba0-3049-4974-b827-68f8e5ac459e (parent: 4b911577-b9db-4a4f-8d6b-f163ab344d44) completed in 34.29s
+2025-08-16 16:12:48,960 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:13:06,780 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:13:06,792 - openevolve.evaluator - INFO - Evaluated program ebb630f7-3cff-4be0-a980-ba8c4618b010 in 0.01s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:13:06,798 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:13:06,804 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:13:06,805 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:13:06,806 - openevolve.process_parallel - INFO - Iteration 75: Program ebb630f7-3cff-4be0-a980-ba8c4618b010 (parent: c4e02697-c001-4df9-a5fc-7f3767b769ec) completed in 41.99s
+2025-08-16 16:13:06,808 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:13:19,357 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:13:19,590 - openevolve.evaluator - INFO - Evaluated program d167469f-4849-4ba3-a56a-4af893690df2 in 0.23s: runs_successfully=1.0000, value_score=0.9164, distance_score=0.3843, overall_score=0.9266, standard_deviation_score=0.3896, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6332, success_rate=1.0000
+2025-08-16 16:13:19,597 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:13:19,605 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:13:19,605 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:13:19,608 - openevolve.process_parallel - INFO - Iteration 77: Program d167469f-4849-4ba3-a56a-4af893690df2 (parent: 525b9f01-e11a-4a1d-ba3a-efcefaf453c0) completed in 42.51s
+2025-08-16 16:13:19,610 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9164, distance_score=0.3843, overall_score=0.9266, standard_deviation_score=0.3896, speed_score=1.0000, reliability_score=1.0000, combined_score=0.6332, success_rate=1.0000
+2025-08-16 16:13:28,204 - openai._base_client - INFO - Retrying request to /chat/completions in 0.391630 seconds
+2025-08-16 16:13:28,216 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-16 16:13:29,850 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:13:30,126 - openevolve.evaluator - INFO - Evaluated program c97780b9-ae6d-4edf-8d5f-c85942629a16 in 0.27s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:13:30,132 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:13:30,142 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 6, 'diversity': 5} (fitness: 0.891 -> 1.000)
+2025-08-16 16:13:30,142 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:13:30,143 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:13:30,145 - openevolve.process_parallel - INFO - Iteration 78: Program c97780b9-ae6d-4edf-8d5f-c85942629a16 (parent: 6dcd6ad0-6ec2-4062-96db-362276320183) completed in 41.18s
+2025-08-16 16:13:30,147 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:13:46,695 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:13:46,717 - openevolve.evaluator - INFO - Evaluated program 9be76800-f4c9-4b85-bab3-7c48b0702a01 in 0.02s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:13:46,724 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:13:46,727 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:13:46,728 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:13:46,729 - openevolve.process_parallel - INFO - Iteration 79: Program 9be76800-f4c9-4b85-bab3-7c48b0702a01 (parent: e1ca9e46-89d3-4f56-98b7-db07868958ee) completed in 39.92s
+2025-08-16 16:13:46,730 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:13:57,207 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:13:57,433 - openevolve.evaluator - INFO - Evaluated program 63799ddf-32d8-4487-b5c5-5f5094973979 in 0.22s: runs_successfully=0.0000, error=name 'temperature' is not defined
+2025-08-16 16:13:57,438 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:13:57,444 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:13:57,445 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:13:57,447 - openevolve.process_parallel - INFO - Iteration 80: Program 63799ddf-32d8-4487-b5c5-5f5094973979 (parent: 698bda8c-5b1d-43ff-b349-525bb0f64512) completed in 37.84s
+2025-08-16 16:13:57,449 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=name 'temperature' is not defined
+2025-08-16 16:13:57,449 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 80
+2025-08-16 16:13:57,457 - openevolve.database - INFO - Island Status:
+2025-08-16 16:13:57,457 - openevolve.database - INFO -    Island 0: 17 programs, best=0.9997, avg=0.8699, diversity=383.83, gen=27 (best: 4b911577-b9db-4a4f-8d6b-f163ab344d44)
+2025-08-16 16:13:57,457 - openevolve.database - INFO -    Island 1: 17 programs, best=0.9997, avg=0.7928, diversity=704.05, gen=27 (best: 6dcd6ad0-6ec2-4062-96db-362276320183)
+2025-08-16 16:13:57,461 - openevolve.database - INFO -  * Island 2: 16 programs, best=0.9997, avg=0.8656, diversity=244.82, gen=25 (best: 22daf20e-c8c4-4c8f-9506-d4b86bfae29c)
+2025-08-16 16:13:58,773 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_80
+2025-08-16 16:13:58,782 - openevolve.controller - INFO - Saved best program at checkpoint 80 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:13:58,782 - openevolve.controller - INFO - Saved checkpoint at iteration 80 to openevolve_output/checkpoints/checkpoint_80
+2025-08-16 16:14:13,943 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:14:14,229 - openevolve.evaluator - INFO - Evaluated program 384132bd-4ed1-461c-a50d-4bd3c6ada449 in 0.28s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:14:14,235 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:14:14,244 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 6, 'diversity': 5} (fitness: 1.000 -> 1.000)
+2025-08-16 16:14:14,244 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:14:14,244 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:14:14,247 - openevolve.process_parallel - INFO - Iteration 81: Program 384132bd-4ed1-461c-a50d-4bd3c6ada449 (parent: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7) completed in 44.10s
+2025-08-16 16:14:14,247 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:14:25,479 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:14:25,793 - openevolve.evaluator - INFO - Evaluated program ac884bf5-5ae8-4ac2-a48e-07a8b6cd94ea in 0.31s: runs_successfully=1.0000, value_score=0.9900, distance_score=0.7146, overall_score=0.9613, standard_deviation_score=0.5496, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8065, success_rate=1.0000
+2025-08-16 16:14:25,802 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:14:25,812 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:14:25,813 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:14:25,814 - openevolve.process_parallel - INFO - Iteration 82: Program ac884bf5-5ae8-4ac2-a48e-07a8b6cd94ea (parent: fd7704ec-ca6e-4387-ad69-1e2e987198a5) completed in 39.07s
+2025-08-16 16:14:25,816 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9900, distance_score=0.7146, overall_score=0.9613, standard_deviation_score=0.5496, speed_score=1.0000, reliability_score=1.0000, combined_score=0.8065, success_rate=1.0000
+2025-08-16 16:14:29,765 - openai._base_client - INFO - Retrying request to /chat/completions in 0.827703 seconds
+2025-08-16 16:14:33,282 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-16 16:14:33,472 - openai._base_client - INFO - Retrying request to /chat/completions in 0.423294 seconds
+2025-08-16 16:14:56,799 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:14:57,037 - openevolve.evaluator - INFO - Evaluated program 5f2604a2-1f41-43ac-8b61-43ba193ddf87 in 0.23s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:14:57,044 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:14:57,049 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 7, 'diversity': 6} (fitness: 1.000 -> 1.000)
+2025-08-16 16:14:57,193 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:14:57,195 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:14:57,196 - openevolve.process_parallel - INFO - Iteration 83: Program 5f2604a2-1f41-43ac-8b61-43ba193ddf87 (parent: 6dcd6ad0-6ec2-4062-96db-362276320183) completed in 59.60s
+2025-08-16 16:14:57,198 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:01,076 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:01,375 - openevolve.evaluator - INFO - Evaluated program 4fedea21-2d35-400f-bb62-72100189480d in 0.29s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:01,382 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:15:01,391 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 7}
+2025-08-16 16:15:01,391 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:15:01,392 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:15:01,393 - openevolve.process_parallel - INFO - Iteration 84: Program 4fedea21-2d35-400f-bb62-72100189480d (parent: a8f33e2b-3b54-4ef8-8f0e-c520f1d69442) completed in 47.14s
+2025-08-16 16:15:01,393 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:17,022 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:17,317 - openevolve.evaluator - INFO - Evaluated program df05d77f-b64d-4d00-bda9-b044890c1889 in 0.29s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:17,324 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:15:17,329 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:15:17,330 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:15:17,333 - openevolve.process_parallel - INFO - Iteration 85: Program df05d77f-b64d-4d00-bda9-b044890c1889 (parent: 5a5eee97-d14f-4239-9767-d6c14853c729) completed in 51.52s
+2025-08-16 16:15:17,333 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:34,080 - openai._base_client - INFO - Retrying request to /chat/completions in 0.998512 seconds
+2025-08-16 16:15:37,369 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:40,935 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:41,229 - openevolve.evaluator - INFO - Evaluated program 70269a5b-ffa4-4e4f-a866-89bbba897e2d in 0.29s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:41,236 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:15:41,238 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 6, 'diversity': 5} (fitness: 1.000 -> 1.000)
+2025-08-16 16:15:41,310 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:15:41,313 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:15:41,314 - openevolve.process_parallel - INFO - Iteration 86: Program 70269a5b-ffa4-4e4f-a866-89bbba897e2d (parent: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7) completed in 44.19s
+2025-08-16 16:15:41,316 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:15:53,260 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:53,291 - openevolve.evaluator - INFO - Evaluated program e5ea055e-9436-4331-b55d-d2f95501e283 in 0.03s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:15:53,298 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:15:53,301 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:15:53,302 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:15:53,304 - openevolve.process_parallel - INFO - Iteration 88: Program e5ea055e-9436-4331-b55d-d2f95501e283 (parent: e1ca9e46-89d3-4f56-98b7-db07868958ee) completed in 35.97s
+2025-08-16 16:15:53,307 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:15:55,551 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:15:55,568 - openevolve.evaluator - INFO - Evaluated program d5d00e21-864a-4361-a33b-b91165ed633f in 0.01s: runs_successfully=0.0000, error='int' object is not iterable
+2025-08-16 16:15:55,575 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:15:55,585 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:15:55,586 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:15:55,588 - openevolve.process_parallel - INFO - Iteration 87: Program d5d00e21-864a-4361-a33b-b91165ed633f (parent: c4e02697-c001-4df9-a5fc-7f3767b769ec) completed in 54.19s
+2025-08-16 16:15:55,591 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error='int' object is not iterable
+2025-08-16 16:16:31,483 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:16:31,498 - openevolve.evaluator - INFO - Evaluated program 098b38b8-1d77-4a84-b5ab-babf776a62f5 in 0.01s: runs_successfully=0.0000, error=name 'lhs_samples' is not defined
+2025-08-16 16:16:31,506 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:16:31,513 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:16:31,514 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:16:31,515 - openevolve.process_parallel - INFO - Iteration 89: Program 098b38b8-1d77-4a84-b5ab-babf776a62f5 (parent: b1b7b8cb-bd93-495a-a9be-75fe0673d910) completed in 50.26s
+2025-08-16 16:16:31,516 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=name 'lhs_samples' is not defined
+2025-08-16 16:16:31,817 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:16:31,832 - openevolve.evaluator - INFO - Evaluated program b5510b3e-ef92-4e21-a2e2-a3d043b7a797 in 0.01s: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:16:31,839 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:16:31,847 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:16:31,848 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:16:31,850 - openevolve.process_parallel - INFO - Iteration 90: Program b5510b3e-ef92-4e21-a2e2-a3d043b7a797 (parent: df05d77f-b64d-4d00-bda9-b044890c1889) completed in 38.54s
+2025-08-16 16:16:31,852 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:16:31,852 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 90
+2025-08-16 16:16:31,860 - openevolve.database - INFO - Island Status:
+2025-08-16 16:16:31,866 - openevolve.database - INFO -    Island 0: 18 programs, best=0.9997, avg=0.9201, diversity=359.08, gen=30 (best: 4b911577-b9db-4a4f-8d6b-f163ab344d44)
+2025-08-16 16:16:31,866 - openevolve.database - INFO -    Island 1: 14 programs, best=0.9997, avg=0.8745, diversity=604.52, gen=30 (best: 6dcd6ad0-6ec2-4062-96db-362276320183)
+2025-08-16 16:16:31,866 - openevolve.database - INFO -  * Island 2: 18 programs, best=0.9997, avg=0.8579, diversity=275.32, gen=29 (best: 5f2604a2-1f41-43ac-8b61-43ba193ddf87)
+2025-08-16 16:16:32,983 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_90
+2025-08-16 16:16:32,995 - openevolve.controller - INFO - Saved best program at checkpoint 90 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:16:32,995 - openevolve.controller - INFO - Saved checkpoint at iteration 90 to openevolve_output/checkpoints/checkpoint_90
+2025-08-16 16:16:35,807 - openevolve.evaluator - INFO - Evaluated program 345a225f-5977-4f01-9d45-45472322eff3 in 0.26s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:16:35,815 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:16:35,818 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:16:35,823 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:16:35,827 - openevolve.process_parallel - INFO - Iteration 76: Program 345a225f-5977-4f01-9d45-45472322eff3 (parent: 2184cdb0-9e87-40b0-b5d5-a5f73ddc32e2) completed in 247.66s
+2025-08-16 16:16:35,828 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:16:54,831 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:16:55,063 - openevolve.evaluator - INFO - Evaluated program fde6a5bd-bced-4150-b6d7-9fb3efed33e9 in 0.23s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:16:55,070 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:16:55,080 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:16:55,081 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:16:55,082 - openevolve.process_parallel - INFO - Iteration 91: Program fde6a5bd-bced-4150-b6d7-9fb3efed33e9 (parent: 45a82fac-58a4-4675-b3f6-0fb8a3187ba7) completed in 59.49s
+2025-08-16 16:16:55,083 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:17:01,638 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:01,652 - openevolve.evaluator - INFO - Evaluated program 3237f201-6cc9-40f2-b9f4-123f31061487 in 0.01s: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:17:01,658 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:17:01,664 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:01,664 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:01,665 - openevolve.process_parallel - INFO - Iteration 94: Program 3237f201-6cc9-40f2-b9f4-123f31061487 (parent: e1ca9e46-89d3-4f56-98b7-db07868958ee) completed in 25.84s
+2025-08-16 16:17:01,666 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=No module named 'scipy'
+2025-08-16 16:17:06,868 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:07,164 - openevolve.evaluator - INFO - Evaluated program a1602c15-ff83-48af-9f79-151203c9aa51 in 0.29s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:17:07,171 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-16 16:17:07,172 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 9, 'diversity': 9} (fitness: 1.000 -> 1.000)
+2025-08-16 16:17:07,172 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:07,174 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:07,175 - openevolve.process_parallel - INFO - Iteration 92: Program a1602c15-ff83-48af-9f79-151203c9aa51 (parent: e1ca9e46-89d3-4f56-98b7-db07868958ee) completed in 35.66s
+2025-08-16 16:17:07,176 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:17:26,603 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:26,851 - openevolve.evaluator - INFO - Evaluated program b944003e-6b07-416a-859b-a20a90090af6 in 0.24s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:17:26,858 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:17:26,866 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:26,867 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:26,868 - openevolve.process_parallel - INFO - Iteration 93: Program b944003e-6b07-416a-859b-a20a90090af6 (parent: 74f13cf2-22b3-4b90-a8f0-f0da236fa013) completed in 55.01s
+2025-08-16 16:17:26,869 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:17:27,034 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:27,264 - openevolve.evaluator - INFO - Evaluated program 081c6dd6-4bae-46fa-ac2b-a482c444f5d9 in 0.22s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9994, overall_score=0.9999, standard_deviation_score=0.9997, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9996, success_rate=1.0000
+2025-08-16 16:17:27,271 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:17:27,279 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:27,585 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:27,621 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:27,623 - openevolve.process_parallel - INFO - Iteration 97: Program 081c6dd6-4bae-46fa-ac2b-a482c444f5d9 (parent: fde6a5bd-bced-4150-b6d7-9fb3efed33e9) completed in 20.10s
+2025-08-16 16:17:27,623 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9994, overall_score=0.9999, standard_deviation_score=0.9997, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9996, success_rate=1.0000
+2025-08-16 16:17:27,635 - openevolve.evaluator - INFO - Evaluated program 66557582-39af-426f-885c-1d42fb497ee8 in 0.01s: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:17:27,643 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-16 16:17:27,650 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:27,650 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:27,652 - openevolve.process_parallel - INFO - Iteration 95: Program 66557582-39af-426f-885c-1d42fb497ee8 (parent: 4b911577-b9db-4a4f-8d6b-f163ab344d44) completed in 32.57s
+2025-08-16 16:17:27,652 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=module 'numpy.random' has no attribute 'Sobol'
+2025-08-16 16:17:37,747 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:17:37,780 - openevolve.evaluator - INFO - Evaluated program ffec4c91-55ec-4625-a4c7-1d8e231320ec in 0.03s: runs_successfully=0.0000, error=cannot access local variable 'improvement_threshold' where it is not associated with a value
+2025-08-16 16:17:37,793 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:17:37,794 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:17:37,795 - openevolve.process_parallel - INFO - Iteration 96: Program ffec4c91-55ec-4625-a4c7-1d8e231320ec (parent: dbbad2d4-8661-4fab-be31-d4857eeea9ba) completed in 36.12s
+2025-08-16 16:17:37,797 - openevolve.process_parallel - INFO - Metrics: runs_successfully=0.0000, error=cannot access local variable 'improvement_threshold' where it is not associated with a value
+2025-08-16 16:18:04,912 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:18:05,235 - openevolve.evaluator - INFO - Evaluated program 65723a7d-0cc6-4854-96ec-5f631e6b5e91 in 0.32s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:05,252 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:18:05,253 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:18:05,255 - openevolve.process_parallel - INFO - Iteration 99: Program 65723a7d-0cc6-4854-96ec-5f631e6b5e91 (parent: e1ca9e46-89d3-4f56-98b7-db07868958ee) completed in 37.97s
+2025-08-16 16:18:05,256 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:14,895 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:18:14,926 - openevolve.evaluator - INFO - Evaluated program 95c08fdc-3e86-41aa-9884-d6a2d3387954 in 0.03s: runs_successfully=1.0000, value_score=0.2852, distance_score=0.0999, overall_score=0.1000
+2025-08-16 16:18:14,939 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:18:14,940 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:18:14,942 - openevolve.process_parallel - INFO - Iteration 98: Program 95c08fdc-3e86-41aa-9884-d6a2d3387954 (parent: b1b7b8cb-bd93-495a-a9be-75fe0673d910) completed in 48.07s
+2025-08-16 16:18:14,944 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.2852, distance_score=0.0999, overall_score=0.1000
+2025-08-16 16:18:22,204 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-16 16:18:22,461 - openevolve.evaluator - INFO - Evaluated program f9e50386-8943-4daf-ad7c-d59b2ba44fd9 in 0.25s: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:22,473 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-16 16:18:22,473 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-16 16:18:22,475 - openevolve.process_parallel - INFO - Iteration 100: Program f9e50386-8943-4daf-ad7c-d59b2ba44fd9 (parent: 22daf20e-c8c4-4c8f-9506-d4b86bfae29c) completed in 54.82s
+2025-08-16 16:18:22,477 - openevolve.process_parallel - INFO - Metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:22,480 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 100
+2025-08-16 16:18:22,488 - openevolve.database - INFO - Island Status:
+2025-08-16 16:18:22,488 - openevolve.database - INFO -  * Island 0: 17 programs, best=0.9997, avg=0.9781, diversity=359.08, gen=34 (best: a1602c15-ff83-48af-9f79-151203c9aa51)
+2025-08-16 16:18:22,488 - openevolve.database - INFO -    Island 1: 13 programs, best=0.9997, avg=0.9224, diversity=593.25, gen=33 (best: 6dcd6ad0-6ec2-4062-96db-362276320183)
+2025-08-16 16:18:22,490 - openevolve.database - INFO -    Island 2: 20 programs, best=0.9997, avg=0.9403, diversity=312.10, gen=33 (best: 5f2604a2-1f41-43ac-8b61-43ba193ddf87)
+2025-08-16 16:18:24,245 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_100
+2025-08-16 16:18:24,250 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:24,250 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to openevolve_output/checkpoints/checkpoint_100
+2025-08-16 16:18:24,250 - openevolve.process_parallel - INFO - Evolution completed
+2025-08-16 16:18:25,166 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_100
+2025-08-16 16:18:25,171 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:25,172 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to openevolve_output/checkpoints/checkpoint_100
+2025-08-16 16:18:25,187 - openevolve.process_parallel - INFO - Stopped process pool
+2025-08-16 16:18:25,187 - openevolve.controller - INFO - Using tracked best program: 6dcd6ad0-6ec2-4062-96db-362276320183
+2025-08-16 16:18:25,187 - openevolve.controller - INFO - Evolution complete. Best program has metrics: runs_successfully=1.0000, value_score=0.9997, distance_score=0.9995, overall_score=0.9999, standard_deviation_score=1.0000, speed_score=1.0000, reliability_score=1.0000, combined_score=0.9997, success_rate=1.0000
+2025-08-16 16:18:25,194 - openevolve.controller - INFO - Saved best program to openevolve_output/best/best_program.py with program info to openevolve_output/best/best_program_info.json

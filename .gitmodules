@@ -2,3 +2,7 @@
 	path = third-party/mockturtle
 	url = git@github.com:lsils/mockturtle.git
 	branch = master
+[submodule "third-party/openevolve"]
+	path = third-party/openevolve
+	url = https://github.com/codelion/openevolve.git
+	branch = main
