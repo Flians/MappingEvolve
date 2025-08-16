@@ -1,7 +1,17 @@
 
+#include "emap.hpp"
 #include <fmt/format.h>
 #include <lorina/pla.hpp>
-#include <mockturtle/mockturtle.hpp>
+#include <mockturtle/algorithms/collapse_mapped.hpp>
+#include <mockturtle/algorithms/lut_mapping.hpp>
+#include <mockturtle/algorithms/node_resynthesis.hpp>
+#include <mockturtle/algorithms/node_resynthesis/dsd.hpp>
+#include <mockturtle/algorithms/node_resynthesis/exact.hpp>
+#include <mockturtle/io/aiger_reader.hpp>
+#include <mockturtle/io/write_bench.hpp>
+#include <mockturtle/io/write_verilog.hpp>
+#include <mockturtle/views/depth_view.hpp>
+#include <mockturtle/views/mapping_view.hpp>
 
 #include <chrono>
 #include <iostream>
