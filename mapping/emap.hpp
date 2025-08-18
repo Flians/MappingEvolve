@@ -685,95 +685,7 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      void match_phase(node<Ntk> const &n, uint8_t phase) {
-        double best_arrival = std::numeric_limits<double>::max();
-        double best_area_flow = std::numeric_limits<double>::max();
-        float best_area = std::numeric_limits<float>::max();
-        uint32_t best_size = UINT32_MAX;
-        uint8_t best_cut = 0u;
-        uint8_t best_phase = 0u;
-        uint8_t cut_index = 0u;
-        auto index = ntk.node_to_index(n);
-
-        auto &node_data = node_match[index];
-        auto &cut_matches = matches[index];
-        supergate<NInputs> const *best_supergate = node_data.best_supergate[phase];
-
-        /* recompute best match info */
-        if (best_supergate != nullptr) {
-          auto const &cut = cuts.cuts(index)[node_data.best_cut[phase]];
-
-          best_phase = node_data.phase[phase];
-          best_arrival = 0.0f;
-          best_area_flow = best_supergate->area + cut_leaves_flow(cut, n, phase);
-          best_area = best_supergate->area;
-          best_cut = node_data.best_cut[phase];
-          best_size = cut.size();
-
-          auto ctr = 0u;
-          for (auto l : cut) {
-            double arrival_pin = node_match[l].arrival[(best_phase >> ctr) & 1] + best_supergate->tdelay[ctr];
-            best_arrival = std::max(best_arrival, arrival_pin);
-            ++ctr;
-          }
-        }
-
-        /* foreach cut */
-        for (auto &cut : cuts.cuts(index)) {
-          /* trivial cuts or not matched cuts */
-          if ((*cut)->data.ignore) {
-            ++cut_index;
-            continue;
-          }
-
-          auto const &supergates = cut_matches[(*cut)->data.match_index].supergates;
-          auto const negation = cut_matches[(*cut)->data.match_index].negations[phase];
-
-          if (supergates[phase] == nullptr) {
-            ++cut_index;
-            continue;
-          }
-
-          /* match each gate and take the best one */
-          for (auto const &gate : *supergates[phase]) {
-            uint8_t gate_polarity = gate.polarity ^ negation;
-            node_data.phase[phase] = gate_polarity;
-            double area_local = gate.area + cut_leaves_flow(*cut, n, phase);
-            double worst_arrival = 0.0f;
-
-            auto ctr = 0u;
-            for (auto l : *cut) {
-              double arrival_pin = node_match[l].arrival[(gate_polarity >> ctr) & 1] + gate.tdelay[ctr];
-              worst_arrival = std::max(worst_arrival, arrival_pin);
-              ++ctr;
-            }
-
-            if constexpr (DO_AREA) {
-              if (worst_arrival > node_data.required[phase] + epsilon)
-                continue;
-            }
-
-            if (compare_map<DO_AREA>(worst_arrival, best_arrival, area_local, best_area_flow, cut->size(), best_size)) {
-              best_arrival = worst_arrival;
-              best_area_flow = area_local;
-              best_size = cut->size();
-              best_cut = cut_index;
-              best_area = gate.area;
-              best_phase = gate_polarity;
-              best_supergate = &gate;
-            }
-          }
-
-          ++cut_index;
-        }
-
-        node_data.flows[phase] = best_area_flow;
-        node_data.arrival[phase] = best_arrival;
-        node_data.area[phase] = best_area;
-        node_data.best_cut[phase] = best_cut;
-        node_data.phase[phase] = best_phase;
-        node_data.best_supergate[phase] = best_supergate;
-      }
+      void match_phase(node<Ntk> const &n, uint8_t phase);
 
       template <bool SwitchActivity>
       void match_phase_exact(node<Ntk> const &n, uint8_t phase) {
@@ -1052,18 +964,7 @@ namespace mockturtle {
         }
       }
 
-      inline double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
-        double flow{0.0f};
-        auto const &node_data = node_match[ntk.node_to_index(n)];
-
-        uint8_t ctr = 0u;
-        for (auto leaf : cut) {
-          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
-          flow += node_match[leaf].flows[leaf_phase];
-        }
-
-        return flow;
-      }
+      inline double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
 
       template <bool SwitchActivity>
       float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
@@ -1369,33 +1270,7 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      inline bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
-        if constexpr (DO_AREA) {
-          if (area_flow < best_area_flow - epsilon) {
-            return true;
-          } else if (area_flow > best_area_flow + epsilon) {
-            return false;
-          } else if (arrival < best_arrival - epsilon) {
-            return true;
-          } else if (arrival > best_arrival + epsilon) {
-            return false;
-          }
-        } else {
-          if (arrival < best_arrival - epsilon) {
-            return true;
-          } else if (arrival > best_arrival + epsilon) {
-            return false;
-          } else if (area_flow < best_area_flow - epsilon) {
-            return true;
-          } else if (area_flow > best_area_flow + epsilon) {
-            return false;
-          }
-        }
-        if (size < best_size) {
-          return true;
-        }
-        return false;
-      }
+      inline bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size);
 
       double compute_switching_power() {
         double power = 0.0f;
@@ -2244,7 +2119,103 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      void match_phase(node<Ntk> const &n, uint8_t phase);
+      void match_phase(node<Ntk> const &n, uint8_t phase) {
+        float best_arrival = std::numeric_limits<float>::max();
+        float best_area_flow = std::numeric_limits<float>::max();
+        float best_area = std::numeric_limits<float>::max();
+        uint32_t best_size = UINT32_MAX;
+        uint8_t best_cut = 0u;
+        uint8_t best_phase = 0u;
+        uint8_t cut_index = 0u;
+        auto index = ntk.node_to_index(n);
+
+        auto &node_data = node_match[index];
+        auto &cut_matches = matches[index];
+        exact_supergate<NtkDest, NInputs> const *best_supergate = node_data.best_supergate[phase];
+
+        /* recompute best match info */
+        if (best_supergate != nullptr) {
+          auto const &cut = cuts.cuts(index)[node_data.best_cut[phase]];
+          auto &supergates = cut_matches[(cut)->data.match_index];
+
+          /* permutate the children to the NPN-represenentative configuration */
+          std::vector<uint32_t> children(NInputs, 0u);
+          auto ctr = 0u;
+          for (auto l : cut) {
+            children[supergates.permutation[ctr++]] = l;
+          }
+
+          best_phase = node_data.phase[phase];
+          best_arrival = 0.0f;
+          best_area_flow = best_supergate->area + cut_leaves_flow(cut, n, phase);
+          best_area = best_supergate->area;
+          best_cut = node_data.best_cut[phase];
+          best_size = cut.size();
+          for (auto pin = 0u; pin < NInputs; pin++) {
+            float arrival_pin = node_match[children[pin]].arrival[(best_phase >> pin) & 1] + best_supergate->tdelay[pin];
+            best_arrival = std::max(best_arrival, arrival_pin);
+          }
+        }
+
+        /* foreach cut */
+        for (auto &cut : cuts.cuts(index)) {
+          /* trivial cuts or not matched cuts */
+          if ((*cut)->data.ignore) {
+            ++cut_index;
+            continue;
+          }
+
+          auto const &supergates = cut_matches[(*cut)->data.match_index];
+
+          if (supergates.supergates[phase] == nullptr) {
+            ++cut_index;
+            continue;
+          }
+
+          /* permutate the children to the NPN-represenentative configuration */
+          std::vector<uint32_t> children(NInputs, 0u);
+          auto ctr = 0u;
+          for (auto l : *cut) {
+            children[supergates.permutation[ctr++]] = l;
+          }
+
+          /* match each gate and take the best one */
+          for (auto const &gate : *supergates.supergates[phase]) {
+            uint8_t complement = supergates.negation ^ gate.polarity;
+            node_data.phase[phase] = complement;
+            float area_local = gate.area + cut_leaves_flow(*cut, n, phase);
+            float worst_arrival = 0.0f;
+            for (auto pin = 0u; pin < NInputs; pin++) {
+              float arrival_pin = node_match[children[pin]].arrival[(complement >> pin) & 1] + gate.tdelay[pin];
+              worst_arrival = std::max(worst_arrival, arrival_pin);
+            }
+
+            if constexpr (DO_AREA) {
+              if (worst_arrival > node_data.required[phase] + epsilon)
+                continue;
+            }
+
+            if (compare_map<DO_AREA>(worst_arrival, best_arrival, area_local, best_area_flow, cut->size(), best_size)) {
+              best_arrival = worst_arrival;
+              best_area_flow = area_local;
+              best_size = cut->size();
+              best_cut = cut_index;
+              best_area = gate.area;
+              best_phase = complement;
+              best_supergate = &gate;
+            }
+          }
+
+          ++cut_index;
+        }
+
+        node_data.flows[phase] = best_area_flow;
+        node_data.arrival[phase] = best_arrival;
+        node_data.area[phase] = best_area;
+        node_data.best_cut[phase] = best_cut;
+        node_data.phase[phase] = best_phase;
+        node_data.best_supergate[phase] = best_supergate;
+      }
 
       void match_phase_exact(node<Ntk> const &n, uint8_t phase) {
         float best_arrival = std::numeric_limits<float>::max();
