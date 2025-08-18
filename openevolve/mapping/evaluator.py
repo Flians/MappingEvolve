@@ -178,32 +178,28 @@ def evaluate(program_path):
     Returns:
         Dictionary of metrics
     """
-    # Known global minimum (approximate)
-    GLOBAL_MIN_X = -1.704
-    GLOBAL_MIN_Y = 0.678
-    GLOBAL_MIN_VALUE = -1.519
 
     try:
         # Run multiple trials
-        num_trials = 10
+        num_trials = 1
         area_values = []
         gates_values = []
         delay_values = []
         depth_values = []
         runtime_values = []
         nec_values = []
-        success_count = 0
+        failed_rate = 0
 
         for trial in range(num_trials):
             try:
                 # Run with timeout
-                result = run_with_timeout_cmake(program_path, timeout_seconds=360)
-                result = json.loads(result)
+                result = run_with_timeout_cmake(program_path, timeout_seconds=400)
+                result = json.loads(result.splitlines()[-1])
 
                 # Handle different result formats
                 if isinstance(result, dict):
                     if len(result) == 6:
-                        area, gates, delay, depth, runtime, nec = result.values()
+                        area, gates, delay, depth, runtime, nec = result['area'], result['gates'], result['delay'], result['depth'], result['runtime'], result['nec']
                         print(f"Trial {trial}: Got 6 values, area: {area}, gates: {gates}, delay: {delay}, depth: {depth}, runtime: {runtime}, nec: {nec}")
                     else:
                         print(f"Trial {trial}: Invalid result format, expected dict with 6 values but got {len(result)}")
@@ -219,7 +215,7 @@ def evaluate(program_path):
                 depth_values.append(depth)
                 runtime_values.append(runtime)
                 nec_values.append(nec)
-                success_count += nec > 0
+                failed_rate += nec
 
             except TimeoutError as e:
                 print(f"Trial {trial}: {str(e)}")
@@ -235,75 +231,37 @@ def evaluate(program_path):
                 continue
 
         # If all trials failed, return zero scores
-        if success_count == 0:
+        if failed_rate == 1.0:
             return {
                 "area_score": 0.0,
                 "delay_score": 0.0,
                 "speed_score": 0.0,
-                "combined_score": 0.0,
+                "overall_score": 0.0,
                 "error": "All trials failed",
             }
 
         # Calculate metrics
-        avg_value = float(np.mean(values))
-        avg_distance = float(np.mean(distances))
-        avg_time = float(np.mean(times)) if times else 1.0
-
-        # Convert to scores (higher is better)
-        value_score = float(1.0 / (1.0 + abs(avg_value - GLOBAL_MIN_VALUE)))  # Normalize and invert
-        distance_score = float(1.0 / (1.0 + avg_distance))
-        speed_score = float(1.0 / avg_time) if avg_time > 0 else 0.0
-
-        # calculate standard deviation scores
-        # get x_std_score
-        x_std_score = float(1.0 / (1.0 + np.std(x_values)))
-        # get y_std_score
-        y_std_score = float(1.0 / (1.0 + np.std(y_values)))
-        standard_deviation_score = (x_std_score + y_std_score) / 2.0
-
-        # Normalize speed score (so it doesn't dominate)
-        speed_score = float(min(speed_score, 10.0) / 10.0)
-
-        # Add reliability score based on success rate
-        reliability_score = float(success_count / num_trials)
-
-        # Calculate a single combined score that prioritizes finding good solutions
-        # over secondary metrics like speed and reliability
-        # Value and distance scores (quality of solution) get 90% of the weight
-        # Speed and reliability get only 10% combined
-        combined_score = float(0.35 * value_score + 0.35 * distance_score + standard_deviation_score * 0.20 + 0.05 * speed_score + 0.05 * reliability_score)
-
-        # Also compute an "overall" score that will be the primary metric for selection
-        # This adds a bonus for finding solutions close to the global minimum
-        # and heavily penalizes solutions that aren't finding the right region
-        if distance_to_global < 1.0:  # Very close to the correct solution
-            solution_quality = 1.0
-        elif distance_to_global < 3.0:  # In the right region
-            solution_quality = 0.5
-        else:  # Not finding the right region
-            solution_quality = 0.1
-
-        # Overall score is dominated by solution quality but also factors in the combined score
-        overall_score = 0.8 * solution_quality + 0.2 * combined_score
+        alpha = 0.5
+        avg_area = float(np.mean(area_values))
+        avg_delay = float(np.mean(delay_values))
+        avg_time = float(np.mean(runtime_values))
+        overall_score = alpha * avg_area + (1 - alpha) * avg_delay
 
         return {
-            "value_score": value_score,
-            "distance_score": distance_score,
-            "standard_deviation_score": standard_deviation_score,
-            "speed_score": speed_score,
-            "reliability_score": reliability_score,
-            "combined_score": combined_score,
+            "area_score": avg_area,
+            "delay_score": avg_delay,
+            "speed_score": avg_time,
             "overall_score": overall_score,  # This will be the primary selection metric
-            "success_rate": reliability_score,
+            "failed_rate": failed_rate,
         }
     except Exception as e:
         print(f"Evaluation failed completely: {str(e)}")
         print(traceback.format_exc())
         return {
-            "value_score": 0.0,
-            "distance_score": 0.0,
+            "area_score": 0.0,
+            "delay_score": 0.0,
             "speed_score": 0.0,
-            "combined_score": 0.0,
+            "overall_score": 0.0,
             "error": str(e),
         }
 
@@ -323,7 +281,7 @@ def evaluate_stage2(program_path):
 if __name__ == "__main__":
     path = "/home/flynn/workplace/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
     try:
-        output = run_with_timeout_cmake(path, timeout_seconds=360)
+        output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
         print("Program output:", output)
     except Exception as e:
         print(e, file=sys.stderr)

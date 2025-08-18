@@ -138,16 +138,32 @@ int main(int argc, char *argv[]) {
     synthesis(tech_lib, aigPath, verilogPath, results);
   } else {
     std::vector<double> total(6, 0);
+    const std::map<std::string, std::vector<double>> baselines = {
+        {"c17", {0.530000, 6.000000, 42.660000, 2.000000, 0.000267}},
+        {"c432", {18.100000, 175.000000, 330.510002, 15.000000, 0.022387}},
+        {"c499", {40.910000, 364.000000, 295.020002, 12.000000, 0.013557}},
+        {"c880", {24.310000, 220.000000, 316.219999, 13.000000, 0.013352}},
+        {"c1355", {41.240000, 361.000000, 294.730001, 12.000000, 0.013666}},
+        {"c1908", {30.390000, 280.000000, 433.749994, 18.000000, 0.011652}},
+        {"c2670", {48.140000, 470.000000, 255.770004, 12.000000, 0.027633}},
+        {"c3540", {66.440000, 604.000000, 425.960001, 19.000000, 0.054315}},
+        {"c5315", {111.520001, 1102.000000, 406.700001, 19.000000, 0.037087}},
+        {"c6288", {249.930001, 2403.000000, 969.780003, 47.000000, 0.058662}},
+        {"c7552", {113.800000, 1144.000000, 383.960003, 18.000000, 0.061442}}};
     for (auto const &benchmark : experiments::iscas_benchmarks()) {
-      fmt::print("[i] processing {}\n", benchmark);
+      // printf("[i] processing %s\n", benchmark.c_str());
       synthesis(tech_lib, experiments::benchmark_path(benchmark), "", results);
-      for (size_t i = 0; i < results.size(); ++i) {
-        total[i] += results[i];
+      // printf("{area: %f, gates: %f, delay: %f, depth: %f, runtime: %f, nec: %f}\n", results[0], results[1], results[2], results[3], results[4], results[5]);
+      const auto &baseline = baselines.at(benchmark);
+      for (size_t i = 0; i < results.size() - 1; ++i) {
+        total[i] += (baseline[i] - results[i]) / baseline[i];
       }
+      total[5] += results.back();
     }
+    total[5] /= experiments::iscas_benchmarks().size();
     results = total;
   }
-  printf("{area: %f, gates: %f, delay: %f, depth: %f, runtime: %f, nec: %f}\n", results[0], results[1], results[2], results[3], results[4], results[5]);
+  printf("{\"area\": %f, \"gates\": %f, \"delay\": %f, \"depth\": %f, \"runtime\": %f, \"nec\": %f}\n", results[0], results[1], results[2], results[3], results[4], results[5]);
 
   return 0;
 }
