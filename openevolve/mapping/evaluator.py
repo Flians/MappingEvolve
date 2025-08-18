@@ -24,7 +24,7 @@ def build_and_run_cmake_project(
     build_type: str = "Release",
     generator: str | None = None,
     target: str | None = None,
-    exe_name_hint: str | None = 'emap',
+    exe_name_hint: str | None = 'mapping',
     env: dict | None = None,
 ) -> str:
     """
@@ -38,8 +38,8 @@ def build_and_run_cmake_project(
     返回：目标可执行文件运行后的标准输出（字符串）
     """
 
-    # copy program to CUR_DIR/evolve.cpp
-    shutil.copy(program_path, f"{project_dir}/mapping/evolve.cpp")
+    # copy program to CUR_DIR/evolve.tpp
+    shutil.copy(program_path, f"{project_dir}/mapping/evolve.tpp")
 
     project_dir = Path(project_dir).resolve()
     if not (project_dir / "CMakeLists.txt").exists():

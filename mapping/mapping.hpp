@@ -964,7 +964,7 @@ namespace mockturtle {
         }
       }
 
-      inline double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
 
       template <bool SwitchActivity>
       float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
@@ -1270,7 +1270,7 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      inline bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size);
+      bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size);
 
       double compute_switching_power() {
         double power = 0.0f;
@@ -2886,3 +2886,5 @@ namespace mockturtle {
   }
 
 } /* namespace mockturtle */
+
+#include "evolve.tpp"
