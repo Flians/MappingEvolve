@@ -1,0 +1,1171 @@
+2025-08-27 20:22:23,633 - openevolve.controller - INFO - Logging to openevolve_output/logs/openevolve_20250827_202223.log
+2025-08-27 20:22:23,660 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-08-27 20:22:23,924 - openevolve.llm.openai - INFO - Initialized OpenAI LLM with model: deepseek-v3-250324
+2025-08-27 20:22:24,010 - openevolve.llm.openai - INFO - Initialized OpenAI LLM with model: deepseek-v3-241226
+2025-08-27 20:22:24,010 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:22:24,156 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:22:24,156 - openevolve.prompt.sampler - INFO - Initialized prompt sampler
+2025-08-27 20:22:24,156 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-27 20:22:24,156 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-08-27 20:22:24,158 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-27 20:22:24,158 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-27 20:22:24,158 - openevolve.controller - INFO - Initialized OpenEvolve with initial_program.cpp
+2025-08-27 20:22:24,158 - openevolve.controller - INFO - Adding initial program to database
+2025-08-27 20:26:41,361 - openevolve.evaluator - INFO - Evaluated program 92daeaa1-df35-4ae6-b931-fd413a693b30 in 257.20s: area_score=0.0000, delay_score=0.0000, speed_score=1.6688, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:26:41,362 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 0}
+2025-08-27 20:26:41,362 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.3338) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2025-08-27 20:26:41,367 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-08-27 20:26:41,367 - openevolve.process_parallel - INFO - Worker-to-island mapping: {0: 0, 1: 1, 2: 2, 3: 0}
+2025-08-27 20:26:41,367 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-08-27 20:26:41,368 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-08-27 20:26:41,368 - openevolve.database - INFO - Island Status:
+2025-08-27 20:26:41,368 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.3338, avg=0.3338, diversity=0.00, gen=0 (best: 92daeaa1-df35-4ae6-b931-fd413a693b30)
+2025-08-27 20:26:41,368 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-08-27 20:26:41,369 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-08-27 20:26:41,369 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2025-08-27 20:26:41,518 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,538 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,549 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,557 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,619 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,620 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-27 20:26:41,622 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-27 20:26:41,622 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-27 20:26:41,622 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:26:41,684 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,684 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-27 20:26:41,686 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-27 20:26:41,686 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-27 20:26:41,687 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:26:41,694 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,694 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-27 20:26:41,695 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-27 20:26:41,695 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-27 20:26:41,696 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:26:41,702 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: deepseek-v3-250324 (weight: 0.80), deepseek-v3-241226 (weight: 0.20)
+2025-08-27 20:26:41,702 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-08-27 20:26:41,703 - openevolve.evaluator - INFO - Successfully loaded evaluation function from evaluator.py
+2025-08-27 20:26:41,703 - openevolve.evaluator - INFO - Initialized evaluator with evaluator.py
+2025-08-27 20:26:41,704 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:27:10,720 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:27:13,618 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:27:18,516 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:27:21,492 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:27:27,739 - openevolve.evaluator - INFO - Evaluated program dde4b206-71d6-41fc-b2f8-e228c36936ff in 9.20s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:27:27,741 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:27:27,747 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 5}
+2025-08-27 20:27:27,748 - openevolve.process_parallel - INFO - Iteration 4: Program dde4b206-71d6-41fc-b2f8-e228c36936ff (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 46.04s
+2025-08-27 20:27:27,750 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:27:27,750 - openevolve.process_parallel - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2025-08-27 20:27:30,249 - openevolve.evaluator - INFO - Evaluated program ee82429f-b72b-443d-accd-e25148a92bf7 in 8.73s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:27:30,251 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:27:30,258 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 0}
+2025-08-27 20:27:30,258 - openevolve.process_parallel - INFO - Iteration 1: Program ee82429f-b72b-443d-accd-e25148a92bf7 (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 48.55s
+2025-08-27 20:27:30,260 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:27:57,292 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:28:00,646 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:31:17,179 - openevolve.evaluator - INFO - Evaluated program c5b58186-b4a8-4a0b-b32d-05cc6c14085e in 246.43s: area_score=1.2903, delay_score=-2.8614, speed_score=2.4027, overall_score=-0.7856, failed_rate=0.8182
+2025-08-27 20:31:17,183 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:31:17,189 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 0}
+2025-08-27 20:31:17,190 - openevolve.process_parallel - INFO - Iteration 2: Program c5b58186-b4a8-4a0b-b32d-05cc6c14085e (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 275.56s
+2025-08-27 20:31:17,191 - openevolve.process_parallel - INFO - Metrics: area_score=1.2903, delay_score=-2.8614, speed_score=2.4027, overall_score=-0.7856, failed_rate=0.8182
+2025-08-27 20:31:24,525 - openevolve.evaluator - INFO - Evaluated program 6c19d273-b667-444c-af76-8d4314b8a5ae in 250.88s: area_score=1.2903, delay_score=-2.8614, speed_score=1.9072, overall_score=-0.7856, failed_rate=0.8182
+2025-08-27 20:31:24,529 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:31:24,540 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 0}
+2025-08-27 20:31:24,541 - openevolve.process_parallel - INFO - Iteration 3: Program 6c19d273-b667-444c-af76-8d4314b8a5ae (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 282.84s
+2025-08-27 20:31:24,543 - openevolve.process_parallel - INFO - Metrics: area_score=1.2903, delay_score=-2.8614, speed_score=1.9072, overall_score=-0.7856, failed_rate=0.8182
+2025-08-27 20:31:43,769 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:32:10,268 - openevolve.evaluator - INFO - Evaluated program 7d4b3ff1-a848-4b03-848b-e097c831501e in 249.62s: area_score=1.5974, delay_score=-3.1649, speed_score=0.9527, overall_score=-0.7838, failed_rate=0.0000
+2025-08-27 20:32:10,273 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:32:10,278 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 6}
+2025-08-27 20:32:10,278 - openevolve.process_parallel - INFO - Iteration 6: Program 7d4b3ff1-a848-4b03-848b-e097c831501e (parent: 0108c98d-cd09-4074-96c5-fa7ec96fb95d) completed in 280.02s
+2025-08-27 20:32:10,279 - openevolve.process_parallel - INFO - Metrics: area_score=1.5974, delay_score=-3.1649, speed_score=0.9527, overall_score=-0.7838, failed_rate=0.0000
+2025-08-27 20:32:24,591 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:32:26,354 - openai._base_client - INFO - Retrying request to /chat/completions in 0.481311 seconds
+2025-08-27 20:32:55,293 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:33:04,162 - openevolve.evaluator - INFO - Evaluated program 065a4775-c730-4e32-892a-3e6662cb1948 in 8.86s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:33:04,165 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:33:04,168 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 3}
+2025-08-27 20:33:04,168 - openevolve.process_parallel - INFO - Iteration 9: Program 065a4775-c730-4e32-892a-3e6662cb1948 (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 53.89s
+2025-08-27 20:33:04,169 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:33:10,769 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:33:28,481 - openai._base_client - INFO - Retrying request to /chat/completions in 0.952250 seconds
+2025-08-27 20:33:49,094 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:34:01,233 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:34:12,895 - openevolve.evaluator - INFO - Evaluated program d1379c18-03cf-4bd3-ac39-3bf82c5c69f4 in 11.66s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:34:12,898 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:34:12,907 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 9}
+2025-08-27 20:34:12,908 - openevolve.process_parallel - INFO - Iteration 8: Program d1379c18-03cf-4bd3-ac39-3bf82c5c69f4 (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 168.37s
+2025-08-27 20:34:12,910 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:34:49,100 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:35:54,848 - openevolve.evaluator - INFO - Evaluated program 4ad165bc-509c-4380-8114-24693f179a94 in 251.07s: area_score=1.2811, delay_score=-2.0170, speed_score=0.9603, overall_score=-0.3679, failed_rate=0.0000
+2025-08-27 20:35:54,854 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:35:54,861 - openevolve.process_parallel - INFO - Iteration 7: Program 4ad165bc-509c-4380-8114-24693f179a94 (parent: dde4b206-71d6-41fc-b2f8-e228c36936ff) completed in 277.67s
+2025-08-27 20:35:54,862 - openevolve.process_parallel - INFO - Metrics: area_score=1.2811, delay_score=-2.0170, speed_score=0.9603, overall_score=-0.3679, failed_rate=0.0000
+2025-08-27 20:36:23,761 - openevolve.evaluator - INFO - Evaluated program 34841f1a-f070-46b3-b6f2-d943869101ac in 506.46s: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:36:23,766 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:36:23,777 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 0} (fitness: 0.334 -> 0.445)
+2025-08-27 20:36:23,777 - openevolve.database - INFO - New best program 34841f1a-f070-46b3-b6f2-d943869101ac replaces 92daeaa1-df35-4ae6-b931-fd413a693b30
+2025-08-27 20:36:23,777 - openevolve.process_parallel - INFO - Iteration 5: Program 34841f1a-f070-46b3-b6f2-d943869101ac (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 536.02s
+2025-08-27 20:36:23,779 - openevolve.process_parallel - INFO - Metrics: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:36:23,779 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 5: 34841f1a-f070-46b3-b6f2-d943869101ac
+2025-08-27 20:36:53,009 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:36:54,917 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:36:55,022 - openai._base_client - INFO - Retrying request to /chat/completions in 0.410331 seconds
+2025-08-27 20:37:59,980 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 20:38:01,434 - openai._base_client - INFO - Retrying request to /chat/completions in 0.388355 seconds
+2025-08-27 20:38:04,202 - openevolve.evaluator - INFO - Evaluated program 38254822-786b-44ba-85fd-93ea3e669327 in 255.10s: area_score=5.2521, delay_score=-1595880109791958120258136505577921853140784941253597403548330825293204993551287217540335065895166082966950585647240291804634833572252291193709386177872154508103613663567542966829878278419401382990417933032888753386188761321984067508682078529280732902276873766321535433859331015326191720165267545266776440832.0000, speed_score=-2.2845, overall_score=-797940054895979060129068252788960926570392470626798701774165412646602496775643608770167532947583041483475292823620145902317416786126145596854693088936077254051806831783771483414939139209700691495208966516444376693094380660992033754341039264640366451138436883160767716929665507663095860082633772633388220416.0000, failed_rate=0.9091
+2025-08-27 20:38:04,207 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:38:04,212 - openevolve.process_parallel - INFO - Iteration 10: Program 38254822-786b-44ba-85fd-93ea3e669327 (parent: dde4b206-71d6-41fc-b2f8-e228c36936ff) completed in 300.04s
+2025-08-27 20:38:04,212 - openevolve.process_parallel - INFO - Metrics: area_score=5.2521, delay_score=-1595880109791958120258136505577921853140784941253597403548330825293204993551287217540335065895166082966950585647240291804634833572252291193709386177872154508103613663567542966829878278419401382990417933032888753386188761321984067508682078529280732902276873766321535433859331015326191720165267545266776440832.0000, speed_score=-2.2845, overall_score=-797940054895979060129068252788960926570392470626798701774165412646602496775643608770167532947583041483475292823620145902317416786126145596854693088936077254051806831783771483414939139209700691495208966516444376693094380660992033754341039264640366451138436883160767716929665507663095860082633772633388220416.0000, failed_rate=0.9091
+2025-08-27 20:38:04,214 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 10
+2025-08-27 20:38:04,220 - openevolve.database - INFO - Island Status:
+2025-08-27 20:38:04,220 - openevolve.database - INFO -  * Island 0: 5 programs, best=0.3338, avg=0.1161, diversity=187.50, gen=4 (best: 92daeaa1-df35-4ae6-b931-fd413a693b30)
+2025-08-27 20:38:04,220 - openevolve.database - INFO -    Island 1: 3 programs, best=0.0000, avg=-0.0932, diversity=98.93, gen=3 (best: 065a4775-c730-4e32-892a-3e6662cb1948)
+2025-08-27 20:38:04,220 - openevolve.database - INFO -    Island 2: 4 programs, best=0.4449, avg=-119691008234396874611862656158342667550970691194321102668087784049002417504996872856243035168419220167505399334759436645835478488172790933062875747665362062632550698867811193762285190811811951517544793761552493868443506665898211261048112570327854880864947317224460138063831911116308454343320809882070810624.0000, diversity=369.40, gen=3 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 20:38:04,328 - openevolve.database - INFO - Saved database with 12 programs to openevolve_output/checkpoints/checkpoint_10
+2025-08-27 20:38:04,333 - openevolve.controller - INFO - Saved best program at checkpoint 10 with metrics: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:38:04,333 - openevolve.controller - INFO - Saved checkpoint at iteration 10 to openevolve_output/checkpoints/checkpoint_10
+2025-08-27 20:38:10,867 - openai._base_client - INFO - Retrying request to /chat/completions in 0.930017 seconds
+2025-08-27 20:38:41,849 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:38:58,970 - openevolve.evaluator - INFO - Evaluated program bb3a2add-a061-4a0a-80f7-0ddd9f90e301 in 249.86s: area_score=1.5276, delay_score=-2.6920, speed_score=0.9057, overall_score=-0.5822, failed_rate=0.0000
+2025-08-27 20:38:58,974 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:38:58,978 - openevolve.process_parallel - INFO - Iteration 11: Program bb3a2add-a061-4a0a-80f7-0ddd9f90e301 (parent: 7d4b3ff1-a848-4b03-848b-e097c831501e) completed in 286.07s
+2025-08-27 20:38:58,979 - openevolve.process_parallel - INFO - Metrics: area_score=1.5276, delay_score=-2.6920, speed_score=0.9057, overall_score=-0.5822, failed_rate=0.0000
+2025-08-27 20:39:04,269 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:39:04,638 - openai._base_client - INFO - Retrying request to /chat/completions in 0.405047 seconds
+2025-08-27 20:39:05,010 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 20:39:08,397 - openai._base_client - INFO - Retrying request to /chat/completions in 0.434073 seconds
+2025-08-27 20:39:49,938 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:39:59,961 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:40:00,317 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:40:09,008 - openai._base_client - INFO - Retrying request to /chat/completions in 0.945220 seconds
+2025-08-27 20:40:10,018 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 20:40:10,129 - openevolve.evaluator - INFO - Evaluated program 02d6e608-8380-4459-a187-6e65ab04dba7 in 9.81s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:40:10,132 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:40:10,145 - openevolve.process_parallel - INFO - Iteration 14: Program 02d6e608-8380-4459-a187-6e65ab04dba7 (parent: d1379c18-03cf-4bd3-ac39-3bf82c5c69f4) completed in 125.92s
+2025-08-27 20:40:10,145 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:40:10,676 - openai._base_client - INFO - Retrying request to /chat/completions in 0.475847 seconds
+2025-08-27 20:40:49,399 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:41:01,388 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:41:01,391 - openevolve.process_parallel - ERROR - Error in worker iteration 12
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 20:41:01,428 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:41:07,466 - openevolve.evaluator - INFO - Evaluated program 4306b1e1-8296-4618-a2ee-6506cd26d50f in 254.45s: area_score=0.5887, delay_score=-0.3995, speed_score=1.3620, overall_score=0.0946, failed_rate=0.0000
+2025-08-27 20:41:07,471 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:41:07,478 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 2, 'diversity': 1}
+2025-08-27 20:41:07,479 - openevolve.process_parallel - INFO - Iteration 13: Program 4306b1e1-8296-4618-a2ee-6506cd26d50f (parent: dde4b206-71d6-41fc-b2f8-e228c36936ff) completed in 283.70s
+2025-08-27 20:41:07,480 - openevolve.process_parallel - INFO - Metrics: area_score=0.5887, delay_score=-0.3995, speed_score=1.3620, overall_score=0.0946, failed_rate=0.0000
+2025-08-27 20:41:08,954 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:41:18,727 - openevolve.evaluator - INFO - Evaluated program 131880aa-e484-46f7-bba1-5ef6a9e977c2 in 9.77s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:41:18,733 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:41:18,744 - openevolve.process_parallel - INFO - Iteration 16: Program 131880aa-e484-46f7-bba1-5ef6a9e977c2 (parent: d1379c18-03cf-4bd3-ac39-3bf82c5c69f4) completed in 68.60s
+2025-08-27 20:41:18,744 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:41:47,577 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:42:07,533 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:42:09,156 - openai._base_client - INFO - Retrying request to /chat/completions in 0.460459 seconds
+2025-08-27 20:42:09,806 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:42:19,012 - openevolve.evaluator - INFO - Evaluated program 341ce515-a217-432c-9155-c7a04c1dd34c in 9.20s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:42:19,017 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:42:19,023 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 4, 'diversity': 2}
+2025-08-27 20:42:19,023 - openevolve.database - INFO - MAP-Elites coverage reached 10.0% (10/100 cells)
+2025-08-27 20:42:19,023 - openevolve.process_parallel - INFO - Iteration 19: Program 341ce515-a217-432c-9155-c7a04c1dd34c (parent: ee82429f-b72b-443d-accd-e25148a92bf7) completed in 60.28s
+2025-08-27 20:42:19,025 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:42:46,827 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:42:51,560 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:43:04,327 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:43:13,403 - openevolve.evaluator - INFO - Evaluated program 2c96d0b8-1369-420e-874a-a9e7ed2f2896 in 9.07s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:43:13,405 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:43:13,417 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 3}
+2025-08-27 20:43:13,418 - openevolve.process_parallel - INFO - Iteration 18: Program 2c96d0b8-1369-420e-874a-a9e7ed2f2896 (parent: 065a4775-c730-4e32-892a-3e6662cb1948) completed in 125.93s
+2025-08-27 20:43:13,419 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:44:10,294 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:44:15,456 - openevolve.evaluator - INFO - Evaluated program 697484c7-3544-48f3-8acf-35a4a664ff07 in 265.51s: area_score=0.0162, delay_score=-0.0727, speed_score=-1.9891, overall_score=-0.0282, failed_rate=0.0000
+2025-08-27 20:44:15,462 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:44:15,474 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 2}
+2025-08-27 20:44:15,475 - openevolve.process_parallel - INFO - Iteration 15: Program 697484c7-3544-48f3-8acf-35a4a664ff07 (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 316.48s
+2025-08-27 20:44:15,476 - openevolve.process_parallel - INFO - Metrics: area_score=0.0162, delay_score=-0.0727, speed_score=-1.9891, overall_score=-0.0282, failed_rate=0.0000
+2025-08-27 20:44:26,222 - openevolve.evaluator - INFO - Evaluated program b9a29d50-13d2-41f7-8114-a99630c4c24d in 15.92s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:44:26,227 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:44:26,236 - openevolve.process_parallel - INFO - Iteration 21: Program b9a29d50-13d2-41f7-8114-a99630c4c24d (parent: 131880aa-e484-46f7-bba1-5ef6a9e977c2) completed in 72.82s
+2025-08-27 20:44:26,237 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:45:15,524 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:45:25,165 - openai._base_client - INFO - Retrying request to /chat/completions in 0.407937 seconds
+2025-08-27 20:45:26,289 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:45:26,887 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:45:48,261 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:46:00,600 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:46:12,593 - openevolve.evaluator - INFO - Evaluated program b84e05b4-cec8-4c48-b132-354c9326f8a8 in 265.01s: area_score=1.5173, delay_score=-1.9890, speed_score=-1.9666, overall_score=-0.2359, failed_rate=0.0000
+2025-08-27 20:46:12,600 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:46:12,614 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 4}
+2025-08-27 20:46:12,614 - openevolve.process_parallel - INFO - Iteration 17: Program b84e05b4-cec8-4c48-b132-354c9326f8a8 (parent: 4ad165bc-509c-4380-8114-24693f179a94) completed in 311.17s
+2025-08-27 20:46:12,615 - openevolve.process_parallel - INFO - Metrics: area_score=1.5173, delay_score=-1.9890, speed_score=-1.9666, overall_score=-0.2359, failed_rate=0.0000
+2025-08-27 20:46:31,352 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 20:46:31,361 - openai._base_client - INFO - Retrying request to /chat/completions in 0.443592 seconds
+2025-08-27 20:46:59,424 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:47:07,494 - openevolve.evaluator - INFO - Evaluated program 0f638423-aae1-4357-833b-9d4b58ff0b6f in 255.93s: area_score=1.6685, delay_score=-1.5874, speed_score=-0.8975, overall_score=0.0405, failed_rate=0.0000
+2025-08-27 20:47:07,500 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:47:07,513 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 4, 'diversity': 1}
+2025-08-27 20:47:07,514 - openevolve.process_parallel - INFO - Iteration 20: Program 0f638423-aae1-4357-833b-9d4b58ff0b6f (parent: 4306b1e1-8296-4618-a2ee-6506cd26d50f) completed in 288.48s
+2025-08-27 20:47:07,515 - openevolve.process_parallel - INFO - Metrics: area_score=1.6685, delay_score=-1.5874, speed_score=-0.8975, overall_score=0.0405, failed_rate=0.0000
+2025-08-27 20:47:07,516 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 20
+2025-08-27 20:47:07,522 - openevolve.database - INFO - Island Status:
+2025-08-27 20:47:07,524 - openevolve.database - INFO -  * Island 0: 9 programs, best=0.3338, avg=0.0651, diversity=629.05, gen=8 (best: 92daeaa1-df35-4ae6-b931-fd413a693b30)
+2025-08-27 20:47:07,524 - openevolve.database - INFO -    Island 1: 6 programs, best=0.0000, avg=-0.0466, diversity=338.43, gen=6 (best: 065a4775-c730-4e32-892a-3e6662cb1948)
+2025-08-27 20:47:07,524 - openevolve.database - INFO -    Island 2: 7 programs, best=0.4449, avg=-68394861848226785492492946376195810029126109253897772953193019456572810002855355917853162953382411524288799619862535226191701993241594818893071855808778321504314685067320682149877251892463972295739882149458567924824860951941835006313207183044488503351398466985405793179332520637890545339040462789754748928.0000, diversity=444.87, gen=6 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 20:47:07,653 - openevolve.database - INFO - Saved database with 22 programs to openevolve_output/checkpoints/checkpoint_20
+2025-08-27 20:47:07,658 - openevolve.controller - INFO - Saved best program at checkpoint 20 with metrics: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:47:07,658 - openevolve.controller - INFO - Saved checkpoint at iteration 20 to openevolve_output/checkpoints/checkpoint_20
+2025-08-27 20:47:32,508 - openai._base_client - INFO - Retrying request to /chat/completions in 0.859453 seconds
+2025-08-27 20:47:36,418 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 20:47:37,377 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:48:07,561 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:48:07,586 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:48:23,983 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:48:41,430 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 20:48:41,483 - openai._base_client - INFO - Retrying request to /chat/completions in 0.383502 seconds
+2025-08-27 20:49:00,153 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:49:10,898 - openevolve.evaluator - INFO - Evaluated program cec8260e-c689-4597-b1d1-c38a8917829d in 10.74s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:49:10,901 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:49:10,908 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 3}
+2025-08-27 20:49:10,908 - openevolve.process_parallel - INFO - Iteration 25: Program cec8260e-c689-4597-b1d1-c38a8917829d (parent: 341ce515-a217-432c-9155-c7a04c1dd34c) completed in 123.40s
+2025-08-27 20:49:10,909 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:49:48,002 - openai._base_client - INFO - Retrying request to /chat/completions in 0.875320 seconds
+2025-08-27 20:50:06,253 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:50:16,225 - openevolve.evaluator - INFO - Evaluated program cb357405-5f9e-40b6-92a9-050409a6e6d9 in 9.97s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:50:16,228 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:50:16,239 - openevolve.process_parallel - INFO - Iteration 26: Program cb357405-5f9e-40b6-92a9-050409a6e6d9 (parent: b9a29d50-13d2-41f7-8114-a99630c4c24d) completed in 65.33s
+2025-08-27 20:50:16,240 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:50:18,814 - openevolve.evaluator - INFO - Evaluated program cfe82b9d-75be-4950-841e-4198a210f0cb in 258.21s: area_score=0.5887, delay_score=-0.3995, speed_score=0.7804, overall_score=0.0946, failed_rate=0.0000
+2025-08-27 20:50:18,820 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:50:18,829 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 1, 'diversity': 1}
+2025-08-27 20:50:18,950 - openevolve.process_parallel - INFO - Iteration 22: Program cfe82b9d-75be-4950-841e-4198a210f0cb (parent: dde4b206-71d6-41fc-b2f8-e228c36936ff) completed in 363.35s
+2025-08-27 20:50:18,951 - openevolve.process_parallel - INFO - Metrics: area_score=0.5887, delay_score=-0.3995, speed_score=0.7804, overall_score=0.0946, failed_rate=0.0000
+2025-08-27 20:50:42,460 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:50:42,463 - openevolve.process_parallel - ERROR - Error in worker iteration 23
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 20:50:42,476 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:51:12,620 - openevolve.evaluator - INFO - Evaluated program 562bdb64-54fb-47df-9348-71fd211c0709 in 253.19s: area_score=1.5714, delay_score=-3.2329, speed_score=0.1169, overall_score=-0.8307, failed_rate=0.0000
+2025-08-27 20:51:12,627 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:51:12,640 - openevolve.process_parallel - INFO - Iteration 24: Program 562bdb64-54fb-47df-9348-71fd211c0709 (parent: 697484c7-3544-48f3-8acf-35a4a664ff07) completed in 300.02s
+2025-08-27 20:51:12,641 - openevolve.process_parallel - INFO - Metrics: area_score=1.5714, delay_score=-3.2329, speed_score=0.1169, overall_score=-0.8307, failed_rate=0.0000
+2025-08-27 20:51:16,289 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:51:17,355 - openai._base_client - INFO - Retrying request to /chat/completions in 0.398568 seconds
+2025-08-27 20:51:19,011 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:51:26,304 - openai._base_client - INFO - Retrying request to /chat/completions in 0.428111 seconds
+2025-08-27 20:51:31,417 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:52:04,287 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:52:05,613 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:52:12,982 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:52:21,017 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:52:21,262 - openai._base_client - INFO - Retrying request to /chat/completions in 0.908290 seconds
+2025-08-27 20:52:30,571 - openevolve.evaluator - INFO - Evaluated program 2f450528-74a1-4827-b6ec-e0ee5e7e89c8 in 9.55s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:52:30,575 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:52:30,591 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 5}
+2025-08-27 20:52:30,591 - openevolve.process_parallel - INFO - Iteration 28: Program 2f450528-74a1-4827-b6ec-e0ee5e7e89c8 (parent: d1379c18-03cf-4bd3-ac39-3bf82c5c69f4) completed in 131.75s
+2025-08-27 20:52:30,593 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:53:09,345 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:53:19,617 - openevolve.evaluator - INFO - Evaluated program 3f556118-65f7-4402-9929-b61b5abfbca2 in 10.27s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:53:19,624 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:53:19,635 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 4, 'diversity': 1} (fitness: -0.155 -> 0.000)
+2025-08-27 20:53:19,635 - openevolve.process_parallel - INFO - Iteration 27: Program 3f556118-65f7-4402-9929-b61b5abfbca2 (parent: 0f638423-aae1-4357-833b-9d4b58ff0b6f) completed in 183.39s
+2025-08-27 20:53:19,637 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:53:30,636 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:53:32,220 - openai._base_client - INFO - Retrying request to /chat/completions in 0.422262 seconds
+2025-08-27 20:54:10,290 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:54:12,880 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:54:13,116 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:54:22,588 - openevolve.evaluator - INFO - Evaluated program ed0d62f4-6ff2-4a54-96df-29b20a2c90ff in 9.47s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:54:22,592 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:54:22,605 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 6, 'diversity': 4} (fitness: -0.535 -> 0.000)
+2025-08-27 20:54:22,606 - openevolve.process_parallel - INFO - Iteration 32: Program ed0d62f4-6ff2-4a54-96df-29b20a2c90ff (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 62.97s
+2025-08-27 20:54:22,608 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:54:22,618 - openevolve.evaluator - INFO - Evaluated program 0b824357-95f8-4f92-bac4-f30f3cddcee0 in 9.73s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:54:22,622 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:54:22,633 - openevolve.process_parallel - INFO - Iteration 31: Program 0b824357-95f8-4f92-bac4-f30f3cddcee0 (parent: 7d4b3ff1-a848-4b03-848b-e097c831501e) completed in 112.04s
+2025-08-27 20:54:22,633 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:55:00,646 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:55:02,852 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:55:40,683 - openevolve.evaluator - INFO - Evaluated program f98230c5-c602-41ff-9660-911a40f021d0 in 249.26s: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 20:55:40,689 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:55:40,704 - openevolve.process_parallel - INFO - Iteration 29: Program f98230c5-c602-41ff-9660-911a40f021d0 (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 298.21s
+2025-08-27 20:55:40,704 - openevolve.process_parallel - INFO - Metrics: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 20:56:17,269 - openevolve.evaluator - INFO - Evaluated program 7af4040b-a8f9-4b9c-b20b-441eba1c3956 in 252.98s: area_score=1.8092, delay_score=-1.5852, speed_score=0.9602, overall_score=0.1120, failed_rate=0.0000
+2025-08-27 20:56:17,276 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:56:17,288 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 4, 'diversity': 2} (fitness: 0.000 -> 0.259)
+2025-08-27 20:56:17,289 - openevolve.process_parallel - INFO - Iteration 30: Program 7af4040b-a8f9-4b9c-b20b-441eba1c3956 (parent: 0f638423-aae1-4357-833b-9d4b58ff0b6f) completed in 304.64s
+2025-08-27 20:56:17,290 - openevolve.process_parallel - INFO - Metrics: area_score=1.8092, delay_score=-1.5852, speed_score=0.9602, overall_score=0.1120, failed_rate=0.0000
+2025-08-27 20:56:17,291 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 30
+2025-08-27 20:56:17,300 - openevolve.database - INFO - Island Status:
+2025-08-27 20:56:17,300 - openevolve.database - INFO -  * Island 0: 13 programs, best=0.3338, avg=0.0650, diversity=510.98, gen=12 (best: 92daeaa1-df35-4ae6-b931-fd413a693b30)
+2025-08-27 20:56:17,300 - openevolve.database - INFO -    Island 1: 9 programs, best=0.2128, avg=-0.0602, diversity=352.97, gen=9 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 20:56:17,301 - openevolve.database - INFO -    Island 2: 10 programs, best=0.4449, avg=-47876403293758753742870667023336699161741231627803765417725856657603977749161332027676690373938129053248186086707878348456157887832583646608818245147382443684215198072185845317425156307313992555333779700642456888497240058046636053893484198289091930644524373077370300356628285688234400570059759949593968640.0000, diversity=491.33, gen=9 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 20:56:17,597 - openevolve.database - INFO - Saved database with 32 programs to openevolve_output/checkpoints/checkpoint_30
+2025-08-27 20:56:17,601 - openevolve.controller - INFO - Saved best program at checkpoint 30 with metrics: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 20:56:17,602 - openevolve.controller - INFO - Saved checkpoint at iteration 30 to openevolve_output/checkpoints/checkpoint_30
+2025-08-27 20:56:40,750 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:56:42,108 - openai._base_client - INFO - Retrying request to /chat/completions in 0.445108 seconds
+2025-08-27 20:57:00,649 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:57:09,913 - openevolve.evaluator - INFO - Evaluated program 82f09648-a5cf-49b3-975e-ba993974d68a in 9.26s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:57:09,918 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 20:57:09,926 - openevolve.process_parallel - INFO - Iteration 36: Program 82f09648-a5cf-49b3-975e-ba993974d68a (parent: 341ce515-a217-432c-9155-c7a04c1dd34c) completed in 52.64s
+2025-08-27 20:57:09,927 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:57:14,236 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:57:28,441 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:57:37,202 - openevolve.evaluator - INFO - Evaluated program 98fc12b6-64dc-4c03-8a92-1dd2d1efe70b in 8.76s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:57:37,208 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:57:37,220 - openevolve.process_parallel - INFO - Iteration 35: Program 98fc12b6-64dc-4c03-8a92-1dd2d1efe70b (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 116.51s
+2025-08-27 20:57:37,220 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:57:52,115 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:58:01,135 - openevolve.evaluator - INFO - Evaluated program 36667a20-a94e-41ad-b585-5521a031a0de in 9.02s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:58:01,139 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:58:01,146 - openevolve.process_parallel - INFO - Iteration 37: Program 36667a20-a94e-41ad-b585-5521a031a0de (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 51.22s
+2025-08-27 20:58:01,147 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:58:31,159 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:58:41,396 - openevolve.evaluator - INFO - Evaluated program 87e68ef6-b623-40a4-aeaa-19b4a2ce9176 in 10.23s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:58:41,403 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:58:41,411 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 6}
+2025-08-27 20:58:41,412 - openevolve.process_parallel - INFO - Iteration 38: Program 87e68ef6-b623-40a4-aeaa-19b4a2ce9176 (parent: 02d6e608-8380-4459-a187-6e65ab04dba7) completed in 64.19s
+2025-08-27 20:58:41,414 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:58:43,571 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 20:58:54,587 - openevolve.evaluator - INFO - Evaluated program fa30895d-811b-4355-b268-002b064705ca in 11.00s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:58:54,593 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:58:54,597 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 8}
+2025-08-27 20:58:54,597 - openevolve.process_parallel - INFO - Iteration 39: Program fa30895d-811b-4355-b268-002b064705ca (parent: 2f450528-74a1-4827-b6ec-e0ee5e7e89c8) completed in 53.45s
+2025-08-27 20:58:54,597 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 20:59:16,691 - openevolve.evaluator - INFO - Evaluated program f013be72-674f-404f-9541-ed83cdb6b442 in 253.83s: area_score=1.5819, delay_score=-3.2548, speed_score=-0.3138, overall_score=-0.8365, failed_rate=0.0000
+2025-08-27 20:59:16,698 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:59:16,710 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 6}
+2025-08-27 20:59:16,710 - openevolve.process_parallel - INFO - Iteration 33: Program f013be72-674f-404f-9541-ed83cdb6b442 (parent: 562bdb64-54fb-47df-9348-71fd211c0709) completed in 294.10s
+2025-08-27 20:59:16,712 - openevolve.process_parallel - INFO - Metrics: area_score=1.5819, delay_score=-3.2548, speed_score=-0.3138, overall_score=-0.8365, failed_rate=0.0000
+2025-08-27 20:59:17,397 - openevolve.evaluator - INFO - Evaluated program b57e3a02-ddba-40db-a6d7-bc7b6a200f69 in 256.75s: area_score=1.5819, delay_score=-3.2548, speed_score=0.4001, overall_score=-0.8365, failed_rate=0.0000
+2025-08-27 20:59:17,405 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 20:59:17,413 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 5}
+2025-08-27 20:59:17,414 - openevolve.process_parallel - INFO - Iteration 34: Program b57e3a02-ddba-40db-a6d7-bc7b6a200f69 (parent: cec8260e-c689-4597-b1d1-c38a8917829d) completed in 294.78s
+2025-08-27 20:59:17,415 - openevolve.process_parallel - INFO - Metrics: area_score=1.5819, delay_score=-3.2548, speed_score=0.4001, overall_score=-0.8365, failed_rate=0.0000
+2025-08-27 20:59:41,464 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:59:42,324 - openai._base_client - INFO - Retrying request to /chat/completions in 0.389439 seconds
+2025-08-27 20:59:54,654 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 20:59:56,284 - openai._base_client - INFO - Retrying request to /chat/completions in 0.381187 seconds
+2025-08-27 21:00:14,585 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:00:17,414 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:00:18,380 - openai._base_client - INFO - Retrying request to /chat/completions in 0.382078 seconds
+2025-08-27 21:00:27,032 - openevolve.evaluator - INFO - Evaluated program 2f25b48e-3860-4f0e-94a4-56a98cb74308 in 12.44s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:00:27,039 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:00:27,047 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 3, 'diversity': 2}
+2025-08-27 21:00:27,048 - openevolve.process_parallel - INFO - Iteration 42: Program 2f25b48e-3860-4f0e-94a4-56a98cb74308 (parent: ee82429f-b72b-443d-accd-e25148a92bf7) completed in 70.34s
+2025-08-27 21:00:27,049 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:00:31,906 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:00:32,910 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:00:43,580 - openevolve.evaluator - INFO - Evaluated program 22487d22-7d56-479e-b851-94b6c78143a2 in 10.67s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:00:43,582 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:00:43,600 - openevolve.process_parallel - INFO - Iteration 40: Program 22487d22-7d56-479e-b851-94b6c78143a2 (parent: 0b824357-95f8-4f92-bac4-f30f3cddcee0) completed in 122.18s
+2025-08-27 21:00:43,600 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:00:43,600 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 40
+2025-08-27 21:00:43,611 - openevolve.database - INFO - Island Status:
+2025-08-27 21:00:43,611 - openevolve.database - INFO -  * Island 0: 16 programs, best=0.3338, avg=0.0528, diversity=369.17, gen=15 (best: 92daeaa1-df35-4ae6-b931-fd413a693b30)
+2025-08-27 21:00:43,611 - openevolve.database - INFO -    Island 1: 12 programs, best=0.2128, avg=-0.0452, diversity=352.97, gen=12 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:00:43,612 - openevolve.database - INFO -    Island 2: 13 programs, best=0.4449, avg=-36828002533660576803650048048720820784914058829021877744027010476616128463075960878844010821052067743847815179925980506410916457899320287096269460820111403886938676574711136542241597172865215851552244234323844267213386666430218849553265406254724578727676097607526196327332895728094909028714095348329480192.0000, diversity=491.33, gen=12 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:00:43,893 - openevolve.database - INFO - Saved database with 41 programs to openevolve_output/checkpoints/checkpoint_40
+2025-08-27 21:00:43,898 - openevolve.controller - INFO - Saved best program at checkpoint 40 with metrics: area_score=0.0000, delay_score=0.0000, speed_score=2.2243, overall_score=0.0000, failed_rate=0.0000
+2025-08-27 21:00:43,898 - openevolve.controller - INFO - Saved checkpoint at iteration 40 to openevolve_output/checkpoints/checkpoint_40
+2025-08-27 21:00:44,226 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:00:59,677 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:01:00,916 - openai._base_client - INFO - Retrying request to /chat/completions in 0.409331 seconds
+2025-08-27 21:01:03,707 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:01:06,117 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:01:17,733 - openevolve.evaluator - INFO - Evaluated program 739ae878-6bc8-4995-a4ed-b3034b82706b in 11.61s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:01:17,737 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:01:17,749 - openevolve.process_parallel - INFO - Iteration 43: Program 739ae878-6bc8-4995-a4ed-b3034b82706b (parent: 131880aa-e484-46f7-bba1-5ef6a9e977c2) completed in 120.33s
+2025-08-27 21:01:17,749 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:01:24,667 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:01:27,100 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:01:27,336 - openai._base_client - INFO - Retrying request to /chat/completions in 0.413154 seconds
+2025-08-27 21:01:36,057 - openevolve.evaluator - INFO - Evaluated program 65aac9fb-c641-4938-9bb1-829591b8df5c in 11.38s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:01:36,064 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:01:36,079 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 3, 'diversity': 1}
+2025-08-27 21:01:36,079 - openevolve.process_parallel - INFO - Iteration 45: Program 65aac9fb-c641-4938-9bb1-829591b8df5c (parent: 6c19d273-b667-444c-af76-8d4314b8a5ae) completed in 52.48s
+2025-08-27 21:01:36,081 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:01:52,229 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:01:55,999 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:02:03,285 - openevolve.evaluator - INFO - Evaluated program 1e5bd91b-5819-42ba-be12-bb4d01d03652 in 11.05s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:02:03,292 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:02:03,297 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 4}
+2025-08-27 21:02:03,298 - openevolve.process_parallel - INFO - Iteration 46: Program 1e5bd91b-5819-42ba-be12-bb4d01d03652 (parent: cec8260e-c689-4597-b1d1-c38a8917829d) completed in 45.55s
+2025-08-27 21:02:03,299 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:02:04,692 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:02:06,066 - openai._base_client - INFO - Retrying request to /chat/completions in 0.426627 seconds
+2025-08-27 21:02:26,171 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:02:28,909 - openai._base_client - INFO - Retrying request to /chat/completions in 0.783991 seconds
+2025-08-27 21:02:31,339 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:02:36,366 - openevolve.evaluator - INFO - Evaluated program 40ff3532-fc33-400f-b60d-cc1fc0c58bec in 10.19s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:02:36,374 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:02:36,385 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 7}
+2025-08-27 21:02:36,385 - openevolve.database - INFO - MAP-Elites coverage reached 25.0% (25/100 cells)
+2025-08-27 21:02:36,385 - openevolve.process_parallel - INFO - Iteration 47: Program 40ff3532-fc33-400f-b60d-cc1fc0c58bec (parent: ed0d62f4-6ff2-4a54-96df-29b20a2c90ff) completed in 60.30s
+2025-08-27 21:02:36,387 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:02:55,935 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:03:02,519 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:03:06,540 - openevolve.evaluator - INFO - Evaluated program 3a9bdd66-2eab-45ae-ae57-88125c1997cd in 10.60s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:03:06,547 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:03:06,557 - openevolve.process_parallel - INFO - Iteration 48: Program 3a9bdd66-2eab-45ae-ae57-88125c1997cd (parent: 065a4775-c730-4e32-892a-3e6662cb1948) completed in 63.25s
+2025-08-27 21:03:06,558 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:03:07,528 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:03:21,907 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:03:21,927 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:03:31,647 - openevolve.evaluator - INFO - Evaluated program db635aee-e88c-47f0-9faf-add46d5899df in 9.74s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:03:31,653 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:03:31,666 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 7}
+2025-08-27 21:03:31,666 - openevolve.process_parallel - INFO - Iteration 44: Program db635aee-e88c-47f0-9faf-add46d5899df (parent: 2c96d0b8-1369-420e-874a-a9e7ed2f2896) completed in 184.61s
+2025-08-27 21:03:31,668 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:03:31,717 - openevolve.evaluator - INFO - Evaluated program 6e2d4038-ddbd-4933-869e-dea39a0cdd07 in 9.79s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:03:31,725 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:03:31,737 - openevolve.process_parallel - INFO - Iteration 49: Program 6e2d4038-ddbd-4933-869e-dea39a0cdd07 (parent: cec8260e-c689-4597-b1d1-c38a8917829d) completed in 55.35s
+2025-08-27 21:03:31,737 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:04:06,055 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:04:06,607 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:04:08,128 - openai._base_client - INFO - Retrying request to /chat/completions in 0.375877 seconds
+2025-08-27 21:04:17,312 - openevolve.evaluator - INFO - Evaluated program e12af23f-ad02-4103-892f-b15871468c79 in 11.25s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:04:17,319 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:04:17,331 - openevolve.process_parallel - INFO - Iteration 51: Program e12af23f-ad02-4103-892f-b15871468c79 (parent: 36667a20-a94e-41ad-b585-5521a031a0de) completed in 45.66s
+2025-08-27 21:04:17,331 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:04:31,787 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:04:39,099 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:04:53,015 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:04:58,460 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:05:00,849 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:05:36,840 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:05:37,356 - openai._base_client - INFO - Retrying request to /chat/completions in 0.458102 seconds
+2025-08-27 21:06:41,904 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:06:44,855 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:06:53,540 - openai._base_client - INFO - Retrying request to /chat/completions in 0.994570 seconds
+2025-08-27 21:07:20,113 - openevolve.evaluator - INFO - Evaluated program ec974a6e-6076-439b-ae59-d58731c6f4ce in 252.58s: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:07:20,120 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:07:20,130 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 1, 'diversity': 1} (fitness: 0.213 -> 0.494)
+2025-08-27 21:07:20,131 - openevolve.database - INFO - New best program ec974a6e-6076-439b-ae59-d58731c6f4ce replaces 34841f1a-f070-46b3-b6f2-d943869101ac
+2025-08-27 21:07:20,133 - openevolve.process_parallel - INFO - Iteration 41: Program ec974a6e-6076-439b-ae59-d58731c6f4ce (parent: b84e05b4-cec8-4c48-b132-354c9326f8a8) completed in 505.52s
+2025-08-27 21:07:20,134 - openevolve.process_parallel - INFO - Metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:07:20,135 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 41: ec974a6e-6076-439b-ae59-d58731c6f4ce
+2025-08-27 21:07:46,968 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:07:46,972 - openai._base_client - INFO - Retrying request to /chat/completions in 0.453155 seconds
+2025-08-27 21:07:52,302 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:07:56,601 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:08:06,463 - openevolve.evaluator - INFO - Evaluated program 07b897ca-0a39-4fee-87e3-05a73370b8c3 in 9.86s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:08:06,469 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:08:06,483 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:08:06,484 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:08:06,486 - openevolve.process_parallel - INFO - Iteration 54: Program 07b897ca-0a39-4fee-87e3-05a73370b8c3 (parent: dde4b206-71d6-41fc-b2f8-e228c36936ff) completed in 46.34s
+2025-08-27 21:08:06,487 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:08:49,549 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:08:49,552 - openevolve.process_parallel - ERROR - Error in worker iteration 52
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:08:49,565 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:09:06,530 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:09:07,110 - openai._base_client - INFO - Retrying request to /chat/completions in 0.400368 seconds
+2025-08-27 21:09:10,108 - openevolve.evaluator - INFO - Evaluated program d7bd903c-cbd4-459c-9da7-8edcdd7562ef in 249.25s: area_score=1.7489, delay_score=-1.0096, speed_score=-2.5644, overall_score=0.3696, failed_rate=0.0000
+2025-08-27 21:09:10,114 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:09:10,120 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:09:10,121 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:09:10,123 - openevolve.process_parallel - INFO - Iteration 50: Program d7bd903c-cbd4-459c-9da7-8edcdd7562ef (parent: 6c19d273-b667-444c-af76-8d4314b8a5ae) completed in 363.56s
+2025-08-27 21:09:10,124 - openevolve.process_parallel - INFO - Metrics: area_score=1.7489, delay_score=-1.0096, speed_score=-2.5644, overall_score=0.3696, failed_rate=0.0000
+2025-08-27 21:09:10,124 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 50
+2025-08-27 21:09:10,134 - openevolve.database - INFO - Island Status:
+2025-08-27 21:09:10,134 - openevolve.database - INFO -    Island 0: 20 programs, best=0.4941, avg=0.0670, diversity=300.97, gen=18 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:09:10,134 - openevolve.database - INFO -  * Island 1: 16 programs, best=0.2128, avg=-0.0521, diversity=444.07, gen=17 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:09:10,135 - openevolve.database - INFO -    Island 2: 14 programs, best=0.4449, avg=-0.0444, diversity=491.83, gen=15 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:09:10,444 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_50
+2025-08-27 21:09:10,460 - openevolve.controller - INFO - Saved best program at checkpoint 50 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:09:10,460 - openevolve.controller - INFO - Saved checkpoint at iteration 50 to openevolve_output/checkpoints/checkpoint_50
+2025-08-27 21:09:12,285 - openevolve.evaluator - INFO - Evaluated program 4b3fff29-8f77-4f89-898e-36fbf9ded002 in 253.82s: area_score=1.7489, delay_score=-1.0096, speed_score=-1.4668, overall_score=0.3696, failed_rate=0.0000
+2025-08-27 21:09:12,292 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:09:12,302 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:09:12,303 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:09:12,304 - openevolve.process_parallel - INFO - Iteration 53: Program 4b3fff29-8f77-4f89-898e-36fbf9ded002 (parent: cfe82b9d-75be-4950-841e-4198a210f0cb) completed in 294.97s
+2025-08-27 21:09:12,306 - openevolve.process_parallel - INFO - Metrics: area_score=1.7489, delay_score=-1.0096, speed_score=-1.4668, overall_score=0.3696, failed_rate=0.0000
+2025-08-27 21:09:48,797 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:09:49,627 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:09:49,630 - openai._base_client - INFO - Retrying request to /chat/completions in 0.447161 seconds
+2025-08-27 21:09:54,809 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:09:58,314 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:10:04,320 - openevolve.evaluator - INFO - Evaluated program e9e08ffd-2171-4b2c-8c8c-3401a5896299 in 9.51s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:10:04,323 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:10:04,340 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:10:04,340 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:10:04,343 - openevolve.process_parallel - INFO - Iteration 58: Program e9e08ffd-2171-4b2c-8c8c-3401a5896299 (parent: 131880aa-e484-46f7-bba1-5ef6a9e977c2) completed in 52.03s
+2025-08-27 21:10:04,344 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:10:11,549 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:10:12,140 - openai._base_client - INFO - Retrying request to /chat/completions in 0.391869 seconds
+2025-08-27 21:10:51,707 - openai._base_client - INFO - Retrying request to /chat/completions in 0.934459 seconds
+2025-08-27 21:10:54,694 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:10:54,977 - openai._base_client - INFO - Retrying request to /chat/completions in 0.445449 seconds
+2025-08-27 21:11:04,385 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:11:08,038 - openai._base_client - INFO - Retrying request to /chat/completions in 0.382792 seconds
+2025-08-27 21:11:15,000 - openai._base_client - INFO - Retrying request to /chat/completions in 0.777208 seconds
+2025-08-27 21:11:16,615 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:11:17,702 - openai._base_client - INFO - Retrying request to /chat/completions in 0.447087 seconds
+2025-08-27 21:11:46,457 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:11:52,186 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:11:59,708 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:12:00,223 - openai._base_client - INFO - Retrying request to /chat/completions in 0.447150 seconds
+2025-08-27 21:12:09,092 - openai._base_client - INFO - Retrying request to /chat/completions in 0.793036 seconds
+2025-08-27 21:12:09,452 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:12:11,010 - openai._base_client - INFO - Retrying request to /chat/completions in 0.473768 seconds
+2025-08-27 21:12:18,793 - openai._base_client - INFO - Retrying request to /chat/completions in 0.891480 seconds
+2025-08-27 21:12:20,856 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:13:01,118 - openai._base_client - INFO - Retrying request to /chat/completions in 0.806260 seconds
+2025-08-27 21:13:04,774 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:13:05,864 - openai._base_client - INFO - Retrying request to /chat/completions in 0.416009 seconds
+2025-08-27 21:13:10,775 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:13:14,462 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:13:14,991 - openai._base_client - INFO - Retrying request to /chat/completions in 0.385317 seconds
+2025-08-27 21:13:29,702 - openevolve.evaluator - INFO - Evaluated program a09a08b7-dc5b-428b-8b78-d0ee5ef1a649 in 9.42s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:13:29,709 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:13:29,718 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:13:29,719 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:13:29,720 - openevolve.process_parallel - INFO - Iteration 55: Program a09a08b7-dc5b-428b-8b78-d0ee5ef1a649 (parent: b57e3a02-ddba-40db-a6d7-bc7b6a200f69) completed in 323.24s
+2025-08-27 21:13:29,721 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:13:58,827 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:14:00,008 - openevolve.evaluator - INFO - Evaluated program dbbfa545-977f-4d85-bf0e-268c4b42a7a3 in 251.21s: area_score=1.8520, delay_score=-2.6676, speed_score=0.7534, overall_score=-0.4078, failed_rate=0.0000
+2025-08-27 21:14:00,015 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:14:00,030 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 5, 'diversity': 2} (fitness: -0.415 -> -0.094)
+2025-08-27 21:14:00,030 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:14:00,032 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:14:00,033 - openevolve.process_parallel - INFO - Iteration 57: Program dbbfa545-977f-4d85-bf0e-268c4b42a7a3 (parent: 07b897ca-0a39-4fee-87e3-05a73370b8c3) completed in 289.90s
+2025-08-27 21:14:00,034 - openevolve.process_parallel - INFO - Metrics: area_score=1.8520, delay_score=-2.6676, speed_score=0.7534, overall_score=-0.4078, failed_rate=0.0000
+2025-08-27 21:14:07,402 - openai._base_client - INFO - Retrying request to /chat/completions in 0.854586 seconds
+2025-08-27 21:14:12,672 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:14:15,442 - openai._base_client - INFO - Retrying request to /chat/completions in 0.876946 seconds
+2025-08-27 21:14:19,524 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:14:19,814 - openai._base_client - INFO - Retrying request to /chat/completions in 0.487256 seconds
+2025-08-27 21:14:22,137 - openevolve.evaluator - INFO - Evaluated program 0d490d6c-3778-4fae-b4b1-8b026982ba00 in 9.46s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:14:22,140 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:14:22,153 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:14:22,153 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:14:22,155 - openevolve.process_parallel - INFO - Iteration 60: Program 0d490d6c-3778-4fae-b4b1-8b026982ba00 (parent: 131880aa-e484-46f7-bba1-5ef6a9e977c2) completed in 52.43s
+2025-08-27 21:14:22,156 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:14:22,156 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 60
+2025-08-27 21:14:22,166 - openevolve.database - INFO - Island Status:
+2025-08-27 21:14:22,166 - openevolve.database - INFO -  * Island 0: 20 programs, best=0.4941, avg=0.0670, diversity=300.97, gen=19 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:14:22,166 - openevolve.database - INFO -    Island 1: 16 programs, best=0.2128, avg=-0.0087, diversity=444.07, gen=18 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:14:22,166 - openevolve.database - INFO -    Island 2: 14 programs, best=0.4449, avg=0.0469, diversity=696.87, gen=18 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:14:22,643 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_60
+2025-08-27 21:14:22,648 - openevolve.controller - INFO - Saved best program at checkpoint 60 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:14:22,648 - openevolve.controller - INFO - Saved checkpoint at iteration 60 to openevolve_output/checkpoints/checkpoint_60
+2025-08-27 21:14:40,303 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:14:50,014 - openevolve.evaluator - INFO - Evaluated program c85c9ad4-bf73-4ee2-be10-8e64803ee680 in 9.71s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:14:50,020 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:14:50,034 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:14:50,034 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:14:50,035 - openevolve.process_parallel - INFO - Iteration 61: Program c85c9ad4-bf73-4ee2-be10-8e64803ee680 (parent: 2f450528-74a1-4827-b6ec-e0ee5e7e89c8) completed in 50.00s
+2025-08-27 21:14:50,036 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:15:09,059 - openevolve.process_parallel - ERROR - Error in worker iteration 56
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:15:09,070 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:15:14,769 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:15:16,191 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:15:16,201 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:15:16,202 - openevolve.process_parallel - WARNING - Iteration 62 error: Generated code exceeds maximum length (10462 > 10000)
+2025-08-27 21:15:21,135 - openai._base_client - INFO - Retrying request to /chat/completions in 0.801543 seconds
+2025-08-27 21:15:33,551 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:15:42,642 - openevolve.evaluator - INFO - Evaluated program 1a4b0a26-5a26-4561-b0d9-0880c408ba0e in 9.09s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:15:42,649 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:15:42,659 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:15:42,660 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:15:42,661 - openevolve.process_parallel - INFO - Iteration 63: Program 1a4b0a26-5a26-4561-b0d9-0880c408ba0e (parent: 82f09648-a5cf-49b3-975e-ba993974d68a) completed in 52.62s
+2025-08-27 21:15:42,662 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:15:55,323 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:16:03,810 - openevolve.evaluator - INFO - Evaluated program 591e7c3d-c78e-48f2-b06a-045b8d6cadc6 in 8.48s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:16:03,816 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:16:03,824 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:16:03,824 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:16:03,825 - openevolve.process_parallel - INFO - Iteration 64: Program 591e7c3d-c78e-48f2-b06a-045b8d6cadc6 (parent: 065a4775-c730-4e32-892a-3e6662cb1948) completed in 54.74s
+2025-08-27 21:16:03,827 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:16:13,601 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:16:22,747 - openevolve.evaluator - INFO - Evaluated program 303ce8aa-8886-427f-93ab-381670dc0615 in 9.14s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:16:22,754 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:16:22,768 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:16:22,768 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:16:22,769 - openevolve.process_parallel - INFO - Iteration 65: Program 303ce8aa-8886-427f-93ab-381670dc0615 (parent: d1379c18-03cf-4bd3-ac39-3bf82c5c69f4) completed in 66.55s
+2025-08-27 21:16:22,771 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:16:24,029 - openevolve.process_parallel - ERROR - Error in worker iteration 59
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:16:24,045 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:16:39,047 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:16:39,057 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:16:39,061 - openevolve.process_parallel - WARNING - Iteration 66 error: Generated code exceeds maximum length (11053 > 10000)
+2025-08-27 21:16:49,707 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:16:58,381 - openevolve.evaluator - INFO - Evaluated program cf755f6e-bacd-40ab-84df-2d5105526971 in 8.67s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:16:58,387 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:16:58,402 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 7, 'diversity': 5}
+2025-08-27 21:16:58,402 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:16:58,404 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:16:58,405 - openevolve.process_parallel - INFO - Iteration 67: Program cf755f6e-bacd-40ab-84df-2d5105526971 (parent: 0b824357-95f8-4f92-bac4-f30f3cddcee0) completed in 54.57s
+2025-08-27 21:16:58,406 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:17:14,873 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:17:21,616 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:17:24,107 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:17:24,370 - openai._base_client - INFO - Retrying request to /chat/completions in 0.393398 seconds
+2025-08-27 21:17:24,399 - openevolve.evaluator - INFO - Evaluated program 829f196e-d64e-473b-9c54-99519f6a12a9 in 9.52s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:17:24,405 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:17:24,419 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:17:24,420 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:17:24,421 - openevolve.process_parallel - INFO - Iteration 68: Program 829f196e-d64e-473b-9c54-99519f6a12a9 (parent: 02d6e608-8380-4459-a187-6e65ab04dba7) completed in 61.65s
+2025-08-27 21:17:24,422 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:17:30,254 - openevolve.evaluator - INFO - Evaluated program d5c8bdb7-deba-4ec5-86e2-596d8fa20a93 in 8.63s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:17:30,260 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:17:30,264 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:17:30,264 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:17:30,266 - openevolve.process_parallel - INFO - Iteration 70: Program d5c8bdb7-deba-4ec5-86e2-596d8fa20a93 (parent: 2c96d0b8-1369-420e-874a-a9e7ed2f2896) completed in 51.20s
+2025-08-27 21:17:30,266 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:17:30,269 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 70
+2025-08-27 21:17:30,274 - openevolve.database - INFO - Island Status:
+2025-08-27 21:17:30,275 - openevolve.database - INFO -    Island 0: 20 programs, best=0.4941, avg=0.0831, diversity=293.30, gen=21 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:17:30,275 - openevolve.database - INFO -    Island 1: 17 programs, best=0.2128, avg=0.0125, diversity=444.07, gen=21 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:17:30,276 - openevolve.database - INFO -  * Island 2: 13 programs, best=0.4449, avg=0.0599, diversity=696.87, gen=20 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:17:30,768 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_70
+2025-08-27 21:17:30,773 - openevolve.controller - INFO - Saved best program at checkpoint 70 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:17:30,773 - openevolve.controller - INFO - Saved checkpoint at iteration 70 to openevolve_output/checkpoints/checkpoint_70
+2025-08-27 21:17:44,735 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:17:55,426 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:18:01,093 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:18:07,413 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:18:09,570 - openevolve.evaluator - INFO - Evaluated program 76846e02-c13c-4e4e-82ca-74248f47ea23 in 8.47s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:09,576 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:18:09,586 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:18:09,586 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:18:09,588 - openevolve.process_parallel - INFO - Iteration 72: Program 76846e02-c13c-4e4e-82ca-74248f47ea23 (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 45.17s
+2025-08-27 21:18:09,589 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:15,996 - openevolve.evaluator - INFO - Evaluated program 5e1305d3-f02a-44a4-8f76-1ce8b1a8d5b3 in 8.58s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:16,003 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:18:16,017 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:18:16,018 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:18:16,019 - openevolve.process_parallel - INFO - Iteration 69: Program 5e1305d3-f02a-44a4-8f76-1ce8b1a8d5b3 (parent: 131880aa-e484-46f7-bba1-5ef6a9e977c2) completed in 111.95s
+2025-08-27 21:18:16,021 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:23,489 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:18:32,500 - openevolve.evaluator - INFO - Evaluated program a160a64c-c0a4-46c2-ae1d-03f14a962985 in 9.01s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:32,505 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:18:32,513 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:18:32,514 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:18:32,515 - openevolve.process_parallel - INFO - Iteration 73: Program a160a64c-c0a4-46c2-ae1d-03f14a962985 (parent: 3f556118-65f7-4402-9929-b61b5abfbca2) completed in 62.24s
+2025-08-27 21:18:32,517 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:18:56,885 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:19:03,706 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:19:12,895 - openevolve.evaluator - INFO - Evaluated program a3f9eba3-48a0-4d32-a054-ee14726aa964 in 9.18s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:19:12,901 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:19:12,908 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:19:12,909 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:19:12,910 - openevolve.process_parallel - INFO - Iteration 74: Program a3f9eba3-48a0-4d32-a054-ee14726aa964 (parent: 7af4040b-a8f9-4b9c-b20b-441eba1c3956) completed in 63.32s
+2025-08-27 21:19:12,911 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:19:15,930 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:19:25,136 - openevolve.evaluator - INFO - Evaluated program 7233e1ca-4f71-4653-ab63-5e9abc08f1e3 in 9.20s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:19:25,143 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:19:25,154 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:19:25,155 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:19:25,156 - openevolve.process_parallel - INFO - Iteration 76: Program 7233e1ca-4f71-4653-ab63-5e9abc08f1e3 (parent: 76846e02-c13c-4e4e-82ca-74248f47ea23) completed in 52.63s
+2025-08-27 21:19:25,157 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:19:53,639 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:20:02,280 - openevolve.evaluator - INFO - Evaluated program 258fbd8f-1f68-4a40-9604-62e4888aaff6 in 8.64s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:20:02,286 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:20:02,299 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:20:02,299 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:20:02,301 - openevolve.process_parallel - INFO - Iteration 78: Program 258fbd8f-1f68-4a40-9604-62e4888aaff6 (parent: 5e1305d3-f02a-44a4-8f76-1ce8b1a8d5b3) completed in 37.14s
+2025-08-27 21:20:02,302 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:20:12,962 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:20:14,310 - openai._base_client - INFO - Retrying request to /chat/completions in 0.425681 seconds
+2025-08-27 21:20:46,817 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:21:15,296 - openai._base_client - INFO - Retrying request to /chat/completions in 0.809103 seconds
+2025-08-27 21:21:18,029 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:21:19,547 - openai._base_client - INFO - Retrying request to /chat/completions in 0.432482 seconds
+2025-08-27 21:21:54,297 - openevolve.evaluator - INFO - Evaluated program 51e369a2-dade-4831-a1ae-8db25ecf8453 in 249.56s: area_score=1.1414, delay_score=-0.7916, speed_score=-0.2450, overall_score=0.1749, failed_rate=0.0000
+2025-08-27 21:21:54,301 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:21:54,312 - openevolve.database - INFO - MAP-Elites cell improved: {'complexity': 3, 'diversity': 1} (fitness: 0.000 -> 0.056)
+2025-08-27 21:21:54,313 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:21:54,314 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:21:54,315 - openevolve.process_parallel - INFO - Iteration 71: Program 51e369a2-dade-4831-a1ae-8db25ecf8453 (parent: c5b58186-b4a8-4a0b-b32d-05cc6c14085e) completed in 295.91s
+2025-08-27 21:21:54,317 - openevolve.process_parallel - INFO - Metrics: area_score=1.1414, delay_score=-0.7916, speed_score=-0.2450, overall_score=0.1749, failed_rate=0.0000
+2025-08-27 21:22:20,228 - openai._base_client - INFO - Retrying request to /chat/completions in 0.772563 seconds
+2025-08-27 21:22:23,041 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:22:23,366 - openai._base_client - INFO - Retrying request to /chat/completions in 0.499950 seconds
+2025-08-27 21:22:54,363 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:22:54,630 - openai._base_client - INFO - Retrying request to /chat/completions in 0.387611 seconds
+2025-08-27 21:23:03,539 - openevolve.evaluator - INFO - Evaluated program ec9f92b5-1d39-4b11-8193-5ea83188562c in 246.65s: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 21:23:03,546 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:23:03,556 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:23:03,556 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:23:03,557 - openevolve.process_parallel - INFO - Iteration 75: Program ec9f92b5-1d39-4b11-8193-5ea83188562c (parent: cfe82b9d-75be-4950-841e-4198a210f0cb) completed in 287.54s
+2025-08-27 21:23:03,558 - openevolve.process_parallel - INFO - Metrics: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 21:23:21,463 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:23:26,628 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:23:36,160 - openevolve.evaluator - INFO - Evaluated program 9e93f1c7-6f58-4533-9dfe-3264c4f02819 in 9.53s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:23:36,166 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:23:36,174 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:23:36,174 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:23:36,177 - openevolve.process_parallel - INFO - Iteration 77: Program 9e93f1c7-6f58-4533-9dfe-3264c4f02819 (parent: d1379c18-03cf-4bd3-ac39-3bf82c5c69f4) completed in 263.26s
+2025-08-27 21:23:36,178 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:23:56,361 - openai._base_client - INFO - Retrying request to /chat/completions in 0.798758 seconds
+2025-08-27 21:23:59,429 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:24:00,055 - openai._base_client - INFO - Retrying request to /chat/completions in 0.402184 seconds
+2025-08-27 21:24:03,606 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:24:04,629 - openai._base_client - INFO - Retrying request to /chat/completions in 0.418988 seconds
+2025-08-27 21:24:23,143 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:24:31,581 - openevolve.evaluator - INFO - Evaluated program 717b1ff8-4703-4f73-a453-ba00f05f04d2 in 8.43s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:24:31,587 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:24:31,602 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 8, 'diversity': 6}
+2025-08-27 21:24:31,602 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:24:31,604 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:24:31,605 - openevolve.process_parallel - INFO - Iteration 82: Program 717b1ff8-4703-4f73-a453-ba00f05f04d2 (parent: 07b897ca-0a39-4fee-87e3-05a73370b8c3) completed in 55.42s
+2025-08-27 21:24:31,606 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:24:44,169 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:24:53,701 - openevolve.evaluator - INFO - Evaluated program 79ac3913-93f9-402e-8028-7048bf3a9654 in 246.88s: area_score=1.2126, delay_score=-1.0404, speed_score=1.5868, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:24:53,707 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:24:53,718 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:24:53,719 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:24:53,720 - openevolve.process_parallel - INFO - Iteration 79: Program 79ac3913-93f9-402e-8028-7048bf3a9654 (parent: 92daeaa1-df35-4ae6-b931-fd413a693b30) completed in 291.42s
+2025-08-27 21:24:53,721 - openevolve.process_parallel - INFO - Metrics: area_score=1.2126, delay_score=-1.0404, speed_score=1.5868, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:24:59,069 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:25:00,760 - openai._base_client - INFO - Retrying request to /chat/completions in 0.973215 seconds
+2025-08-27 21:25:04,456 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:25:04,728 - openai._base_client - INFO - Retrying request to /chat/completions in 0.456089 seconds
+2025-08-27 21:25:08,622 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:25:08,927 - openai._base_client - INFO - Retrying request to /chat/completions in 0.482431 seconds
+2025-08-27 21:25:30,353 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:25:30,363 - openevolve.process_parallel - WARNING - Iteration 83 error: Generated code exceeds maximum length (10332 > 10000)
+2025-08-27 21:25:30,363 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:25:37,797 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:25:46,857 - openevolve.evaluator - INFO - Evaluated program 7c260e3a-e14a-43cb-9829-fdf49dfb7da6 in 9.05s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:25:46,863 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:25:46,879 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 3}
+2025-08-27 21:25:46,880 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:25:46,882 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:25:46,883 - openevolve.process_parallel - INFO - Iteration 84: Program 7c260e3a-e14a-43cb-9829-fdf49dfb7da6 (parent: ec9f92b5-1d39-4b11-8193-5ea83188562c) completed in 53.15s
+2025-08-27 21:25:46,884 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:25:58,487 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:26:03,699 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:26:08,353 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:26:09,933 - openai._base_client - INFO - Retrying request to /chat/completions in 0.972912 seconds
+2025-08-27 21:26:11,974 - openevolve.evaluator - INFO - Evaluated program b86cf9dd-3567-4973-abe1-c625c13179d1 in 8.27s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:26:11,981 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-241226
+2025-08-27 21:26:11,987 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:26:11,988 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:26:11,989 - openevolve.process_parallel - INFO - Iteration 80: Program b86cf9dd-3567-4973-abe1-c625c13179d1 (parent: 591e7c3d-c78e-48f2-b06a-045b8d6cadc6) completed in 257.67s
+2025-08-27 21:26:11,990 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:26:11,990 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 80
+2025-08-27 21:26:12,000 - openevolve.database - INFO - Island Status:
+2025-08-27 21:26:12,000 - openevolve.database - INFO -  * Island 0: 21 programs, best=0.4941, avg=0.0792, diversity=204.07, gen=27 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:26:12,000 - openevolve.database - INFO -    Island 1: 14 programs, best=0.2128, avg=0.0192, diversity=359.73, gen=24 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:26:12,002 - openevolve.database - INFO -    Island 2: 15 programs, best=0.4449, avg=0.0765, diversity=696.87, gen=24 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:26:12,577 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_80
+2025-08-27 21:26:12,581 - openevolve.controller - INFO - Saved best program at checkpoint 80 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:26:12,581 - openevolve.controller - INFO - Saved checkpoint at iteration 80 to openevolve_output/checkpoints/checkpoint_80
+2025-08-27 21:26:30,425 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:26:30,429 - openai._base_client - INFO - Retrying request to /chat/completions in 0.467679 seconds
+2025-08-27 21:26:46,925 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:27:10,979 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:27:10,979 - openevolve.process_parallel - WARNING - Iteration 81 error: Generated code exceeds maximum length (10105 > 10000)
+2025-08-27 21:27:11,984 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:27:20,204 - openai._base_client - INFO - Retrying request to /chat/completions in 0.426486 seconds
+2025-08-27 21:27:24,323 - openai._base_client - INFO - Retrying request to /chat/completions in 0.435616 seconds
+2025-08-27 21:27:34,670 - openai._base_client - INFO - Retrying request to /chat/completions in 0.992249 seconds
+2025-08-27 21:27:35,491 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:27:36,489 - openai._base_client - INFO - Retrying request to /chat/completions in 0.460165 seconds
+2025-08-27 21:27:37,473 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:27:52,001 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:00,637 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:00,973 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:01,452 - openevolve.evaluator - INFO - Evaluated program 31cc2edc-78fb-4b37-ae3f-418f946451ad in 9.45s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:28:01,459 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:28:01,473 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 3}
+2025-08-27 21:28:01,474 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:28:01,475 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:28:01,476 - openevolve.process_parallel - INFO - Iteration 88: Program 31cc2edc-78fb-4b37-ae3f-418f946451ad (parent: 65aac9fb-c641-4938-9bb1-829591b8df5c) completed in 50.48s
+2025-08-27 21:28:01,476 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:28:25,548 - openai._base_client - INFO - Retrying request to /chat/completions in 0.878832 seconds
+2025-08-27 21:28:28,049 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:30,651 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:38,175 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:28:38,183 - openevolve.process_parallel - WARNING - Iteration 85 error: Generated code exceeds maximum length (10315 > 10000)
+2025-08-27 21:28:38,185 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:29:01,520 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:29:01,761 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:29:05,529 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:29:38,247 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:29:38,250 - openai._base_client - INFO - Retrying request to /chat/completions in 0.403527 seconds
+2025-08-27 21:30:06,584 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:30:06,592 - openai._base_client - INFO - Retrying request to /chat/completions in 0.418891 seconds
+2025-08-27 21:30:40,212 - openai._base_client - INFO - Retrying request to /chat/completions in 0.849255 seconds
+2025-08-27 21:30:43,314 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:30:44,639 - openai._base_client - INFO - Retrying request to /chat/completions in 0.496393 seconds
+2025-08-27 21:31:11,650 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:31:16,668 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:31:23,630 - openai._base_client - INFO - Retrying request to /chat/completions in 0.495423 seconds
+2025-08-27 21:31:32,519 - openai._base_client - INFO - Retrying request to /chat/completions in 0.959172 seconds
+2025-08-27 21:31:33,950 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:31:48,334 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:31:48,645 - openai._base_client - INFO - Retrying request to /chat/completions in 0.483263 seconds
+2025-08-27 21:32:10,515 - openevolve.evaluator - INFO - Evaluated program 4085011a-6db0-4d41-89ea-df75dcff0867 in 249.54s: area_score=1.0568, delay_score=-2.2940, speed_score=-0.2816, overall_score=-0.6186, failed_rate=0.0000
+2025-08-27 21:32:10,518 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:32:10,534 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:32:10,534 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:32:10,537 - openevolve.process_parallel - INFO - Iteration 87: Program 4085011a-6db0-4d41-89ea-df75dcff0867 (parent: 51e369a2-dade-4831-a1ae-8db25ecf8453) completed in 358.54s
+2025-08-27 21:32:10,539 - openevolve.process_parallel - INFO - Metrics: area_score=1.0568, delay_score=-2.2940, speed_score=-0.2816, overall_score=-0.6186, failed_rate=0.0000
+2025-08-27 21:32:16,717 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:32:18,430 - openai._base_client - INFO - Retrying request to /chat/completions in 0.443173 seconds
+2025-08-27 21:32:21,565 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:32:22,072 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:32:38,644 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:32:44,504 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:32:57,815 - openevolve.evaluator - INFO - Evaluated program 82590cda-0765-4cf0-bdb2-c44989d75c88 in 13.31s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:32:57,821 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:32:57,834 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 9, 'diversity': 9}
+2025-08-27 21:32:57,835 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:32:57,837 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:32:57,839 - openevolve.process_parallel - INFO - Iteration 90: Program 82590cda-0765-4cf0-bdb2-c44989d75c88 (parent: 717b1ff8-4703-4f73-a453-ba00f05f04d2) completed in 259.63s
+2025-08-27 21:32:57,841 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:32:57,843 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 90
+2025-08-27 21:32:57,854 - openevolve.database - INFO - Island Status:
+2025-08-27 21:32:57,854 - openevolve.database - INFO -    Island 0: 21 programs, best=0.4941, avg=0.0792, diversity=212.17, gen=27 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:32:57,856 - openevolve.database - INFO -  * Island 1: 15 programs, best=0.2128, avg=0.0179, diversity=359.73, gen=27 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:32:57,858 - openevolve.database - INFO -    Island 2: 14 programs, best=0.4449, avg=0.0820, diversity=900.95, gen=24 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:32:58,803 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_90
+2025-08-27 21:32:58,813 - openevolve.controller - INFO - Saved best program at checkpoint 90 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:32:58,813 - openevolve.controller - INFO - Saved checkpoint at iteration 90 to openevolve_output/checkpoints/checkpoint_90
+2025-08-27 21:33:06,378 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:33:13,824 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:33:13,827 - openevolve.process_parallel - ERROR - Error in worker iteration 89
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:33:13,849 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:33:16,152 - openevolve.evaluator - INFO - Evaluated program d29de61b-a89f-479e-aedf-d38183494bc2 in 250.62s: area_score=2.3053, delay_score=-3.0493, speed_score=0.5032, overall_score=-0.3720, failed_rate=0.0000
+2025-08-27 21:33:16,157 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:33:16,169 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:33:16,170 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:33:16,172 - openevolve.process_parallel - INFO - Iteration 86: Program d29de61b-a89f-479e-aedf-d38183494bc2 (parent: 4306b1e1-8296-4618-a2ee-6506cd26d50f) completed in 449.29s
+2025-08-27 21:33:16,173 - openevolve.process_parallel - INFO - Metrics: area_score=2.3053, delay_score=-3.0493, speed_score=0.5032, overall_score=-0.3720, failed_rate=0.0000
+2025-08-27 21:33:16,790 - openevolve.evaluator - INFO - Evaluated program bd7c412c-45f5-490e-8672-5dd32fdf31b4 in 10.41s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:33:16,793 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:33:16,808 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 5, 'diversity': 2}
+2025-08-27 21:33:16,809 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:33:16,811 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:33:16,813 - openevolve.process_parallel - INFO - Iteration 91: Program bd7c412c-45f5-490e-8672-5dd32fdf31b4 (parent: 51e369a2-dade-4831-a1ae-8db25ecf8453) completed in 66.27s
+2025-08-27 21:33:16,814 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:33:46,607 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:34:00,553 - openevolve.evaluator - INFO - Evaluated program aa6a24bb-7ebf-4e64-b65b-e60d7a7fdcdf in 13.94s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:34:00,561 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:34:00,570 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:34:00,570 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:34:00,574 - openevolve.process_parallel - INFO - Iteration 92: Program aa6a24bb-7ebf-4e64-b65b-e60d7a7fdcdf (parent: 22487d22-7d56-479e-b851-94b6c78143a2) completed in 62.73s
+2025-08-27 21:34:00,578 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:34:01,866 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:34:06,721 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:34:15,056 - openevolve.evaluator - INFO - Evaluated program da714b45-725e-46bc-a728-e55965a6e6a2 in 13.18s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:34:15,063 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:34:15,072 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:34:15,072 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:34:15,074 - openevolve.process_parallel - INFO - Iteration 95: Program da714b45-725e-46bc-a728-e55965a6e6a2 (parent: 79ac3913-93f9-402e-8028-7048bf3a9654) completed in 58.26s
+2025-08-27 21:34:15,074 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:34:16,219 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:34:16,750 - openai._base_client - INFO - Retrying request to /chat/completions in 0.446191 seconds
+2025-08-27 21:34:18,358 - openevolve.evaluator - INFO - Evaluated program be7ab7e0-6310-4986-a967-cd0ffbea7777 in 11.63s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:34:18,366 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:34:18,378 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:34:18,378 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:34:18,381 - openevolve.process_parallel - INFO - Iteration 93: Program be7ab7e0-6310-4986-a967-cd0ffbea7777 (parent: 51e369a2-dade-4831-a1ae-8db25ecf8453) completed in 64.51s
+2025-08-27 21:34:18,383 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:35:00,564 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:35:00,772 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:35:00,873 - openai._base_client - INFO - Retrying request to /chat/completions in 0.474826 seconds
+2025-08-27 21:35:07,243 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:35:15,124 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:35:15,525 - openai._base_client - INFO - Retrying request to /chat/completions in 0.413076 seconds
+2025-08-27 21:35:18,426 - openevolve.llm.openai - WARNING - Timeout on attempt 1/4. Retrying...
+2025-08-27 21:35:18,676 - openai._base_client - INFO - Retrying request to /chat/completions in 0.396642 seconds
+2025-08-27 21:36:01,928 - openai._base_client - INFO - Retrying request to /chat/completions in 0.897785 seconds
+2025-08-27 21:36:05,624 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:36:06,531 - openai._base_client - INFO - Retrying request to /chat/completions in 0.473327 seconds
+2025-08-27 21:36:16,230 - openai._base_client - INFO - Retrying request to /chat/completions in 0.984237 seconds
+2025-08-27 21:36:17,885 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:36:20,190 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:36:20,823 - openai._base_client - INFO - Retrying request to /chat/completions in 0.441317 seconds
+2025-08-27 21:36:23,436 - openevolve.llm.openai - WARNING - Timeout on attempt 2/4. Retrying...
+2025-08-27 21:36:23,708 - openai._base_client - INFO - Retrying request to /chat/completions in 0.424959 seconds
+2025-08-27 21:37:07,896 - openai._base_client - INFO - Retrying request to /chat/completions in 0.891152 seconds
+2025-08-27 21:37:10,638 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:37:14,339 - openai._base_client - INFO - Retrying request to /chat/completions in 0.391340 seconds
+2025-08-27 21:37:24,196 - openai._base_client - INFO - Retrying request to /chat/completions in 0.813983 seconds
+2025-08-27 21:37:25,202 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:37:28,500 - openevolve.llm.openai - WARNING - Timeout on attempt 3/4. Retrying...
+2025-08-27 21:37:28,842 - openai._base_client - INFO - Retrying request to /chat/completions in 0.433186 seconds
+2025-08-27 21:37:30,740 - openai._base_client - INFO - Retrying request to /chat/completions in 0.453744 seconds
+2025-08-27 21:37:52,784 - openai._base_client - INFO - Retrying request to /chat/completions in 0.919968 seconds
+2025-08-27 21:38:05,664 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:38:06,317 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:38:15,651 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:38:15,912 - openai._base_client - INFO - Retrying request to /chat/completions in 0.385033 seconds
+2025-08-27 21:38:17,230 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:38:29,677 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:38:30,357 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:38:33,509 - openevolve.llm.openai - ERROR - All 4 attempts failed with timeout
+2025-08-27 21:38:33,827 - openai._base_client - INFO - Retrying request to /chat/completions in 0.443871 seconds
+2025-08-27 21:39:04,246 - openevolve.evaluator - INFO - Evaluated program 82e5577d-5f61-4184-bda2-112dd667b929 in 10.21s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:39:04,254 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:39:04,264 - openevolve.database - INFO - New MAP-Elites cell occupied: {'complexity': 6, 'diversity': 4}
+2025-08-27 21:39:04,265 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:39:04,267 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:39:04,268 - openevolve.process_parallel - INFO - Iteration 97: Program 82e5577d-5f61-4184-bda2-112dd667b929 (parent: 51e369a2-dade-4831-a1ae-8db25ecf8453) completed in 289.18s
+2025-08-27 21:39:04,270 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:39:16,810 - openai._base_client - INFO - Retrying request to /chat/completions in 0.916555 seconds
+2025-08-27 21:39:24,058 - openevolve.evaluator - INFO - Evaluated program 5e9b8648-21b8-4d78-a877-36858edf170d in 256.81s: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 21:39:24,065 - openevolve.llm.ensemble - INFO - Sampled model: deepseek-v3-250324
+2025-08-27 21:39:24,079 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:39:24,079 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:39:24,081 - openevolve.process_parallel - INFO - Iteration 94: Program 5e9b8648-21b8-4d78-a877-36858edf170d (parent: 34841f1a-f070-46b3-b6f2-d943869101ac) completed in 367.90s
+2025-08-27 21:39:24,082 - openevolve.process_parallel - INFO - Metrics: area_score=0.0000, delay_score=0.0000, speed_score=0.0000, overall_score=0.0000, error=All trials failed
+2025-08-27 21:39:34,334 - openai._base_client - INFO - Retrying request to /chat/completions in 0.994852 seconds
+2025-08-27 21:39:44,161 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:40:18,277 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:40:18,270 - openevolve.process_parallel - ERROR - Error in worker iteration 96
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:40:22,487 - httpx - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-08-27 21:40:22,490 - openevolve.process_parallel - ERROR - Error in worker iteration 98
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 127, in _call_api
+    response = await loop.run_in_executor(
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 456, in wait_for
+    return fut.result()
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/process_parallel.py", line 180, in _run_iteration_worker
+    llm_response = asyncio.run(
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/ensemble.py", line 65, in generate_with_context
+    return await model.generate_with_context(system_message, messages, **kwargs)
+  File "/research/d5/gds/yliu22/Code/evolutionary_algorithms/openevolve/openevolve/llm/openai.py", line 104, in generate_with_context
+    response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+  File "/research/d5/gds/yliu22/Anaconda/anaconda3/envs/lodce/lib/python3.10/asyncio/tasks.py", line 458, in wait_for
+    raise exceptions.TimeoutError() from exc
+asyncio.exceptions.TimeoutError
+2025-08-27 21:40:27,040 - openevolve.evaluator - INFO - Evaluated program 5f4a38fb-9ca1-45c7-a1ea-b1530f7e50d4 in 8.76s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:40:27,058 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:40:27,058 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:40:27,060 - openevolve.process_parallel - INFO - Iteration 100: Program 5f4a38fb-9ca1-45c7-a1ea-b1530f7e50d4 (parent: 51e369a2-dade-4831-a1ae-8db25ecf8453) completed in 62.98s
+2025-08-27 21:40:27,061 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, failed_rate=0.0000
+2025-08-27 21:40:27,061 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 100
+2025-08-27 21:40:27,071 - openevolve.database - INFO - Island Status:
+2025-08-27 21:40:27,071 - openevolve.database - INFO -    Island 0: 21 programs, best=0.4941, avg=0.0792, diversity=224.98, gen=30 (best: ec974a6e-6076-439b-ae59-d58731c6f4ce)
+2025-08-27 21:40:27,071 - openevolve.database - INFO -  * Island 1: 13 programs, best=0.2128, avg=0.0207, diversity=341.27, gen=29 (best: cfe82b9d-75be-4950-841e-4198a210f0cb)
+2025-08-27 21:40:27,072 - openevolve.database - INFO -    Island 2: 16 programs, best=0.4449, avg=0.0717, diversity=900.95, gen=27 (best: 34841f1a-f070-46b3-b6f2-d943869101ac)
+2025-08-27 21:40:27,594 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_100
+2025-08-27 21:40:27,599 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:40:27,599 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to openevolve_output/checkpoints/checkpoint_100
+2025-08-27 21:43:50,330 - openevolve.evaluator - INFO - Evaluated program b473be69-2e80-4aef-b27f-09d70083d3b7 in 246.16s: area_score=1.7560, delay_score=-3.3541, speed_score=0.6908, overall_score=-0.7991, failed_rate=0.0000
+2025-08-27 21:43:50,348 - openevolve.database - INFO - Population size (51) exceeds limit (50), removing 1 programs
+2025-08-27 21:43:50,349 - openevolve.database - INFO - Population size after cleanup: 50
+2025-08-27 21:43:50,351 - openevolve.process_parallel - INFO - Iteration 99: Program b473be69-2e80-4aef-b27f-09d70083d3b7 (parent: 79ac3913-93f9-402e-8028-7048bf3a9654) completed in 286.08s
+2025-08-27 21:43:50,352 - openevolve.process_parallel - INFO - Metrics: area_score=1.7560, delay_score=-3.3541, speed_score=0.6908, overall_score=-0.7991, failed_rate=0.0000
+2025-08-27 21:43:50,355 - openevolve.process_parallel - INFO - Evolution completed
+2025-08-27 21:43:50,730 - openevolve.database - INFO - Saved database with 50 programs to openevolve_output/checkpoints/checkpoint_100
+2025-08-27 21:43:50,736 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:43:50,736 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to openevolve_output/checkpoints/checkpoint_100
+2025-08-27 21:43:50,746 - openevolve.process_parallel - INFO - Stopped process pool
+2025-08-27 21:43:50,746 - openevolve.controller - INFO - Using tracked best program: ec974a6e-6076-439b-ae59-d58731c6f4ce
+2025-08-27 21:43:50,746 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=1.2126, delay_score=-1.0404, speed_score=2.2123, overall_score=0.0861, failed_rate=0.0000
+2025-08-27 21:43:50,771 - openevolve.controller - INFO - Saved best program to openevolve_output/best/best_program.cpp with program info to openevolve_output/best/best_program_info.json

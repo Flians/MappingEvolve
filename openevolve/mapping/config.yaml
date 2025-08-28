@@ -1,0 +1,44 @@
+# Configuration for mapping
+max_iterations: 100
+checkpoint_interval: 10
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  # primary_model: "gemini-2.0-flash-lite"
+  primary_model: "deepseek-v3-250324"
+  primary_model_weight: 0.8
+  # secondary_model: "gemini-2.0-flash"
+  secondary_model: "deepseek-v3-241226"
+  secondary_model_weight: 0.2
+  # api_base: "https://generativelanguage.googleapis.com/v1beta/openai/"
+  api_base: "https://ark.cn-beijing.volces.com/api/v3"
+  temperature: 0.7
+  top_p: 0.95
+  max_tokens: 4096
+
+# Prompt configuration
+prompt:
+  system_message: "You are a senior logic synthesis and C++ template expert. Your task is to improve the search procedure used for technology mapping inside the file's // EVOLVE-BLOCK-START … // EVOLVE-BLOCK-END. The code is part of a Mockturtle-style mapper and must compile as C++17, keep all public APIs and types unchanged, and only modify code inside the EVOLVE-BLOCK. Do not touch anything after // EVOLVE-BLOCK-END."
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 400
+  cascade_evaluation: true
+  cascade_thresholds: [0.5, 0.75]
+  parallel_evaluations: 4
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false

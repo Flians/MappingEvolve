@@ -187,13 +187,13 @@ def evaluate(program_path):
         delay_values = []
         depth_values = []
         runtime_values = []
-        nec_values = []
+        nec_values = [] # what is nec?
         failed_rate = 0
 
         for trial in range(num_trials):
             try:
                 # Run with timeout
-                result = run_with_timeout_cmake(program_path, timeout_seconds=400)
+                result = run_with_timeout_cmake(program_path, timeout_seconds=1000)
                 result = json.loads(result.splitlines()[-1])
 
                 # Handle different result formats
@@ -267,22 +267,20 @@ def evaluate(program_path):
 
 
 def evaluate_stage1(program_path):
-    """Second stage evaluation with more thorough testing"""
     # Full evaluation as in the main evaluate function
     return evaluate(program_path)
 
 
 def evaluate_stage2(program_path):
-    """Second stage evaluation with more thorough testing"""
     # Full evaluation as in the main evaluate function
     return evaluate(program_path)
 
 
-if __name__ == "__main__":
-    path = "/home/flynn/workplace/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
-    try:
-        output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
-        print("Program output:", output)
-    except Exception as e:
-        print(e, file=sys.stderr)
-        sys.exit(1)
+# if __name__ == "__main__":
+#     path = "/research/d5/gds/yliu22/Code/evolutionary_algorithms/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
+#     try:
+#         output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
+#         print("Program output:", output)
+#     except Exception as e:
+#         print(e, file=sys.stderr)
+#         sys.exit(1)

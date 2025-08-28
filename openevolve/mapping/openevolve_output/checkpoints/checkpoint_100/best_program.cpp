@@ -6,6 +6,11 @@ namespace mockturtle::detail {
   template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
   template <bool DO_AREA>
   void tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::match_phase(node<Ntk> const &n, uint8_t phase) {
+    // Simplified search parameters
+    static double temperature = 100.0;
+    static const double cooling_rate = 0.97;
+    static int iteration = 0;
+    
     double best_arrival = std::numeric_limits<double>::max();
     double best_area_flow = std::numeric_limits<double>::max();
     float best_area = std::numeric_limits<float>::max();
@@ -13,6 +18,10 @@ namespace mockturtle::detail {
     uint8_t best_cut = 0u;
     uint8_t best_phase = 0u;
     uint8_t cut_index = 0u;
+    
+    // Initialize current solution
+    double current_arrival = best_arrival;
+    double current_area_flow = best_area_flow;
     auto index = ntk.node_to_index(n);
 
     auto &node_data = node_match[index];
@@ -73,14 +82,21 @@ namespace mockturtle::detail {
             continue;
         }
 
-        if (compare_map<DO_AREA>(worst_arrival, best_arrival, area_local, best_area_flow, cut->size(), best_size)) {
-          best_arrival = worst_arrival;
-          best_area_flow = area_local;
-          best_size = cut->size();
-          best_cut = cut_index;
-          best_area = gate.area;
-          best_phase = gate_polarity;
-          best_supergate = &gate;
+        bool accept = compare_map<DO_AREA>(worst_arrival, best_arrival, area_local, best_area_flow, cut->size(), best_size);
+        if (!accept && temperature > 1.0) {
+            // Simple probabilistic acceptance of worse solutions
+            double delta = (worst_arrival - best_arrival) + (area_local - best_area_flow);
+            accept = (rand() / static_cast<double>(RAND_MAX)) < exp(-delta / temperature);
+        }
+
+        if (accept) {
+            best_arrival = worst_arrival;
+            best_area_flow = area_local;
+            best_size = cut->size();
+            best_cut = cut_index;
+            best_area = gate.area;
+            best_phase = gate_polarity;
+            best_supergate = &gate;
         }
       }
 
@@ -93,6 +109,15 @@ namespace mockturtle::detail {
     node_data.best_cut[phase] = best_cut;
     node_data.phase[phase] = best_phase;
     node_data.best_supergate[phase] = best_supergate;
+
+    // Simple temperature cooling
+    temperature *= cooling_rate;
+    iteration++;
+    
+    // Occasional reset to maintain exploration
+    if (iteration % 500 == 0) {
+        temperature = 100.0;
+    }
   }
 
 } // namespace mockturtle::detail

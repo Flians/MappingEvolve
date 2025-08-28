@@ -1,11 +1,17 @@
 // EVOLVE-BLOCK-START
 /* adding comments to the code may result in better performance */
 #include "mapping.hpp"
+#include <unordered_set>
+#include <cmath>
+#include <cstdlib>
 
 namespace mockturtle::detail {
   template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
   template <bool DO_AREA>
   void tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::match_phase(node<Ntk> const &n, uint8_t phase) {
+    // Tabu list to avoid revisiting recent solutions
+    static std::unordered_set<size_t> tabu_list;
+    static const size_t max_tabu_size = 10;
     double best_arrival = std::numeric_limits<double>::max();
     double best_area_flow = std::numeric_limits<double>::max();
     float best_area = std::numeric_limits<float>::max();
@@ -39,6 +45,23 @@ namespace mockturtle::detail {
     }
 
     /* foreach cut */
+    // Diversification counter
+    static int stagnation_count = 0;
+    static const int max_stagnation = 100;
+    
+    // Check for stagnation
+    if (best_arrival == node_data.arrival[phase]) {
+      stagnation_count++;
+      if (stagnation_count > max_stagnation) {
+        // Reset search space to escape local minima
+        best_arrival = std::numeric_limits<double>::max();
+        best_area_flow = std::numeric_limits<double>::max();
+        best_area = std::numeric_limits<float>::max();
+        best_size = UINT32_MAX;
+        stagnation_count = 0;
+      }
+    }
+    
     for (auto &cut : cuts.cuts(index)) {
       /* trivial cuts or not matched cuts */
       if ((*cut)->data.ignore) {
