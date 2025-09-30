@@ -1,5 +1,4 @@
 // EVOLVE-BLOCK-START
-/* adding comments to the code may result in better performance */
 #include "mapping.hpp"
 
 namespace mockturtle::detail {
@@ -99,7 +98,7 @@ namespace mockturtle::detail {
 // EVOLVE-BLOCK-END
 
 // This part remains fixed (not evolved)
-/* self-defined function (ignoring pre-defined function in C++)*/
+// self-defined function api (ignoring pre-defined api)
 namespace mockturtle::detail {
   template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
   double tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
@@ -115,6 +114,8 @@ namespace mockturtle::detail {
     return flow;
   }
 
+#ifndef compare_map_ENABLED
+#define compare_map_ENABLED
   template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
   template <bool DO_AREA>
   bool tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
@@ -144,4 +145,5 @@ namespace mockturtle::detail {
     }
     return false;
   }
+#endif
 } // namespace mockturtle::detail

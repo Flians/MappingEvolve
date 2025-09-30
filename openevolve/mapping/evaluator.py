@@ -38,8 +38,9 @@ def build_and_run_cmake_project(
     返回：目标可执行文件运行后的标准输出（字符串）
     """
 
-    # copy program to CUR_DIR/evolve.tpp
-    shutil.copy(program_path, f"{project_dir}/mapping/evolve.tpp")
+    # copy program to CUR_DIR/PROGRAM_NAME.tpp
+    tpp_name = os.path.basename(program_path).split(".")[0]
+    shutil.copy(program_path, f"{project_dir}/mapping/{tpp_name}.tpp")
 
     project_dir = Path(project_dir).resolve()
     if not (project_dir / "CMakeLists.txt").exists():
@@ -187,7 +188,7 @@ def evaluate(program_path):
         delay_values = []
         depth_values = []
         runtime_values = []
-        nec_values = [] # what is nec?
+        nec_values = []  # what is nec?
         failed_rate = 0
 
         for trial in range(num_trials):
@@ -276,11 +277,11 @@ def evaluate_stage2(program_path):
     return evaluate(program_path)
 
 
-# if __name__ == "__main__":
-#     path = "/research/d5/gds/yliu22/Code/evolutionary_algorithms/lodce/openevolve/mapping/initial_program.cpp"  # 假设 func 目录下有 CMakeLists.txt
-#     try:
-#         output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
-#         print("Program output:", output)
-#     except Exception as e:
-#         print(e, file=sys.stderr)
-#         sys.exit(1)
+if __name__ == "__main__":
+    path = "./openevolve/mapping/match_phase.cpp"  # 假设 func 目录下有 CMakeLists.txt
+    try:
+        output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
+        print("Program output:", output)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sys.exit(1)

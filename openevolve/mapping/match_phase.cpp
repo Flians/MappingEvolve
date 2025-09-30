@@ -114,6 +114,8 @@ namespace mockturtle::detail {
     return flow;
   }
 
+#ifndef compare_map_ENABLED
+#define compare_map_ENABLED
   template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
   template <bool DO_AREA>
   bool tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
@@ -143,4 +145,5 @@ namespace mockturtle::detail {
     }
     return false;
   }
+#endif
 } // namespace mockturtle::detail
