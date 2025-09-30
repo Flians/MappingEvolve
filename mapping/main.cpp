@@ -60,37 +60,74 @@ inline bool abc_cec_impl(Ntk const &ntk, std::string const &benchmark_fullpath) 
   return false;
 }
 
+inline bool abc_compress2(const std::string &aigPath, mockturtle::aig_network &ntk_out) {
+  // Generate a random output AIG filename in the system temp directory
+#ifdef _WIN32
+  const char *env_tmp = std::getenv("TEMP");
+  const std::string tmp_dir = env_tmp ? env_tmp : ".";
+#else
+  const char *env_tmp = std::getenv("TMPDIR");
+  const std::string tmp_dir = env_tmp ? env_tmp : "/tmp";
+#endif
+  std::random_device rd;
+  std::mt19937_64 gen(rd());
+  std::uniform_int_distribution<uint64_t> dis;
+  const auto r = dis(gen);
+  const std::string out_aig = fmt::format("{}/abc_compress2_{:016x}.aig", tmp_dir, r);
+
+  std::string command = fmt::format("yosys-abc -q \"read_aiger {}; balance -l; rewrite -l; refactor -l; balance -l; rewrite -l; rewrite -z -l; balance -l; refactor -z -l; rewrite -z -l; balance -l; write_aiger {}\"", aigPath, out_aig);
+
+  std::array<char, 128> buffer;
+  std::string result;
+#if WIN32
+  std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
+#else
+  std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
+#endif
+  if (!pipe) {
+    throw std::runtime_error("popen() failed");
+  }
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+    result += buffer.data();
+  }
+#if defined(_WIN32)
+  int exit_code = _pclose(pipe.release());
+#else
+  int status = pclose(pipe.release());
+  int exit_code = -1;
+  if (status != -1) {
+    if (WIFEXITED(status)) {
+      exit_code = WEXITSTATUS(status);
+    } else {
+      exit_code = -1; // abnormal termination
+    }
+  }
+#endif
+
+  // Check exit code and that output file was produced
+  bool ok = (exit_code == 0);
+  if (!ok) {
+    fmt::print(stderr, "abc_compress2: command failed (exit {})\nCommand: {}\nOutput:{}\n",
+               exit_code, command, result);
+    return false;
+  }
+
+  return lorina::read_aiger(out_aig, mockturtle::aiger_reader(ntk_out)) == lorina::return_code::success;
+}
+
 void synthesis(const mockturtle::tech_library<5, mockturtle::classification_type::np_configurations> &tech_lib, const std::string &aigPath, const std::string &verilogPath, std::vector<double> &results) {
   results.resize(6, 0);
 
-  /* read aig */
+  /* read aig and do abc compress */
+  // auto start = std::chrono::high_resolution_clock::now();
   mockturtle::aig_network aig;
-  if (lorina::read_aiger(aigPath, mockturtle::aiger_reader(aig)) != lorina::return_code::success) {
+  if (!abc_compress2(aigPath, aig)) {
     return;
   }
-  // const uint32_t size_before = aig.num_gates();
-  // const uint32_t depth_before = mockturtle::depth_view(aig).depth();
-  // auto start = std::chrono::high_resolution_clock::now();
-
-  mockturtle::lut_mapping_params ps;
-  ps.cut_enumeration_ps.cut_size = 4u;
-  mockturtle::lut_mapping_stats st_lut;
-  // collapse into k-LUT network
-  mockturtle::mapping_view<mockturtle::aig_network, true> mapped_aig{aig};
-  mockturtle::lut_mapping<decltype(mapped_aig), true>(mapped_aig, ps, &st_lut);
-  mockturtle::klut_network klut = *mockturtle::collapse_mapped_network<mockturtle::klut_network>(mapped_aig);
-  // node resynthesis
-  mockturtle::exact_resynthesis_params ps_exact;
-  ps_exact.cache = std::make_shared<mockturtle::exact_resynthesis_params::cache_map_t>();
-  mockturtle::exact_aig_resynthesis<mockturtle::aig_network> exact_resyn(false, ps_exact);
-  mockturtle::node_resynthesis_stats nrst;
-  mockturtle::dsd_resynthesis<mockturtle::aig_network, decltype(exact_resyn)> resyn(exact_resyn);
-  aig = mockturtle::node_resynthesis<mockturtle::aig_network>(klut, resyn, {}, &nrst);
   // auto cec1 = abc_cec_impl(aig, aigPath);
   // auto end = std::chrono::high_resolution_clock::now();
-  // auto resyn_time = std::chrono::duration<double>(end - start).count();
   // std::cout << std::fixed << std::setprecision(2);
-  // std::cout << "resyn runtime: " << resyn_time << std::endl;
+  // std::cout << "resyn runtime: " << std::chrono::duration<double>(end - start).count() << std::endl;
 
   /* library to map to technology */
   mockturtle::map_params ps2;
@@ -139,21 +176,20 @@ int main(int argc, char *argv[]) {
   } else {
     std::vector<double> total(6, 0);
     const std::map<std::string, std::vector<double>> baselines = {
-        {"c17", {0.530000, 6.000000, 42.660000, 2.000000, 0.000267}},
-        {"c432", {18.100000, 175.000000, 330.510002, 15.000000, 0.022387}},
-        {"c499", {40.910000, 364.000000, 295.020002, 12.000000, 0.013557}},
-        {"c880", {24.310000, 220.000000, 316.219999, 13.000000, 0.013352}},
-        {"c1355", {41.240000, 361.000000, 294.730001, 12.000000, 0.013666}},
-        {"c1908", {30.390000, 280.000000, 433.749994, 18.000000, 0.011652}},
-        {"c2670", {48.140000, 470.000000, 255.770004, 12.000000, 0.027633}},
-        {"c3540", {66.440000, 604.000000, 425.960001, 19.000000, 0.054315}},
-        {"c5315", {111.520001, 1102.000000, 406.700001, 19.000000, 0.037087}},
-        {"c6288", {249.930001, 2403.000000, 969.780003, 47.000000, 0.058662}},
-        {"c7552", {113.800000, 1144.000000, 383.960003, 18.000000, 0.061442}}};
+        {"c17", {0.530000, 6.000000, 42.660000, 2.000000, 0.000510}},
+        {"c432", {10.250000, 101.000000, 296.930000, 12.000000, 0.015735}},
+        {"c499", {41.000000, 360.000000, 258.300003, 12.000000, 0.027755}},
+        {"c880", {20.580000, 194.000000, 266.590000, 12.000000, 0.022746}},
+        {"c1355", {38.630000, 341.000000, 259.000002, 11.000000, 0.027446}},
+        {"c1908", {25.730000, 228.000000, 305.950001, 13.000000, 0.027218}},
+        {"c2670", {38.630000, 385.000000, 243.280003, 12.000000, 0.046496}},
+        {"c3540", {66.170000, 613.000000, 425.870005, 20.000000, 0.057508}},
+        {"c5315", {84.450000, 831.000000, 324.750002, 15.000000, 0.043446}},
+        {"c6288", {195.570001, 1692.000000, 1037.720007, 46.000000, 0.053225}},
+        {"c7552", {95.630000, 951.000000, 557.130003, 26.000000, 0.064268}}};
     for (auto const &benchmark : experiments::iscas_benchmarks()) {
-      // printf("[i] processing %s\n", benchmark.c_str());
       synthesis(tech_lib, experiments::benchmark_path(benchmark), "", results);
-      // printf("{area: %f, gates: %f, delay: %f, depth: %f, runtime: %f, nec: %f}\n", results[0], results[1], results[2], results[3], results[4], results[5]);
+      // printf("%s: {area: %f, gates: %f, delay: %f, depth: %f, runtime: %f, nec: %f}\n", benchmark.c_str(), results[0], results[1], results[2], results[3], results[4], results[5]);
       const auto &baseline = baselines.at(benchmark);
       for (size_t i = 0; i < results.size() - 1; ++i) {
         total[i] += (baseline[i] - results[i]) / baseline[i];
