@@ -278,7 +278,9 @@ def evaluate_stage2(program_path):
 
 
 if __name__ == "__main__":
-    path = "./openevolve/mapping/match_phase.cpp"  # 假设 func 目录下有 CMakeLists.txt
+    all_names = ["match_phase", "match_phase_exact", "match_drop_phase"]
+    name = all_names[1]
+    path = f"./openevolve/mapping/{name}.cpp"
     try:
         output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
         print("Program output:", output)
