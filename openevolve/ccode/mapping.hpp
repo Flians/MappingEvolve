@@ -623,7 +623,19 @@ namespace mockturtle {
       template <bool DO_AREA, bool ELA>
       void match_drop_phase(node<Ntk> const &n, float required_margin_factor);
 
-      inline void set_match_complemented_phase(uint32_t index, uint8_t phase, double worst_arrival_n);
+      inline void set_match_complemented_phase(uint32_t index, uint8_t phase, double worst_arrival_n) {
+        auto &node_data = node_match[index];
+        auto phase_n = phase ^ 1;
+        node_data.same_match = true;
+        node_data.best_supergate[phase_n] = nullptr;
+        node_data.best_cut[phase_n] = node_data.best_cut[phase];
+        node_data.phase[phase_n] = node_data.phase[phase];
+        node_data.arrival[phase_n] = worst_arrival_n;
+        node_data.area[phase_n] = node_data.area[phase];
+        node_data.flows[phase] = node_data.flows[phase] / node_data.est_refs[2];
+        node_data.flows[phase_n] = node_data.flows[phase];
+        node_data.flows[2] = node_data.flows[phase];
+      }
 
       void match_constants(uint32_t index) {
         auto &node_data = node_match[index];
@@ -662,13 +674,126 @@ namespace mockturtle {
         }
       }
 
-      double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        double flow{0.0f};
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+
+        uint8_t ctr = 0u;
+        for (auto leaf : cut) {
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+          flow += node_match[leaf].flows[leaf_phase];
+        }
+
+        return flow;
+      }
 
       template <bool SwitchActivity>
-      float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+        float count;
+
+        if constexpr (SwitchActivity)
+          count = switch_activity[ntk.node_to_index(n)];
+        else
+          count = node_data.area[phase];
+
+        uint8_t ctr = 0;
+        for (auto leaf : cut) {
+          /* compute leaf phase using the current gate */
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+
+          if (ntk.is_constant(ntk.index_to_node(leaf))) {
+            continue;
+          } else if (ntk.is_ci(ntk.index_to_node(leaf))) {
+            /* reference PIs, add inverter cost for negative phase */
+            if (leaf_phase == 1u) {
+              if (node_match[leaf].map_refs[1]++ == 0u) {
+                if constexpr (SwitchActivity)
+                  count += switch_activity[leaf];
+                else
+                  count += lib_inv_area;
+              }
+            } else {
+              ++node_match[leaf].map_refs[0];
+            }
+            continue;
+          }
+
+          if (node_match[leaf].same_match) {
+            /* Add inverter area if not present yet and leaf node is implemented in the opposite phase */
+            if (node_match[leaf].map_refs[leaf_phase]++ == 0u && node_match[leaf].best_supergate[leaf_phase] == nullptr) {
+              if constexpr (SwitchActivity)
+                count += switch_activity[leaf];
+              else
+                count += lib_inv_area;
+            }
+            /* Recursive referencing if leaf was not referenced */
+            if (node_match[leaf].map_refs[2]++ == 0u) {
+              count += cut_ref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          } else {
+            ++node_match[leaf].map_refs[2];
+            if (node_match[leaf].map_refs[leaf_phase]++ == 0u) {
+              count += cut_ref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          }
+        }
+        return count;
+      }
 
       template <bool SwitchActivity>
-      float cut_deref(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      float cut_deref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+        float count;
+
+        if constexpr (SwitchActivity)
+          count = switch_activity[ntk.node_to_index(n)];
+        else
+          count = node_data.area[phase];
+
+        uint8_t ctr = 0;
+        for (auto leaf : cut) {
+          /* compute leaf phase using the current gate */
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+
+          if (ntk.is_constant(ntk.index_to_node(leaf))) {
+            continue;
+          } else if (ntk.is_ci(ntk.index_to_node(leaf))) {
+            /* dereference PIs, add inverter cost for negative phase */
+            if (leaf_phase == 1u) {
+              if (--node_match[leaf].map_refs[1] == 0u) {
+                if constexpr (SwitchActivity)
+                  count += switch_activity[leaf];
+                else
+                  count += lib_inv_area;
+              }
+            } else {
+              --node_match[leaf].map_refs[0];
+            }
+            continue;
+          }
+
+          if (node_match[leaf].same_match) {
+            /* Add inverter area if it is used only by the current gate and leaf node is implemented in the opposite phase */
+            if (--node_match[leaf].map_refs[leaf_phase] == 0u && node_match[leaf].best_supergate[leaf_phase] == nullptr) {
+              if constexpr (SwitchActivity)
+                count += switch_activity[leaf];
+              else
+                count += lib_inv_area;
+            }
+            /* Recursive dereferencing */
+            if (--node_match[leaf].map_refs[2] == 0u) {
+              count += cut_deref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          } else {
+            --node_match[leaf].map_refs[2];
+            if (--node_match[leaf].map_refs[leaf_phase] == 0u) {
+              count += cut_deref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          }
+        }
+        return count;
+      }
 
       void insert_buffers() {
         if (lib_buf_id != UINT32_MAX) {
@@ -849,7 +974,33 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size);
+      bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
+        if constexpr (DO_AREA) {
+          if (area_flow < best_area_flow - epsilon) {
+            return true;
+          } else if (area_flow > best_area_flow + epsilon) {
+            return false;
+          } else if (arrival < best_arrival - epsilon) {
+            return true;
+          } else if (arrival > best_arrival + epsilon) {
+            return false;
+          }
+        } else {
+          if (arrival < best_arrival - epsilon) {
+            return true;
+          } else if (arrival > best_arrival + epsilon) {
+            return false;
+          } else if (area_flow < best_area_flow - epsilon) {
+            return true;
+          } else if (area_flow > best_area_flow + epsilon) {
+            return false;
+          }
+        }
+        if (size < best_size) {
+          return true;
+        }
+        return false;
+      }
 
       double compute_switching_power() {
         double power = 0.0f;
@@ -993,7 +1144,3 @@ namespace mockturtle {
   }
 
 } /* namespace mockturtle */
-
-#include "match_drop_phase.tpp"
-#include "match_phase.tpp"
-#include "match_phase_exact.tpp"
