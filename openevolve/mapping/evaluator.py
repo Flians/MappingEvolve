@@ -19,7 +19,7 @@ class BuildRunError(Exception):
 
 
 def build_and_run_cmake_project(
-    program_path: str | os.PathLike,
+    program_path: str | os.PathLike | list[str | os.PathLike],
     project_dir: str | os.PathLike = f'{CUR_DIR}/../../',
     build_type: str = "Release",
     generator: str | None = None,
@@ -39,8 +39,11 @@ def build_and_run_cmake_project(
     """
 
     # copy program to CUR_DIR/PROGRAM_NAME.tpp
-    tpp_name = os.path.basename(program_path).split(".")[0]
-    shutil.copy(program_path, f"{project_dir}/mapping/{tpp_name}.tpp")
+    if not isinstance(program_path, list):
+        program_path = [program_path]
+    for p in program_path:
+        tpp_name = os.path.basename(p).split(".")[0]
+        shutil.copy(p, f"{project_dir}/mapping/{tpp_name}.tpp")
 
     project_dir = Path(project_dir).resolve()
     if not (project_dir / "CMakeLists.txt").exists():
@@ -149,7 +152,7 @@ def build_and_run_cmake_project(
 
 
 # 将原先基于线程池的超时包装，改为编译并运行
-def run_with_timeout_cmake(program_path: str, timeout_seconds: float) -> str:
+def run_with_timeout_cmake(program_path: str | list[str], timeout_seconds: float) -> str:
     """
     program_path: CMake 项目路径（包含 CMakeLists.txt）
     返回：可执行文件的 stdout 字符串
@@ -168,13 +171,13 @@ def run_with_timeout_cmake(program_path: str, timeout_seconds: float) -> str:
             raise BuildRunError(f"Unexpected error: {e}") from e
 
 
-def evaluate(program_path):
+def evaluate(program_path: str | list[str]):
     """
     Evaluate the program by running it multiple times and checking how close
     it gets to the known global minimum.
 
     Args:
-        program_path: Path to the program file
+        program_path: Path to the program files
 
     Returns:
         Dictionary of metrics
@@ -279,10 +282,11 @@ def evaluate_stage2(program_path):
 
 if __name__ == "__main__":
     all_names = ["match_phase", "match_phase_exact", "match_drop_phase"]
-    name = all_names[1]
-    path = f"./openevolve/mapping/{name}.cpp"
+    paths = []
+    for name in all_names:
+        paths.append(f"./openevolve/mapping/{name}.cpp")
     try:
-        output = evaluate(path)  # run_with_timeout_cmake(path, timeout_seconds=400)
+        output = evaluate(paths)  # run_with_timeout_cmake(path, timeout_seconds=400)
         print("Program output:", output)
     except Exception as e:
         print(e, file=sys.stderr)
