@@ -7,11 +7,11 @@ Usage:
 
 Arguments:
     source_hpp_file: Path to the source hpp file to read from
-    n: Number of last lines (default: 1)
+    n: Number of lines to exclude from the end
 
 Example:
     python append_hpp_code.py /path/to/source.hpp 3
-    This will append the last 3 lines from source.hpp to mapping.hpp
+    This will append all but the last 3 lines from source.hpp to mapping.hpp
 """
 
 import shutil
@@ -28,7 +28,7 @@ def append_hpp_code(output_mapping_path: str, source_file_path: str, n: int, map
     Args:
         source_file_path (str): Path to the source hpp file
         output_mapping_path (str): Path to the output mapping.hpp file
-        n (int): Number of last lines to append (default: 1)
+        n (int): Number of lines to exclude from the end
     """
     # Get the directory of this script (openevolve/ccode)
     if mapping_hpp_path is None or not os.path.exists(mapping_hpp_path):
@@ -48,11 +48,11 @@ def append_hpp_code(output_mapping_path: str, source_file_path: str, n: int, map
         with open(source_path, 'r', encoding='utf-8') as f:
             source_lines = f.readlines()
 
-        # Get [-n:] lines (the last n lines)
-        if n >= len(source_lines):
+        # Get [:-n] lines (all but the last n lines)
+        if n <= 0:
             lines_to_append = source_lines
         else:
-            lines_to_append = source_lines[-n:]
+            lines_to_append = source_lines[3:-n]
 
         # Check if there are lines to append
         if not lines_to_append:
@@ -67,7 +67,7 @@ def append_hpp_code(output_mapping_path: str, source_file_path: str, n: int, map
         append_content = ''.join(lines_to_append)
 
         # Add a comment separator for clarity
-        separator = f"\n\n// ===== Appended from {source_path.name} (from last {n} lines) =====\n"
+        separator = f"\n\n// ===== Appended from {source_path.name} (excluding last {n} lines) =====\n"
 
         # Append to mapping.hpp
         with open(output_mapping_path, 'a', encoding='utf-8') as f:
@@ -85,12 +85,12 @@ def append_hpp_code(output_mapping_path: str, source_file_path: str, n: int, map
 
 def merge_all_codes(output_mapping_path: str, file_list: list[str]):
     """
-    Merge multiple hpp files into mapping.hpp by appending [-n:] lines from each file
+    Merge multiple hpp files into mapping.hpp by appending [:-n] lines from each file
 
     Args:
         file_list (list[str]): List of paths to source hpp files
         output_mapping_path (str): Path to the output mapping.hpp file
-        n (int): Number of last lines to append (default: 1)
+        n (int): Number of lines to exclude from the end (default: 1)
     """
     current_out_file = None
     for source_file in file_list:
