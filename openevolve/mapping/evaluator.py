@@ -18,6 +18,20 @@ class BuildRunError(Exception):
     pass
 
 
+def find_matching_function(file_path: str, encoding: str = "utf-8") -> str:
+    p = Path(file_path)
+    if not p.is_file():
+        raise FileNotFoundError(f"File not found: {file_path}")
+    all_names = ["match_phase(", "match_phase_exact(", "match_drop_phase("]
+    # 逐行读取，节省内存
+    with p.open("r", encoding=encoding, errors="ignore") as f:
+        for line in f:
+            for item in all_names:
+                if item in line:
+                    return item
+    return None
+
+
 def is_same_path_robust(p1: str, p2: str) -> bool:
     """
     优先用 samefile（存在且可访问时，语义=同一文件实体）。
@@ -60,8 +74,8 @@ def build_and_run_cmake_project(
     if not isinstance(program_path, list):
         program_path = [program_path]
     for p in program_path:
-        tpp_name = os.path.basename(p).split(".")[0]
-        if not is_same_path_robust(p, f"{project_dir}/mapping/{tpp_name}.tpp"):
+        tpp_name = find_matching_function(p)
+        if tpp_name:
             shutil.copy(p, f"{project_dir}/mapping/{tpp_name}.tpp")
 
     project_dir = Path(project_dir).resolve()
@@ -304,7 +318,6 @@ if __name__ == "__main__":
     paths = []
     for name in all_names:
         paths.append(f"./openevolve/mapping/{name}.cpp")
-    paths = 'mapping/tmpxi1k02e1.tpp'
     try:
         output = evaluate(paths)  # run_with_timeout_cmake(path, timeout_seconds=400)
         print("Program output:", output)
