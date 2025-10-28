@@ -28,7 +28,7 @@ def find_matching_function(file_path: str, encoding: str = "utf-8") -> str:
         for line in f:
             for item in all_names:
                 if item in line:
-                    return item
+                    return item[:-1]
     return None
 
 
