@@ -10,6 +10,7 @@ from pathlib import Path
 import time
 import json
 import traceback
+import tempfile
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,24 +31,6 @@ def find_matching_function(file_path: str, encoding: str = "utf-8") -> str:
                 if item in line:
                     return item[:-1]
     return None
-
-
-def is_same_path_robust(p1: str, p2: str) -> bool:
-    """
-    优先用 samefile（存在且可访问时，语义=同一文件实体）。
-    若不存在或拒绝访问，则退化为跨平台的规范化字符串比较。
-    """
-    try:
-        return Path(p1).resolve(strict=True).samefile(Path(p2))
-    except Exception:
-        # 不存在或权限问题则退化
-        def norm(p: str) -> str:
-            s = os.path.normpath(os.path.abspath(p))
-            if os.name == "nt":
-                s = s.lower()
-            return s.rstrip("\/")
-
-        return norm(p1) == norm(p2)
 
 
 def build_and_run_cmake_project(
@@ -73,115 +56,124 @@ def build_and_run_cmake_project(
     # copy program to CUR_DIR/PROGRAM_NAME.tpp
     if not isinstance(program_path, list):
         program_path = [program_path]
-    for p in program_path:
-        tpp_name = find_matching_function(p)
-        if tpp_name:
-            shutil.copy(p, f"{project_dir}/mapping/{tpp_name}.tpp")
 
-    project_dir = Path(project_dir).resolve()
-    if not (project_dir / "CMakeLists.txt").exists():
-        raise BuildRunError(f"CMakeLists.txt not found in {project_dir}")
+    src = Path(f'{project_dir}/mapping').resolve()
+    src_CMakeLists = Path(f'{project_dir}/CMakeLists.txt').resolve()
+    src_mockturtule = Path(f'{project_dir}/third-party/mockturtle').resolve()
+    src_third_CMakeLists = Path(f'{project_dir}/third-party/CMakeLists.txt').resolve()
+    with tempfile.TemporaryDirectory(prefix="mapping_") as tmpdir:
+        tmp_path = Path(tmpdir)
+        dst = tmp_path / src.name
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+        shutil.copy2(src_CMakeLists, tmp_path / "CMakeLists.txt")
+        shutil.copytree(src_mockturtule, tmp_path / "third-party/mockturtle", dirs_exist_ok=True)
+        shutil.copy2(src_third_CMakeLists, tmp_path / "third-party/CMakeLists.txt")
 
-    build_dir = project_dir / "build"
-    build_dir.mkdir(exist_ok=True)
+        for p in program_path:
+            tpp_name = find_matching_function(p)
+            if tpp_name:
+                shutil.copy(p, f"{dst}/{tpp_name}.tpp")
 
-    chosen_generator = generator
-    if chosen_generator is None:
-        if os.name != "nt":
-            chosen_generator = "Unix Makefiles"
-        else:
-            if shutil.which("ninja"):
-                chosen_generator = "Ninja"
+        build_dir = tmp_path / "build"
+        build_dir.mkdir(exist_ok=True)
 
-    cmake_config_cmd = ["cmake", "-S", str(project_dir), "-B", str(build_dir), "-DCMAKE_BUILD_TYPE=" + build_type]
-    if chosen_generator:
-        cmake_config_cmd.extend(["-G", chosen_generator])
+        chosen_generator = generator
+        if chosen_generator is None:
+            if os.name != "nt":
+                chosen_generator = "Unix Makefiles"
+            else:
+                if shutil.which("ninja"):
+                    chosen_generator = "Ninja"
 
-    # 配置
-    run_env = os.environ.copy()
-    if env:
-        run_env.update(env)
+        cmake_config_cmd = ["cmake", "-S", str(tmp_path), "-B", str(build_dir), "-DCMAKE_BUILD_TYPE=" + build_type]
+        if chosen_generator:
+            cmake_config_cmd.extend(["-G", chosen_generator])
 
-    try:
-        subprocess.run(
-            cmake_config_cmd,
-            check=True,
-            cwd=str(project_dir),
-            env=run_env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-    except subprocess.CalledProcessError as e:
-        raise BuildRunError(f"CMake configure failed:\n{e.stdout}") from e
+        # 配置
+        run_env = os.environ.copy()
+        if env:
+            run_env.update(env)
 
-    # 构建
-    cmake_build_cmd = ["cmake", "--build", str(build_dir), "--config", build_type]
-    if target:
-        cmake_build_cmd.extend(["--target", target])
+        try:
+            subprocess.run(
+                cmake_config_cmd,
+                check=True,
+                cwd=str(tmp_path),
+                env=run_env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+        except subprocess.CalledProcessError as e:
+            raise BuildRunError(f"CMake configure failed:\n{e.stdout}") from e
 
-    try:
-        build_proc = subprocess.run(
-            cmake_build_cmd,
-            check=True,
-            cwd=str(project_dir),
-            env=run_env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-    except subprocess.CalledProcessError as e:
-        raise BuildRunError(f"CMake build failed:\n{e.stdout}") from e
+        # 构建
+        cmake_build_cmd = ["cmake", "--build", str(build_dir), "--config", build_type, "-j", "9"]
+        if target:
+            cmake_build_cmd.extend(["--target", target])
 
-    # 寻找可执行文件
-    exe_path = None
+        try:
+            build_proc = subprocess.run(
+                cmake_build_cmd,
+                check=True,
+                cwd=str(tmp_path),
+                env=run_env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+        except subprocess.CalledProcessError as e:
+            raise BuildRunError(f"CMake build failed:\n{e.stdout}") from e
 
-    def is_executable(p: Path) -> bool:
-        if os.name == "nt":
-            return p.suffix.lower() == ".exe" and p.is_file()
-        return p.is_file() and os.access(p, os.X_OK)
+        # 寻找可执行文件
+        exe_path = None
 
-    candidates: list[Path] = []
+        def is_executable(p: Path) -> bool:
+            if os.name == "nt":
+                return p.suffix.lower() == ".exe" and p.is_file()
+            return p.is_file() and os.access(p, os.X_OK)
 
-    # 常见输出目录尝试：对于多配置生成器（如 VS/Ninja Multi-Config）会在子目录下放置
-    likely_dirs = [
-        build_dir,
-        build_dir / build_type,
-        build_dir / "bin",
-        build_dir / "src",
-    ]
+        candidates: list[Path] = []
 
-    for d in likely_dirs:
-        if d.exists():
-            for p in d.rglob("*"):
-                if is_executable(p):
-                    candidates.append(p)
+        # 常见输出目录尝试：对于多配置生成器（如 VS/Ninja Multi-Config）会在子目录下放置
+        likely_dirs = [
+            build_dir,
+            build_dir / build_type,
+            build_dir / "bin",
+            build_dir / "src",
+        ]
 
-    if exe_name_hint:
-        # 按名称提示过滤
-        filtered = [p for p in candidates if exe_name_hint.lower() in p.name.lower()]
-        if filtered:
-            exe_path = sorted(filtered, key=lambda p: p.stat().st_mtime, reverse=True)[0]
-    if exe_path is None and candidates:
-        exe_path = sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
+        for d in likely_dirs:
+            if d.exists():
+                for p in d.rglob("*"):
+                    if is_executable(p):
+                        candidates.append(p)
 
-    if exe_path is None:
-        raise BuildRunError("Executable not found in build outputs. Provide exe_name_hint or target.")
+        if exe_name_hint:
+            # 按名称提示过滤
+            filtered = [p for p in candidates if exe_name_hint.lower() in p.name.lower()]
+            if filtered:
+                exe_path = sorted(filtered, key=lambda p: p.stat().st_mtime, reverse=True)[0]
+        if exe_path is None and candidates:
+            exe_path = sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
-    # run
-    try:
-        run_proc = subprocess.run(
-            [str(exe_path), f"{CUR_DIR}/../../third-party/mockturtle/experiments/cell_libraries/asap7.genlib"],
-            check=True,
-            cwd=str(exe_path.parent),
-            env=run_env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-        return run_proc.stdout
-    except subprocess.CalledProcessError as e:
-        raise BuildRunError(f"Executable returned non-zero exit code:\n{e.stdout}") from e
+        if exe_path is None:
+            raise BuildRunError("Executable not found in build outputs. Provide exe_name_hint or target.")
+
+        # run
+        try:
+            run_proc = subprocess.run(
+                [str(exe_path), f"{CUR_DIR}/../../third-party/mockturtle/experiments/cell_libraries/asap7.genlib"],
+                check=True,
+                cwd=str(exe_path.parent),
+                env=run_env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+            return run_proc.stdout
+        except subprocess.CalledProcessError as e:
+            raise BuildRunError(f"Executable returned non-zero exit code:\n{e.stdout}") from e
 
 
 # 将原先基于线程池的超时包装，改为编译并运行

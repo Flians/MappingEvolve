@@ -16,5 +16,5 @@ else()
 endif()
 
 add_subdirectory(third-party)
-add_subdirectory(rewrite)
+#add_subdirectory(rewrite)
 add_subdirectory(mapping)
