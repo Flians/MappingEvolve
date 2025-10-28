@@ -18,6 +18,24 @@ class BuildRunError(Exception):
     pass
 
 
+def is_same_path_robust(p1: str, p2: str) -> bool:
+    """
+    优先用 samefile（存在且可访问时，语义=同一文件实体）。
+    若不存在或拒绝访问，则退化为跨平台的规范化字符串比较。
+    """
+    try:
+        return Path(p1).resolve(strict=True).samefile(Path(p2))
+    except Exception:
+        # 不存在或权限问题则退化
+        def norm(p: str) -> str:
+            s = os.path.normpath(os.path.abspath(p))
+            if os.name == "nt":
+                s = s.lower()
+            return s.rstrip("\/")
+
+        return norm(p1) == norm(p2)
+
+
 def build_and_run_cmake_project(
     program_path: str | os.PathLike | list[str | os.PathLike],
     project_dir: str | os.PathLike = f'{CUR_DIR}/../../',
@@ -43,7 +61,8 @@ def build_and_run_cmake_project(
         program_path = [program_path]
     for p in program_path:
         tpp_name = os.path.basename(p).split(".")[0]
-        shutil.copy(p, f"{project_dir}/mapping/{tpp_name}.tpp")
+        if not is_same_path_robust(p, f"{project_dir}/mapping/{tpp_name}.tpp"):
+            shutil.copy(p, f"{project_dir}/mapping/{tpp_name}.tpp")
 
     project_dir = Path(project_dir).resolve()
     if not (project_dir / "CMakeLists.txt").exists():
@@ -285,6 +304,7 @@ if __name__ == "__main__":
     paths = []
     for name in all_names:
         paths.append(f"./openevolve/mapping/{name}.cpp")
+    paths = 'mapping/tmpxi1k02e1.tpp'
     try:
         output = evaluate(paths)  # run_with_timeout_cmake(path, timeout_seconds=400)
         print("Program output:", output)
