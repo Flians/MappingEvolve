@@ -1,7 +1,5 @@
 import concurrent.futures
 import numpy as np
-
-import concurrent.futures
 import subprocess
 import sys
 import os
@@ -275,12 +273,14 @@ def evaluate(program_path: str | list[str]):
         avg_delay = float(np.mean(delay_values))
         avg_time = float(np.mean(runtime_values))
         overall_score = alpha * avg_area + (1 - alpha) * avg_delay
+        combined_score = alpha * avg_area + (1 - alpha) * avg_time
 
         return {
             "area_score": avg_area,
             "delay_score": avg_delay,
             "speed_score": avg_time,
             "overall_score": overall_score,  # This will be the primary selection metric
+            "combined_score": combined_score,
             "failed_rate": failed_rate,
         }
     except Exception as e:
@@ -291,6 +291,7 @@ def evaluate(program_path: str | list[str]):
             "delay_score": 0.0,
             "speed_score": 0.0,
             "overall_score": 0.0,
+            "combined_score": 0.0,
             "error": str(e),
         }
 
