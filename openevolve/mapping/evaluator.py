@@ -194,7 +194,7 @@ def run_with_timeout_cmake(program_path: str | list[str], timeout_seconds: float
             raise BuildRunError(f"Unexpected error: {e}") from e
 
 
-def evaluate(program_path: str | list[str]):
+def evaluate(program_path):
     """
     Evaluate the program by running it multiple times and checking how close
     it gets to the known global minimum.
