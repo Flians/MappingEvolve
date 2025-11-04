@@ -33,13 +33,17 @@ Follow these reasoning steps before producing your final plan:
    Review the logic flow of the full mapping algorithm (especially `mapping_all.hpp`) to understand where and how the target file participates in the overall process.
 
 2. **Focus on the Target Evolution Point**  
-   Analyze only the specified evolution point file. Identify its primary function(s) and decision-making logic. For example:  
-   - `match_phase.cpp`: handles delay mapping and area-flow estimation.  
-   - `match_phase_exact.cpp`: performs final exact area/power optimization.  
-   - `match_drop_phase.cpp`: merges matches and unifies positive/negative phases.
+   Analyze only the specified evolution point file. Identify its primary function(s) and decision-making logic within the overall mapping context:  
+   - `match_phase.cpp`: Handles initial delay mapping and area-flow estimation; sets foundation for later optimization phases  
+   - `match_phase_exact.cpp`: Performs precise area/power optimization using cut_ref/cut_deref; refines earlier estimations  
+   - `match_drop_phase.cpp`: Makes final phase unification decisions; balances area savings vs. delay penalties from inverters
 
 3. **Model Its Dependencies**  
-   Build a mental map of how this component interacts with other parts of the mapping flow — e.g., how changes in `match_phase` affect `match_phase_exact`, or how `match_drop_phase` influences logic sharing and inverter insertion.
+   Build a mental map of how this component interacts with other parts of the mapping flow:
+   - How do changes in `match_phase` affect `match_phase_exact` and `match_drop_phase`?
+   - What data structures and metrics flow between these phases?
+   - How do modifications impact logic sharing, inverter insertion, and timing closure?
+   - Consider both upstream dependencies (what this function needs) and downstream effects (what depends on this function's output)
 
 4. **Propose a Targeted Evolution Step**  
    Based on your analysis and the assigned persona, propose a **single, well-motivated modification step** that advances the optimization goal.  
@@ -90,18 +94,18 @@ Use the following format:
   "target_file": "match_phase.cpp",
   "persona": "Area Optimizer",
   "evolution_step": {
-    "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), cost computation for area_local.",
-    "objective": "Refine the area-flow cost metric to better account for logic sharing potential.",
-    "direction_and_strategy": "Incorporate a reference-aware normalization in the flow calculation — e.g., divide leaf flow by estimated reference count to favor shared nodes.",
+    "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), area_local calculation in gate evaluation loop",
+    "objective": "Refine the area-flow cost metric to better account for logic sharing potential and downstream area impact.",
+    "direction_and_strategy": "Modify the area_local calculation: change `area_local = gate.area + cut_leaves_flow(*cut, n, phase)` to `area_local = gate.area + cut_leaves_flow(*cut, n, phase) / std::max(1.0f, node_data.est_refs[phase])`. This promotes selection of highly-referenced nodes that enable better sharing.",
     "expected_impact": "5-15% area reduction by improving area-flow estimation accuracy",
-    "constraints": "Only apply when `DO_AREA` is true; must preserve function API and overall time complexity.",
-    "rationale": "Improving the area-flow heuristic at this stage leads to more globally area-efficient mappings and benefits later exact optimization rounds."
+    "constraints": "Only apply when `DO_AREA` template parameter is true; must preserve function API and overall time complexity.",
+    "rationale": "Current area-flow calculation treats all nodes equally regardless of their reuse potential. Normalizing by reference count helps identify cuts that maximize logic sharing opportunities, leading to globally smaller implementations."
   }
 }
 ```
 
 ### Key Improvements in Output Format:
-- **More specific evolution_point_id**: Include specific code sections
+- **Specific evolution_point_id**: Use function names, variable names, and code patterns instead of line numbers
 - **Expected_impact**: Quantitative prediction of improvement
 - **Detailed rationale**: Explain the technical reasoning behind the change
 """
@@ -163,18 +167,20 @@ Output a single, well-formed JSON object with two fields:
 
 ```json
 {
-  "rationale": "Brief explanation of what you changed and why, showing how it fulfills the objective and respects constraints. Include any edge cases handled.",
+  "rationale": "Brief explanation of what you changed and why, showing how it fulfills the objective and respects constraints. Include any edge cases handled and performance considerations.",
   "evolved_file_content": "Full modified source code for the target file, including unmodified parts.",
   "validation_notes": "Any potential issues to watch for during testing (optional but recommended for complex changes)"
 }
 ```
 
 ### Implementation Guidelines:
-- **Start Simple**: Make the minimal change that achieves the objective
-- **Handle Edge Cases**: Add checks for division by zero, null pointers, boundary conditions  
-- **Preserve Semantics**: Ensure the change doesn't alter the fundamental algorithm behavior
-- **Comment Complex Logic**: Add brief comments for non-obvious optimizations
-- **Consider Template Instantiation**: Verify changes work with different template parameters
+- **Start Simple**: Make the minimal change that achieves the objective without over-engineering
+- **Handle Edge Cases**: Add checks for division by zero, null pointers, boundary conditions, and template parameter edge cases
+- **Preserve Semantics**: Ensure the change doesn't alter the fundamental algorithm behavior or break existing assumptions
+- **Comment Complex Logic**: Add brief inline comments for non-obvious optimizations or mathematical formulas
+- **Consider Template Instantiation**: Verify changes work correctly with different template parameters (DO_AREA true/false, different NInputs values)
+- **Maintain Consistency**: Follow existing code style, naming conventions, and algorithmic patterns
+- **Test Boundary Conditions**: Consider what happens with empty cuts, single-node cuts, or maximum-size cuts
 
 ---
 
@@ -183,10 +189,10 @@ Output a single, well-formed JSON object with two fields:
 ```json
 {
   "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), specifically the calculation of `area_local`.",
-  "objective": "Refine the `area_local` cost metric (when `DO_AREA` is true) to better predict final area.",
-  "direction_and_strategy": "Adjust `area_local` computation by normalizing each leaf’s flow by its estimated reference count to promote sharing.",
+  "objective": "Refine the `area_local` cost metric to better predict final area by incorporating reference count information",
+  "direction_and_strategy": "Modify the area_local calculation to normalize by estimated reference count: change `area_local = gate.area + cut_leaves_flow(*cut, n, phase)` to include division by `std::max(1.0f, node_data.est_refs[phase])`",
   "expected_impact": "5-15% area reduction by improving area-flow estimation accuracy",
-  "constraints": "Apply only when `DO_AREA` is true. Do not change function parameters. Handle potential division by zero.",
+  "constraints": "Apply only when `DO_AREA` template parameter is true. Do not change function parameters. Handle potential division by zero with std::max. Preserve time complexity.",
   "rationale": "Current area-flow calculation doesn't account for reference frequency. Nodes with higher reference counts should be weighted differently to promote logic sharing."
 }
 ```
