@@ -46,7 +46,7 @@ def _get_evaluator_evaluate() -> Callable:
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
-    parser.add_argument("--api-key", type=str, default="", help="API key")
+    parser.add_argument("--api-key", type=str, default="d61217e7-8ff3-4937-83ed-3dd2bebf72ad", help="API key")
     parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
     parser.add_argument("--iterations", type=int, default=20, help="Number of evolution iterations")
     return parser.parse_args()
@@ -120,7 +120,7 @@ def evaluate_state(output_dir, iteration):
     iter_dir = os.path.join(output_dir, f"iter_{iteration}")
     file_names = ["match_phase.cpp", "match_phase_exact.cpp", "match_drop_phase.cpp"]
     program_paths = []
-    
+
     for name in file_names:
         path = os.path.join(iter_dir, name)
         if os.path.exists(path):
@@ -132,27 +132,82 @@ def evaluate_state(output_dir, iteration):
     try:
         evaluate_fn = _get_evaluator_evaluate()
         result = evaluate_fn(program_paths)
-        overall_score = result.get("overall_score") if isinstance(result, dict) else None
-        
-        if overall_score is None:
-            reward = 0.0
-        else:
-            try:
-                score_val = float(overall_score)
-                if score_val < 0:
-                    score_val = 0.0
-                reward = score_val / (1.0 + score_val)
-            except Exception:
-                reward = 0.0
 
-        # Save reward info
+        # Initialize default values
+        reward = 0.0
+        overall_score = None
+        failed_rate = None
+        error_msg = None
+        error_type = "unknown"
+
+        if not isinstance(result, dict):
+            # Evaluation result format error - most severe
+            error_msg = "Evaluation result is not a dictionary"
+            error_type = "format_error"
+            reward = -0.5  # Most negative reward for format errors
+            logger.warning("Evaluation result is not a dictionary: %s", result)
+        else:
+            # Check for compilation or execution errors
+            if "error" in result:
+                error_msg = result["error"]
+                error_type = "compilation_error"
+                reward = -0.5  # Most negative reward for compilation errors
+                logger.warning("Evaluation returned error: %s", error_msg)
+            else:
+                # Check failed_rate for logical equivalence
+                failed_rate = result.get("failed_rate", 1.0)  # Default to 1.0 (failed) if not present
+                overall_score = result.get("overall_score")
+
+                if failed_rate > 0:
+                    # Code has logical equivalence failures - less severe than compilation error
+                    error_msg = f"Logical equivalence failed (failed_rate: {failed_rate})"
+                    error_type = "logical_error"
+                    # Reward decreases with failed_rate: [-0.5, -0.4)
+                    reward = -0.4 - failed_rate / 10.0
+                    logger.warning("Code failed logical equivalence check: failed_rate=%.3f", failed_rate)
+                elif overall_score is not None:
+                    # Check if overall_score is valid
+                    try:
+                        score_val = float(overall_score)
+                        if score_val < 0:
+                            error_type = "performance_reduction"
+                            reward = max(-0.4, score_val)
+                            logger.warning("Performance reduction: overall_score=%.4f", score_val)
+                        else:
+                            error_type = "success"
+                            # Convert score to reward using sigmoid-like function
+                            # Better (higher) overall_score gets higher reward
+                            reward = score_val / (1.0 + score_val)
+                            logger.info("Valid improvement: overall_score=%.4f", score_val)
+                    except (ValueError, TypeError):
+                        error_msg = f"Invalid overall_score format: {overall_score}"
+                        error_type = "score_format_error"
+                        reward = -0.5
+                        logger.warning("Invalid overall_score: %s", overall_score)
+                else:
+                    error_msg = "Missing overall_score in result"
+                    error_type = "missing_score"
+                    reward = -0.5
+                    logger.warning("Missing overall_score in evaluation result")
+
+        # Save detailed reward info
         reward_info_path = os.path.join(iter_dir, "reward.json")
         with open(reward_info_path, 'w', encoding='utf-8') as f:
-            json.dump({
-                "overall_score": overall_score,
-                "reward": reward,
-                "raw_result": result if isinstance(result, dict) else {"raw": result},
-            }, f, ensure_ascii=False, indent=2)
+            json.dump(
+                {
+                    "overall_score": overall_score,
+                    "reward": reward,
+                    "failed_rate": failed_rate,
+                    "error_msg": error_msg,
+                    "error_type": error_type,
+                    "is_valid_code": failed_rate and failed_rate == 0,
+                    "is_improvement": reward > 0 and error_type == "success",
+                    "raw_result": result if isinstance(result, dict) else {"raw": result},
+                },
+                f,
+                ensure_ascii=False,
+                indent=2,
+            )
 
         return reward, overall_score
     except Exception as e:
@@ -174,7 +229,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         f"=== match_phase_exact.cpp ===\n{state_dict['match_phase_exact.cpp']}\n\n"
         f"=== match_drop_phase.cpp ===\n{state_dict['match_drop_phase.cpp']}"
     )
-    
+
     planner_output = planner.get_output(context_with_files)
 
     # Extract JSON from planner output
@@ -197,7 +252,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     chosen_point = plan_dict.get("chosen_evolution_point", {})
     target_file = chosen_point.get("module", "")
     evolution_step = plan_dict.get("evolution_step", {})
-    
+
     if not target_file or not evolution_step:
         logger.error("Planner output missing required fields")
         return state_dict, 0.0, None
@@ -219,10 +274,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         logger.error("Target file %s not found in state", target_file)
         return state_dict, 0.0, None
 
-    evolver_input = (
-        f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n"
-        f"Current content:\n{initial_code}"
-    )
+    evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n" f"Current content:\n{initial_code}"
     evolver_output = evolver.get_output(evolver_input)
 
     # Extract evolved content from evolver output
@@ -293,82 +345,71 @@ def main():
     # Configure logging
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
-    
-    console_handler_exists = any(
-        isinstance(h, logging.StreamHandler) and not isinstance(h, logging.FileHandler)
-        for h in root_logger.handlers
-    )
-    
+
+    console_handler_exists = any(isinstance(h, logging.StreamHandler) and not isinstance(h, logging.FileHandler) for h in root_logger.handlers)
+
     if not console_handler_exists:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         console_handler.setFormatter(formatter)
         root_logger.addHandler(console_handler)
-    
+
     log_file = os.path.join(output_dir, "log.txt")
     log_file_abs = os.path.abspath(log_file)
-    file_handler_exists = any(
-        isinstance(h, logging.FileHandler) and getattr(h, 'baseFilename', None) == log_file_abs
-        for h in root_logger.handlers
-    )
-    
+    file_handler_exists = any(isinstance(h, logging.FileHandler) and getattr(h, 'baseFilename', None) == log_file_abs for h in root_logger.handlers)
+
     if not file_handler_exists:
         file_handler = logging.FileHandler(log_file, mode='a', encoding='utf-8')
         file_handler.setLevel(logging.INFO)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
-    
+
     logger.info("Output directory: %s", output_dir)
     logger.info("Logging to both console and file: %s", log_file)
 
     # Create planner and evolver
-    planner = create_model_calls(
-        api_key=args.api_key,
-        base_url=args.base_url,
-        model_name=args.model,
-        system_prompt=PLANNER_SYSTEM_PROMPT_PROACTIVE
-    )
-    evolver = create_model_calls(
-        api_key=args.api_key,
-        base_url=args.base_url,
-        model_name=args.model,
-        system_prompt=EVOLVER_SYSTEM_PROMPT_PROACTIVE
-    )
+    planner = create_model_calls(api_key=args.api_key, base_url=args.base_url, model_name=args.model, system_prompt=PLANNER_SYSTEM_PROMPT_PROACTIVE)
+    evolver = create_model_calls(api_key=args.api_key, base_url=args.base_url, model_name=args.model, system_prompt=EVOLVER_SYSTEM_PROMPT_PROACTIVE)
 
     # Load initial state
     state_dict = load_initial_files()
     logger.info("Initial state loaded")
 
     # Track best state
-    best_reward = 0.0
+    best_reward = -1.0
     best_state = state_dict.copy()
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        state_dict, reward, overall_score = evolve_single_iteration(
-            state_dict, planner, evolver, output_dir, i + 1
-        )
-        
-        # Update best state if reward improved
+        state_dict, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
+
+        # Update best state if reward improved (including negative rewards)
         if reward > best_reward:
             best_reward = reward
             best_state = state_dict.copy()
-            logger.info("New best reward: %.4f (overall_score: %s)", best_reward, overall_score)
+            if reward > 0:
+                logger.info("🎉 New best SUCCESS: %.4f (overall_score: %s)", best_reward, overall_score)
+            else:
+                logger.info("📈 New best (least bad): %.4f (overall_score: %s)", best_reward, overall_score)
 
     # Save final summary
     summary_path = os.path.join(output_dir, "summary.json")
     with open(summary_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "total_iterations": args.iterations,
-            "best_reward": best_reward,
-            "model": args.model,
-        }, f, ensure_ascii=False, indent=2)
+        json.dump(
+            {
+                "total_iterations": args.iterations,
+                "best_reward": best_reward,
+                "model": args.model,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
 
     logger.info("Evolution completed. Best reward: %.4f", best_reward)
 
 
 if __name__ == "__main__":
     main()
-
