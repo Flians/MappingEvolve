@@ -13,7 +13,7 @@ if PARENT_DIR not in sys.path:
     sys.path.append(PARENT_DIR)
 
 from query_llm import DeepSeekModelCalls, QwenModelCalls
-from prompts import PLANNER_SYSTEM_PROMPT_PROACTIVE, EVOLVER_SYSTEM_PROMPT_PROACTIVE
+from prompts_optimized import PLANNER_SYSTEM_PROMPT_PROACTIVE, EVOLVER_SYSTEM_PROMPT_PROACTIVE
 
 import logging
 
@@ -215,34 +215,27 @@ def evaluate_state(output_dir, iteration):
         return 0.0, None
 
 
-def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration, best_state=None, best_reward=-1.0):
+def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
     """Perform one evolution iteration: planner proposes -> evolver implements -> evaluate.
 
     Args:
         state_dict: Current state (may not be the best state)
-        best_state: Best state found so far (for fallback)
-        best_reward: Best reward achieved so far
+        planner: Planner model instance
+        evolver: Evolver model instance
+        output_dir: Directory to save outputs
+        iteration: Current iteration number
     """
     logger.info("=" * 60)
     logger.info("Starting evolution iteration %d", iteration)
-
-    # Always use best state for planning to avoid building on bad foundations
-    if best_state is not None and best_reward > -1.0:
-        planning_state = best_state
-        logger.info("🎯 Using BEST state for planning (reward: %.4f)", best_reward)
-    else:
-        planning_state = state_dict
-        logger.info("🆕 Using current state for planning (first iteration)")
-
     logger.info("=" * 60)
 
-    # Step 1: Planner analyzes BEST context and proposes evolution point and plan
-    logger.info("Step 1: Planner analyzing BEST context and proposing evolution step")
+    # Step 1: Planner analyzes context and proposes evolution point and plan
+    logger.info("Step 1: Planner analyzing context and proposing evolution step")
     context_with_files = (
-        f"{planning_state['context']}\n\n"
-        f"=== match_phase.cpp ===\n{planning_state['match_phase.cpp']}\n\n"
-        f"=== match_phase_exact.cpp ===\n{planning_state['match_phase_exact.cpp']}\n\n"
-        f"=== match_drop_phase.cpp ===\n{planning_state['match_drop_phase.cpp']}"
+        f"{state_dict['context']}\n\n"
+        f"=== match_phase.cpp ===\n{state_dict['match_phase.cpp']}\n\n"
+        f"=== match_phase_exact.cpp ===\n{state_dict['match_phase_exact.cpp']}\n\n"
+        f"=== match_drop_phase.cpp ===\n{state_dict['match_drop_phase.cpp']}"
     )
 
     planner_output = planner.get_output(context_with_files)
@@ -284,7 +277,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
 
     # Step 2: Evolver implements the changes
     logger.info("Step 2: Evolver implementing changes to %s", target_file)
-    initial_code = planning_state.get(target_file, "")
+    initial_code = state_dict.get(target_file, "")
     if not initial_code:
         logger.error("Target file %s not found in planning state", target_file)
         return state_dict, 0.0, None
@@ -316,7 +309,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
         f.write(evolved_content)
 
     # Step 3: Update state with evolved file
-    new_state = planning_state.copy()
+    new_state = state_dict.copy()
     new_state[target_file] = evolved_content
 
     # Step 4: Merge files and update context
@@ -328,18 +321,6 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
     logger.info("Step 5: Evaluating evolved code")
     reward, overall_score = evaluate_state(output_dir, iteration)
     logger.info("Evaluation completed: reward=%.4f, overall_score=%s", reward, overall_score)
-
-    # Step 6: Since we always build from best state, state selection is simpler
-    # We either keep the new state (if it's good) or revert to best state (if it's bad)
-    if reward < -0.3:
-        logger.warning("⚠️  Severe failure (reward %.4f < -0.3), will continue from best state", reward)
-        next_iteration_state = planning_state.copy()  # Revert to best state
-    else:
-        logger.info("✅ Acceptable result (reward %.4f ≥ -0.3), using new state", reward)
-        next_iteration_state = new_state.copy()  # Use new state
-
-    # Return the state to use for next iteration
-    return_state = next_iteration_state
 
     # Save metadata
     with open(os.path.join(iter_dir, "metadata.txt"), 'w', encoding='utf-8') as f:
@@ -358,7 +339,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
         f.write(evolver_output)
 
     logger.info("Iteration %d completed", iteration)
-    return return_state, reward, overall_score
+    return new_state, reward, overall_score
 
 
 def main():
@@ -410,16 +391,23 @@ def main():
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        state_dict, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1, best_state=best_state, best_reward=best_reward)
+        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
 
-        # Update best state if reward improved (including negative rewards)
+        # Update best state if reward improved
         if reward > best_reward:
             best_reward = reward
-            best_state = state_dict.copy()
+            best_state = evolved_state.copy()
             if reward > 0:
                 logger.info("🎉 New best SUCCESS: %.4f (overall_score: %s)", best_reward, overall_score)
             else:
                 logger.info("📈 New best (least bad): %.4f (overall_score: %s)", best_reward, overall_score)
+        # We either keep the new state (if it's good) or revert to best state (if it's bad)
+        if reward < -0.2:
+            logger.warning("⚠️  Severe failure (reward %.4f < -0.3), will continue from best state", reward)
+            state_dict = best_state.copy()  # Revert to best state
+        else:
+            logger.info("✅ Acceptable result (reward %.4f ≥ -0.3), using new state", reward)
+            state_dict = evolved_state.copy()  # Use new state
 
     # Save final summary
     summary_path = os.path.join(output_dir, "summary.json")
