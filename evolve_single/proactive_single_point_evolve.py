@@ -49,6 +49,7 @@ def parse_args():
     parser.add_argument("--api-key", type=str, default="d61217e7-8ff3-4937-83ed-3dd2bebf72ad", help="API key")
     parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
     parser.add_argument("--iterations", type=int, default=20, help="Number of evolution iterations")
+    parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
     return parser.parse_args()
 
 
@@ -215,7 +216,7 @@ def evaluate_state(output_dir, iteration):
         return 0.0, None
 
 
-def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
+def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration, openevolve=False):
     """Perform one evolution iteration: planner proposes -> evolver implements -> evaluate.
 
     Args:
@@ -224,6 +225,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         evolver: Evolver model instance
         output_dir: Directory to save outputs
         iteration: Current iteration number
+        openevolve: If True, use openevolve.run_evolution instead of LLM evolver
     """
     logger.info("=" * 60)
     logger.info("Starting evolution iteration %d", iteration)
@@ -282,31 +284,85 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         logger.error("Target file %s not found in planning state", target_file)
         return state_dict, 0.0, None
 
-    evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n" f"Current content:\n{initial_code}"
-    evolver_output = evolver.get_output(evolver_input)
+    if not openevolve:
+        # Use LLM evolver
+        evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n" f"Current content:\n{initial_code}"
+        evolver_output = evolver.get_output(evolver_input)
 
-    # Extract evolved content from evolver output
-    evolved_content = None
-    try:
-        evo_json_match = re.search(r"```json\s*(\{[\s\S]*?\})\s*```", evolver_output)
-        if evo_json_match:
-            evo_json = json.loads(evo_json_match.group(1))
+        # Extract evolved content from evolver output
+        evolved_content = None
+        try:
+            evo_json_match = re.search(r"```json\s*(\{[\s\S]*?\})\s*```", evolver_output)
+            if evo_json_match:
+                evo_json = json.loads(evo_json_match.group(1))
+            else:
+                evo_json = json.loads(evolver_output)
+            evolved_content = evo_json.get("evolved_file_content", "")
+        except Exception as e:
+            logger.warning("Failed to parse evolver JSON, using raw output: %s", e)
+            evolved_content = evolver_output
+
+        if not evolved_content:
+            logger.warning("No evolved content from evolver, keeping original")
+            evolved_content = initial_code
+
+        # Save evolver output
+        with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
+            f.write(evolver_output)
+        with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
+            f.write(evolved_content)
+    else:
+        # Use openevolve.run_evolution for evolution
+        logger.info("Using openevolve to evolve %s", target_file)
+        from openevolve import run_evolution as _oe_run_evolution
+
+        openevolve_output_dir = os.path.join(iter_dir, f"openevolve_output_{target_file.split('.')[0]}")
+        config_path = os.path.join(CUR_DIR, "openevolve_config.yaml")
+        
+        # Persist initial code to a file and pass its path to OpenEvolve
+        candidate_path = os.path.join(iter_dir, f"initial_{target_file}")
+        try:
+            with open(candidate_path, 'w', encoding='utf-8') as f:
+                f.write(initial_code)
+        except Exception as e:
+            logger.error("Failed to write candidate file for %s: %s", target_file, e)
+            evolved_content = initial_code
+            evolver_output = f"Failed to write candidate: {e}"
         else:
-            evo_json = json.loads(evolver_output)
-        evolved_content = evo_json.get("evolved_file_content", "")
-    except Exception as e:
-        logger.warning("Failed to parse evolver JSON, using raw output: %s", e)
-        evolved_content = evolver_output
+            try:
+                result = _oe_run_evolution(
+                    initial_program=candidate_path,
+                    evaluator=f"{PARENT_DIR}/openevolve/mapping/evaluator.py",
+                    config=config_path,
+                    output_dir=openevolve_output_dir,
+                )
+                # Extract best_code from EvolutionResult
+                evolved_content = None
+                if hasattr(result, '__dict__'):
+                    result_dict = result.__dict__
+                    if 'best_code' in result_dict:
+                        evolved_content = result_dict['best_code']
 
-    if not evolved_content:
-        logger.warning("No evolved content from evolver, keeping original")
-        evolved_content = initial_code
+                # Fallback to original content if best_code not found
+                if evolved_content is None:
+                    logger.warning("best_code not found in OpenEvolve result for %s, keeping original content", target_file)
+                    evolved_content = initial_code
+                    evolver_output = "OpenEvolve succeeded but best_code not found, kept original"
+                else:
+                    evolver_output = "Evolved via OpenEvolve"
+                    logger.info("OpenEvolve successfully evolved %s", target_file)
 
-    # Save evolver output
-    with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
-        f.write(evolver_output)
-    with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
-        f.write(evolved_content)
+            except Exception as e:
+                # Report error and keep original content; no fallback
+                logger.error("OpenEvolve run_evolution failed for %s: %s", target_file, e)
+                evolver_output = f"OpenEvolve failed: {e}"
+                evolved_content = initial_code
+
+        # Save evolver output (openevolve status)
+        with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
+            f.write(evolver_output)
+        with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
+            f.write(evolved_content)
 
     # Step 3: Update state with evolved file
     new_state = state_dict.copy()
@@ -347,7 +403,8 @@ def main():
 
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"output/proactive_evolve_{args.model}_{timestamp}"
+    evolve_type = "openevolve" if args.openevolve else "llm"
+    output_dir = f"output/proactive_evolve_{evolve_type}_{args.model}_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Configure logging
@@ -376,10 +433,11 @@ def main():
 
     logger.info("Output directory: %s", output_dir)
     logger.info("Logging to both console and file: %s", log_file)
+    logger.info("Evolution mode: %s", "openevolve" if args.openevolve else "LLM evolver")
 
-    # Create planner and evolver
+    # Create planner and evolver (evolver only used if not using openevolve)
     planner = create_model_calls(api_key=args.api_key, base_url=args.base_url, model_name=args.model, system_prompt=PLANNER_SYSTEM_PROMPT_PROACTIVE)
-    evolver = create_model_calls(api_key=args.api_key, base_url=args.base_url, model_name=args.model, system_prompt=EVOLVER_SYSTEM_PROMPT_PROACTIVE)
+    evolver = create_model_calls(api_key=args.api_key, base_url=args.base_url, model_name=args.model, system_prompt=EVOLVER_SYSTEM_PROMPT_PROACTIVE) if not args.openevolve else None
 
     # Load initial state
     state_dict = load_initial_files()
@@ -391,7 +449,7 @@ def main():
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
+        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1, openevolve=args.openevolve)
 
         # Update best state if reward improved
         if reward > best_reward:
@@ -417,6 +475,7 @@ def main():
                 "total_iterations": args.iterations,
                 "best_reward": best_reward,
                 "model": args.model,
+                "openevolve": args.openevolve,
             },
             f,
             ensure_ascii=False,
