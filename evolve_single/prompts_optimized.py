@@ -58,7 +58,7 @@ Implement **one precise modification** to a C++ file based on Planner instructio
 5. **Performance**: Maintain algorithmic complexity and avoid regressions
 
 ## Implementation Guidelines
-- **Minimal Changes**: Only modify what's necessary for the objective
+- **Minimal Changes**: Only modify what's necessary for the objective while maintaining logical equivalence with the input circuit
 - **Type Safety**: Ensure compatibility with template instantiations and mockturtle types
 - **Reference Management**: Respect cut_ref/cut_deref semantics in exact phases
 - **Cost Consistency**: Maintain proper area/delay cost calculation patterns
