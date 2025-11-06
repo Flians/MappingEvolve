@@ -279,25 +279,21 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     if evolver:
         # Use LLM evolver
-        evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n" f"Current content:\n{initial_code}"
+        evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\nCurrent content:\n{initial_code}"
         evolver_output = evolver.get_output(evolver_input)
 
         # Extract evolved content from evolver output
-        evolved_content = None
+        evolved_content = initial_code  # Default fallback
         try:
             evo_json_match = re.search(r"```json\s*(\{[\s\S]*?\})\s*```", evolver_output)
             if evo_json_match:
                 evo_json = json.loads(evo_json_match.group(1))
             else:
                 evo_json = json.loads(evolver_output)
-            evolved_content = evo_json.get("evolved_file_content", "")
+            
+            evolved_content = evo_json.get("evolved_file_content", initial_code)
         except Exception as e:
-            logger.warning("Failed to parse evolver JSON, using raw output: %s", e)
-            evolved_content = evolver_output
-
-        if not evolved_content:
-            logger.warning("No evolved content from evolver, keeping original")
-            evolved_content = initial_code
+            logger.warning("Failed to parse evolver JSON, keeping original: %s", e)
 
         # Save evolver output
         with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
