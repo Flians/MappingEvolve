@@ -46,7 +46,7 @@ def _get_evaluator_evaluate() -> Callable:
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
-    parser.add_argument("--api-key", type=str, default="d61217e7-8ff3-4937-83ed-3dd2bebf72ad", help="API key")
+    parser.add_argument("--api-key", type=str, default=os.getenv("EVOLVE_API_KEY", ""), help="API key (use EVOLVE_API_KEY env var)")
     parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
@@ -290,7 +290,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
                 evo_json = json.loads(evo_json_match.group(1))
             else:
                 evo_json = json.loads(evolver_output)
-            
+
             evolved_content = evo_json.get("evolved_file_content", initial_code)
         except Exception as e:
             logger.warning("Failed to parse evolver JSON, keeping original: %s", e)
