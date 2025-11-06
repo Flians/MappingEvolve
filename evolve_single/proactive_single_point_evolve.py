@@ -3,8 +3,10 @@ import argparse
 import os
 import re
 import json
+import yaml
+import tempfile
 from datetime import datetime
-from typing import Callable
+from typing import Callable, Dict, Any, Tuple
 import importlib.util
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -43,10 +45,70 @@ def _get_evaluator_evaluate() -> Callable:
     return module.evaluate
 
 
+def _create_modified_config_with_evolution_step(
+    original_config_path: str, evolution_step: Dict[str, Any]
+) -> Tuple[str, Callable]:
+    """
+    Create a temporary config file with evolution_step incorporated into system_message.
+    
+    Args:
+        original_config_path: Path to the original openevolve_config.yaml
+        evolution_step: Dictionary containing evolution step details from planner
+        
+    Returns:
+        Tuple of (temp_config_path, cleanup_function) where cleanup_function removes the temp file
+    """
+    # Load original config
+    with open(original_config_path, 'r', encoding='utf-8') as f:
+        config_dict = yaml.safe_load(f)
+    
+    # Store original system_message
+    original_system_message = config_dict.get("prompt", {}).get("system_message", "")
+    
+    # Build evolution step context string
+    evolution_context = "\n\n## Current Evolution Step (from Planner)\n"
+    evolution_context += f"**Evolution Point**: {evolution_step.get('evolution_point_id', 'N/A')}\n"
+    evolution_context += f"**Objective**: {evolution_step.get('objective', 'N/A')}\n"
+    evolution_context += f"**Direction and Strategy**: {evolution_step.get('direction_and_strategy', 'N/A')}\n"
+    evolution_context += f"**Expected Impact**: {evolution_step.get('expected_impact', 'N/A')}\n"
+    evolution_context += f"**Constraints**: {evolution_step.get('constraints', 'N/A')}\n"
+    evolution_context += f"**Rationale**: {evolution_step.get('rationale', 'N/A')}\n"
+    evolution_context += "\n**Important**: Implement the modification described above while following all the rules and guidelines specified in this prompt.\n"
+    
+    # Modify system_message to include evolution step
+    modified_system_message = original_system_message + evolution_context
+    
+    # Update config dict
+    if "prompt" not in config_dict:
+        config_dict["prompt"] = {}
+    config_dict["prompt"]["system_message"] = modified_system_message
+    
+    # Create temporary config file
+    temp_fd, temp_config_path = tempfile.mkstemp(suffix='.yaml', prefix='openevolve_config_', dir=os.path.dirname(original_config_path))
+    try:
+        with os.fdopen(temp_fd, 'w', encoding='utf-8') as f:
+            yaml.dump(config_dict, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+    except Exception as e:
+        os.close(temp_fd)
+        os.unlink(temp_config_path)
+        raise
+    
+    # Create cleanup function
+    def cleanup():
+        """Remove the temporary config file."""
+        try:
+            if os.path.exists(temp_config_path):
+                os.unlink(temp_config_path)
+        except Exception as e:
+            logger.warning("Failed to cleanup temporary config file %s: %s", temp_config_path, e)
+    
+    return temp_config_path, cleanup
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
-    parser.add_argument("--api-key", type=str, default="d61217e7-8ff3-4937-83ed-3dd2bebf72ad", help="API key")
+    parser.add_argument("--api-key", type=str, default="", help="API key")
     parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
@@ -306,52 +368,66 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         from openevolve import run_evolution as _oe_run_evolution
 
         openevolve_output_dir = os.path.join(iter_dir, f"openevolve_output_{target_file.split('.')[0]}")
-        config_path = os.path.join(CUR_DIR, "openevolve_config.yaml")
+        original_config_path = os.path.join(CUR_DIR, "openevolve_config.yaml")
 
-        # Persist initial code to a file and pass its path to OpenEvolve
-        candidate_path = os.path.join(iter_dir, f"initial_{target_file}")
+        # Create modified config with evolution_step incorporated into system_message
+        temp_config_path = None
+        cleanup_config = None
         try:
-            with open(candidate_path, 'w', encoding='utf-8') as f:
-                f.write(initial_code)
-        except Exception as e:
-            logger.error("Failed to write candidate file for %s: %s", target_file, e)
-            evolved_content = initial_code
-            evolver_output = f"Failed to write candidate: {e}"
-        else:
+            temp_config_path, cleanup_config = _create_modified_config_with_evolution_step(
+                original_config_path, evolution_step
+            )
+            logger.info("Created temporary config with evolution_step at %s", temp_config_path)
+
+            # Persist initial code to a file and pass its path to OpenEvolve
+            candidate_path = os.path.join(iter_dir, f"initial_{target_file}")
             try:
-                result = _oe_run_evolution(
-                    initial_program=candidate_path,
-                    evaluator=f"{PARENT_DIR}/openevolve/mapping/evaluator.py",
-                    config=config_path,
-                    output_dir=openevolve_output_dir,
-                )
-                # Extract best_code from EvolutionResult
-                evolved_content = None
-                if hasattr(result, '__dict__'):
-                    result_dict = result.__dict__
-                    if 'best_code' in result_dict:
-                        evolved_content = result_dict['best_code']
-
-                # Fallback to original content if best_code not found
-                if evolved_content is None:
-                    logger.warning("best_code not found in OpenEvolve result for %s, keeping original content", target_file)
-                    evolved_content = initial_code
-                    evolver_output = "OpenEvolve succeeded but best_code not found, kept original"
-                else:
-                    evolver_output = "Evolved via OpenEvolve"
-                    logger.info("OpenEvolve successfully evolved %s", target_file)
-
+                with open(candidate_path, 'w', encoding='utf-8') as f:
+                    f.write(initial_code)
             except Exception as e:
-                # Report error and keep original content; no fallback
-                logger.error("OpenEvolve run_evolution failed for %s: %s", target_file, e)
-                evolver_output = f"OpenEvolve failed: {e}"
+                logger.error("Failed to write candidate file for %s: %s", target_file, e)
                 evolved_content = initial_code
+                evolver_output = f"Failed to write candidate: {e}"
+            else:
+                try:
+                    result = _oe_run_evolution(
+                        initial_program=candidate_path,
+                        evaluator=f"{PARENT_DIR}/openevolve/mapping/evaluator.py",
+                        config=temp_config_path,  # Use modified config with evolution_step
+                        output_dir=openevolve_output_dir,
+                    )
+                    # Extract best_code from EvolutionResult
+                    evolved_content = None
+                    if hasattr(result, '__dict__'):
+                        result_dict = result.__dict__
+                        if 'best_code' in result_dict:
+                            evolved_content = result_dict['best_code']
 
-        # Save evolver output (openevolve status)
-        with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
-            f.write(evolver_output)
-        with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
-            f.write(evolved_content)
+                    # Fallback to original content if best_code not found
+                    if evolved_content is None:
+                        logger.warning("best_code not found in OpenEvolve result for %s, keeping original content", target_file)
+                        evolved_content = initial_code
+                        evolver_output = "OpenEvolve succeeded but best_code not found, kept original"
+                    else:
+                        evolver_output = "Evolved via OpenEvolve"
+                        logger.info("OpenEvolve successfully evolved %s", target_file)
+
+                except Exception as e:
+                    # Report error and keep original content; no fallback
+                    logger.error("OpenEvolve run_evolution failed for %s: %s", target_file, e)
+                    evolver_output = f"OpenEvolve failed: {e}"
+                    evolved_content = initial_code
+
+            # Save evolver output (openevolve status)
+            with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
+                f.write(evolver_output)
+            with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
+                f.write(evolved_content)
+        finally:
+            # Always cleanup the temporary config file to restore original state
+            if cleanup_config is not None:
+                cleanup_config()
+                logger.info("Cleaned up temporary config file, original config restored")
 
     # Step 3: Update state with evolved file
     new_state = state_dict.copy()
