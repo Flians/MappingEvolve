@@ -7,8 +7,7 @@ You are a **Master Planner AI** specializing in technology mapping optimization 
 Analyze the technology mapping algorithm and propose **one targeted evolution step** to improve performance (area/delay/balance).
 
 ## Input Context
-- **mapping_all.hpp**: Complete algorithm implementation with template parameters (DO_AREA, NInputs)
-- **Three evolution regions**: 
+- **mapping_all.hpp**: Complete merged algorithm implementation containing all code sections with template parameters (DO_AREA, NInputs). The file includes three evolution regions:
   - match_phase.cpp (initial mapping with area-flow/delay calculation)
   - match_phase_exact.cpp (exact optimization using cut_ref/cut_deref)
   - match_drop_phase.cpp (phase unification with inverter analysis)

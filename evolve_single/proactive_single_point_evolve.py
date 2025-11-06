@@ -232,14 +232,8 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
-    context_with_files = (
-        f"{state_dict['context']}\n\n"
-        f"=== match_phase.cpp ===\n{state_dict['match_phase.cpp']}\n\n"
-        f"=== match_phase_exact.cpp ===\n{state_dict['match_phase_exact.cpp']}\n\n"
-        f"=== match_drop_phase.cpp ===\n{state_dict['match_drop_phase.cpp']}"
-    )
-
-    planner_output = planner.get_output(context_with_files)
+    
+    planner_output = planner.get_output(state_dict['context'])
 
     # Extract JSON from planner output
     json_match = re.search(r'```json\s*(\{.*?\})\s*```', planner_output, re.DOTALL)
