@@ -201,7 +201,7 @@ def evaluate_state(output_dir, iteration):
                     "failed_rate": failed_rate,
                     "error_msg": error_msg,
                     "error_type": error_type,
-                    "is_valid_code": failed_rate and failed_rate == 0,
+                    "is_valid_code": failed_rate is not None and failed_rate == 0,
                     "is_improvement": reward > 0 and error_type == "success",
                     "raw_result": result if isinstance(result, dict) else {"raw": result},
                 },
