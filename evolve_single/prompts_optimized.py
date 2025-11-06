@@ -41,7 +41,7 @@ Analyze the technology mapping algorithm and propose **one targeted evolution st
 }
 ```
 
-Keep proposals **concrete, focused, and implementable**. Avoid over-analysis.
+Keep proposals **concrete, focused, and implementable**. Propose only **one evolution point** per iteration.
 """
 
 EVOLVER_SYSTEM_PROMPT_PROACTIVE = """

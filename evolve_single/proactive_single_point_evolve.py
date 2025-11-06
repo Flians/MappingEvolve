@@ -232,7 +232,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
-    
+
     planner_output = planner.get_output(state_dict['context'])
 
     # Extract JSON from planner output
@@ -242,14 +242,14 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
             plan_dict = json.loads(json_match.group(1))
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON in planner output: %s", e)
-            return state_dict, 0.0, None
+            return state_dict, -1.0, None
     else:
         # Try parsing as raw JSON
         try:
             plan_dict = json.loads(planner_output)
         except json.JSONDecodeError as e:
             logger.error("No valid JSON found in planner output: %s", e)
-            return state_dict, 0.0, None
+            return state_dict, -1.0, None
 
     # Extract chosen evolution point and evolution step
     chosen_point = plan_dict.get("chosen_evolution_point", {})
@@ -258,7 +258,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     if not target_file or not evolution_step:
         logger.error("Planner output missing required fields")
-        return state_dict, 0.0, None
+        return state_dict, -1.0, None
 
     logger.info("Planner selected: %s with persona: %s", target_file, plan_dict.get("chosen_persona", "Unknown"))
 
@@ -275,7 +275,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     initial_code = state_dict.get(target_file, "")
     if not initial_code:
         logger.error("Target file %s not found in planning state", target_file)
-        return state_dict, 0.0, None
+        return state_dict, -1.0, None
 
     if evolver:
         # Use LLM evolver
