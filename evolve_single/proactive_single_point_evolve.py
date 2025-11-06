@@ -48,7 +48,7 @@ def parse_args():
     parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
     parser.add_argument("--api-key", type=str, default="d61217e7-8ff3-4937-83ed-3dd2bebf72ad", help="API key")
     parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
-    parser.add_argument("--iterations", type=int, default=20, help="Number of evolution iterations")
+    parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
     return parser.parse_args()
 
@@ -216,16 +216,15 @@ def evaluate_state(output_dir, iteration):
         return 0.0, None
 
 
-def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration, openevolve=False):
+def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
     """Perform one evolution iteration: planner proposes -> evolver implements -> evaluate.
 
     Args:
         state_dict: Current state (may not be the best state)
         planner: Planner model instance
-        evolver: Evolver model instance
+        evolver: LLM evolver model instance (or None if using openevolve)
         output_dir: Directory to save outputs
         iteration: Current iteration number
-        openevolve: If True, use openevolve.run_evolution instead of LLM evolver
     """
     logger.info("=" * 60)
     logger.info("Starting evolution iteration %d", iteration)
@@ -284,7 +283,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
         logger.error("Target file %s not found in planning state", target_file)
         return state_dict, 0.0, None
 
-    if not openevolve:
+    if evolver:
         # Use LLM evolver
         evolver_input = f"Plan for {target_file}: {json.dumps(evolution_step, indent=2)}\n\n" f"Current content:\n{initial_code}"
         evolver_output = evolver.get_output(evolver_input)
@@ -318,7 +317,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
 
         openevolve_output_dir = os.path.join(iter_dir, f"openevolve_output_{target_file.split('.')[0]}")
         config_path = os.path.join(CUR_DIR, "openevolve_config.yaml")
-        
+
         # Persist initial code to a file and pass its path to OpenEvolve
         candidate_path = os.path.join(iter_dir, f"initial_{target_file}")
         try:
@@ -449,7 +448,7 @@ def main():
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1, openevolve=args.openevolve)
+        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
 
         # Update best state if reward improved
         if reward > best_reward:
@@ -460,11 +459,11 @@ def main():
             else:
                 logger.info("📈 New best (least bad): %.4f (overall_score: %s)", best_reward, overall_score)
         # We either keep the new state (if it's good) or revert to best state (if it's bad)
-        if reward < -0.2:
-            logger.warning("⚠️  Severe failure (reward %.4f < -0.3), will continue from best state", reward)
+        if reward < -0.1:
+            logger.warning("⚠️  Severe failure (reward %.4f < -0.1), will continue from best state", reward)
             state_dict = best_state.copy()  # Revert to best state
         else:
-            logger.info("✅ Acceptable result (reward %.4f ≥ -0.3), using new state", reward)
+            logger.info("✅ Acceptable result (reward %.4f ≥ -0.1), using new state", reward)
             state_dict = evolved_state.copy()  # Use new state
 
     # Save final summary
