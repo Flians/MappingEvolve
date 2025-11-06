@@ -128,7 +128,7 @@ def evaluate_state(output_dir, iteration):
             program_paths.append(path)
 
     if not program_paths:
-        return 0.0, None
+        return -1.0, None
 
     try:
         evaluate_fn = _get_evaluator_evaluate()
@@ -213,7 +213,7 @@ def evaluate_state(output_dir, iteration):
         return reward, overall_score
     except Exception as e:
         logger.error("Failed to evaluate iteration %d: %s", iteration, e)
-        return 0.0, None
+        return -1.0, None
 
 
 def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
