@@ -131,10 +131,11 @@ def load_initial_files():
         "prev_delay_score": None,
         "prev_overall_score": None,
         "prev_strategy": None,
+        "prev_module": None,
     }
 
 
-def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_overall_score, prev_strategy):
+def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_overall_score, prev_strategy, prev_module):
     """
     Build context string for planner that includes code and previous iteration metrics.
 
@@ -159,10 +160,15 @@ def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_
         context_parts.append("The following information is from the previous evolution iteration:")
         context_parts.append("")
 
-        if prev_strategy is not None:
-            context_parts.append(f"**Optimization Strategy Used**: {prev_strategy}")
+        if prev_module is not None:
+            context_parts.append(f"**Module Chosen**: {prev_module}")
         else:
-            context_parts.append("**Optimization Strategy Used**: Not available")
+            context_parts.append("**Module Chosen**: Not available")
+
+        if prev_strategy is not None:
+            context_parts.append(f"**Strategy Used**: {prev_strategy}")
+        else:
+            context_parts.append("**Strategy Used**: Not available")
 
         if prev_area_score is not None:
             context_parts.append(f"**Area Reduction**: {prev_area_score}")
@@ -180,16 +186,6 @@ def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_
             context_parts.append("**Overall Score**: Not available (evaluation may have failed)")
 
         context_parts.append("")
-        '''
-        context_parts.append("Use this information to guide your next evolution step. Consider:")
-        context_parts.append("- Whether the previous strategy was effective")
-        context_parts.append("- Which metric (area/delay/overall) needs improvement")
-        context_parts.append("- Whether to continue with the same strategy or try a different approach")
-        context_parts.append("- Lower scores are better (for area, delay, and overall_score)")
-        context_parts.append("")
-        context_parts.append("=" * 60)
-        context_parts.append("")
-        '''
 
     # Add the code context
     context_parts.append("## Current Code Context")
@@ -357,9 +353,10 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     prev_delay_score = state_dict.get('prev_delay_score')
     prev_overall_score = state_dict.get('prev_overall_score')
     prev_strategy = state_dict.get('prev_strategy')
+    prev_module = state_dict.get('prev_module')
 
     # Build context with previous iteration info
-    planner_context = build_planner_context(state_dict['context'], prev_area_score, prev_delay_score, prev_overall_score, prev_strategy)
+    planner_context = build_planner_context(state_dict['context'], prev_area_score, prev_delay_score, prev_overall_score, prev_strategy, prev_module)
 
     planner_output = planner.get_output(planner_context)
 
@@ -504,6 +501,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     new_state['prev_delay_score'] = delay_score
     new_state['prev_overall_score'] = overall_score
     new_state['prev_strategy'] = plan_dict.get('chosen_strategy', 'Unknown')
+    new_state['prev_module'] = target_file
 
     # Save metadata
     with open(os.path.join(iter_dir, "metadata.txt"), 'w', encoding='utf-8') as f:

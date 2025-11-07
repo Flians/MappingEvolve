@@ -10,7 +10,8 @@ Analyze the technology mapping algorithm and propose **one targeted evolution st
 The input context contains two main sections:
 
 1. **Previous Iteration Results** (if available):
-   - **Optimization Strategy Used**: The strategy (Area Optimizer, Delay Optimizer, or Balanced Optimizer) used in the previous iteration
+   - **Module Chosen**: The module (match_phase.cpp, match_phase_exact.cpp, or match_drop_phase.cpp) chosen for optimization in the previous iteration
+   - **Strategy Used**: The strategy (Area Optimizer, Delay Optimizer, or Balanced Optimizer) used in the previous iteration
    - **Area Reduction**: The average area reduction from the previous iteration's evaluation
    - **Delay Reduction**: The average delay reduction from the previous iteration's evaluation
    - **Overall Score**: The overall score (weighted combination of area reduction and delay reduction) from the previous iteration
@@ -26,12 +27,13 @@ The input context contains two main sections:
 - Analyze whether the previous strategy was effective
 - Identify which metric (area/delay/overall) needs improvement
 - Decide whether to continue with the same strategy or try a different approach
-- Lower scores are better (for area, delay, and overall_score)
+- Higher scores are better (area, delay, overall all represent improvements when positive)
 
 ## Analysis Process
 1. **Identify Bottleneck**: Which region has highest improvement potential?
-2. **Select Persona**: Area/Delay/Balanced Optimizer based on algorithmic opportunity
-3. **Propose Change**: One specific, implementable modification
+2. **Select Module**: Choose ONE from: `match_phase.cpp`, `match_phase_exact.cpp`, or `match_drop_phase.cpp`
+3. **Select Strategy**: Choose ONE from: `Area Optimizer`, `Delay Optimizer`, or `Balanced Optimizer`
+4. **Propose Change**: One specific, implementable modification
 
 ## Optimization Focus
 - **Area Optimizer**: Logic sharing, area-flow accuracy, reference counting optimization
@@ -39,20 +41,22 @@ The input context contains two main sections:
 - **Balanced Optimizer**: Area-delay product, balanced cost functions
 
 ## Output Format
+**IMPORTANT**: Use the exact field names and values specified below:
+
 ```json
 {
   "chosen_evolution_point": {
-    "module": "match_phase.cpp",
-    "selection_rationale": "Comparison across all three conceptual regions, explaining why this one offers the greatest improvement potential."
+    "module": "<MUST be one of: match_phase.cpp | match_phase_exact.cpp | match_drop_phase.cpp>",
+    "selection_rationale": "Analysis of previous results (if any) and comparison across all three modules, explaining why this one offers the greatest improvement potential."
   },
-  "chosen_strategy": "Balanced Optimizer",
+  "chosen_strategy": "<MUST be one of: Area Optimizer | Delay Optimizer | Balanced Optimizer>",
   "evolution_step": {
-    "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), cost computation loop for candidate cuts",
-    "objective": "Refine the cost function to better capture the area-delay tradeoff.",
-    "direction_and_strategy": "Replace separate area and delay evaluations with a weighted composite cost: `score = alpha * delay + beta * area_flow`, where alpha and beta adapt to local slack.",
-    "expected_impact": "Estimated 5–15 percent improvement in area-delay product across representative benchmarks.",
-    "constraints": "Maintain existing API boundaries and computational complexity; ensure logical equivalence and valid cut structures.",
-    "rationale": "Adaptive cost balancing aligns early-stage decisions with overall area-delay optimization, improving mapping quality globally."
+    "evolution_point_id": "Specific function/location within the chosen module (e.g., 'Function `match_phase`, cost computation in cut evaluation loop')",
+    "objective": "Clear statement of what specific aspect will be improved",
+    "direction_and_strategy": "Concrete implementation approach with specific code changes",
+    "expected_impact": "Quantitative estimate (e.g., '5-15% area reduction' or '10-20% delay reduction')",
+    "constraints": "Technical constraints including API preservation, complexity bounds, and safety requirements",
+    "rationale": "Technical reasoning connecting the change to the expected improvement"
   }
 }
 ```
