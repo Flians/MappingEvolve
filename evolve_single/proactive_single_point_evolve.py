@@ -92,10 +92,11 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
-    parser.add_argument("--api-key", type=str, default=os.getenv("EVOLVE_API_KEY", ""), help="API key (use EVOLVE_API_KEY env var)")
-    parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
+    parser.add_argument("--model", type=str, default="qwen3-max", help="Model name")
+    parser.add_argument("--api-key", type=str, default="", help="API key")
+    parser.add_argument("--base-url", type=str, default="https://dashscope.aliyuncs.com/compatible-mode/v1", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
+    parser.add_argument("--revert-threshold", type=float, default=-0.1, help="Revert to best state when reward is below this threshold")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
     return parser.parse_args()
 
@@ -500,11 +501,11 @@ def main():
             else:
                 logger.info("📈 New best (least bad): %.4f (overall_score: %s)", best_reward, overall_score)
         # We either keep the new state (if it's good) or revert to best state (if it's bad)
-        if reward < -0.1:
-            logger.warning("⚠️  Severe failure (reward %.4f < -0.1), will continue from best state", reward)
+        if reward < args.revert_threshold:
+            logger.warning("⚠️  Severe failure (reward %.4f < %.2f), will continue from best state", reward, args.revert_threshold)
             state_dict = best_state.copy()  # Revert to best state
         else:
-            logger.info("✅ Acceptable result (reward %.4f ≥ -0.1), using new state", reward)
+            logger.info("✅ Acceptable result (reward %.4f ≥ %.2f), using new state", reward, args.revert_threshold)
             state_dict = evolved_state.copy()  # Use new state
 
     # Save final summary
@@ -516,6 +517,7 @@ def main():
                 "best_reward": best_reward,
                 "model": args.model,
                 "openevolve": args.openevolve,
+                "revert_threshold": args.revert_threshold,
             },
             f,
             ensure_ascii=False,
