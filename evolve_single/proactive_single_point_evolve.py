@@ -128,7 +128,74 @@ def load_initial_files():
         "match_phase.cpp": match_phase,
         "match_phase_exact.cpp": match_phase_exact,
         "match_drop_phase.cpp": match_drop_phase,
+        "prev_area_score": None,
+        "prev_delay_score": None,
+        "prev_overall_score": None,
+        "prev_strategy": None,
     }
+
+
+def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_overall_score, prev_strategy):
+    """
+    Build context string for planner that includes code and previous iteration metrics.
+    
+    Args:
+        code_context: The merged code context (mapping_all.hpp content)
+        prev_area_score: Previous iteration's area_score (None for first iteration or if evaluation failed)
+        prev_delay_score: Previous iteration's delay_score (None for first iteration or if evaluation failed)
+        prev_overall_score: Previous iteration's overall_score (None for first iteration or if evaluation failed)
+        prev_strategy: Previous iteration's optimization strategy/persona (None for first iteration)
+    
+    Returns:
+        Formatted context string for the planner
+    """
+    context_parts = []
+    
+    # Add previous iteration metrics if this is not the first iteration
+    # Check if we have any indication this is not the first iteration (strategy is set or any score is set)
+    is_first_iteration = (prev_strategy is None and prev_area_score is None and 
+                         prev_delay_score is None and prev_overall_score is None)
+    
+    if not is_first_iteration:
+        context_parts.append("## Previous Iteration Results")
+        context_parts.append("The following information is from the previous evolution iteration:")
+        context_parts.append("")
+        
+        if prev_strategy is not None:
+            context_parts.append(f"**Optimization Strategy Used**: {prev_strategy}")
+        else:
+            context_parts.append("**Optimization Strategy Used**: Not available")
+        
+        if prev_area_score is not None:
+            context_parts.append(f"**Area Score**: {prev_area_score}")
+        else:
+            context_parts.append("**Area Score**: Not available (evaluation may have failed)")
+        
+        if prev_delay_score is not None:
+            context_parts.append(f"**Delay Score**: {prev_delay_score}")
+        else:
+            context_parts.append("**Delay Score**: Not available (evaluation may have failed)")
+        
+        if prev_overall_score is not None:
+            context_parts.append(f"**Overall Score**: {prev_overall_score}")
+        else:
+            context_parts.append("**Overall Score**: Not available (evaluation may have failed)")
+        
+        context_parts.append("")
+        context_parts.append("Use this information to guide your next evolution step. Consider:")
+        context_parts.append("- Whether the previous strategy was effective")
+        context_parts.append("- Which metric (area/delay/overall) needs improvement")
+        context_parts.append("- Whether to continue with the same strategy or try a different approach")
+        context_parts.append("- Lower scores are better (for area, delay, and overall_score)")
+        context_parts.append("")
+        context_parts.append("=" * 60)
+        context_parts.append("")
+    
+    # Add the code context
+    context_parts.append("## Current Code Context")
+    context_parts.append(code_context)
+    
+    return "\n".join(context_parts)
 
 
 def merge_mapping_files(state_dict, output_dir, iteration):
@@ -176,7 +243,7 @@ def evaluate_state(output_dir, iteration):
             program_paths.append(path)
 
     if not program_paths:
-        return -1.0, None
+        return -1.0, None, None, None
 
     try:
         evaluate_fn = _get_evaluator_evaluate()
@@ -258,10 +325,13 @@ def evaluate_state(output_dir, iteration):
                 indent=2,
             )
 
-        return reward, overall_score
+        area_score = result.get("area_score") if isinstance(result, dict) else None
+        delay_score = result.get("delay_score") if isinstance(result, dict) else None
+        
+        return reward, overall_score, area_score, delay_score
     except Exception as e:
         logger.error("Failed to evaluate iteration %d: %s", iteration, e)
-        return -1.0, None
+        return -1.0, None, None, None
 
 
 def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
@@ -280,8 +350,23 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
+    
+    # Get previous iteration metrics from state_dict
+    prev_area_score = state_dict.get('prev_area_score')
+    prev_delay_score = state_dict.get('prev_delay_score')
+    prev_overall_score = state_dict.get('prev_overall_score')
+    prev_strategy = state_dict.get('prev_strategy')
+    
+    # Build context with previous iteration info
+    planner_context = build_planner_context(
+        state_dict['context'],
+        prev_area_score,
+        prev_delay_score,
+        prev_overall_score,
+        prev_strategy
+    )
 
-    planner_output = planner.get_output(state_dict['context'])
+    planner_output = planner.get_output(planner_context)
 
     # Extract JSON from planner output
     json_match = re.search(r'```json\s*(\{.*?\})\s*```', planner_output, re.DOTALL)
@@ -290,14 +375,14 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
             plan_dict = json.loads(json_match.group(1))
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON in planner output: %s", e)
-            return state_dict, -1.0, None
+            return state_dict, -1.0, None, None, None
     else:
         # Try parsing as raw JSON
         try:
             plan_dict = json.loads(planner_output)
         except json.JSONDecodeError as e:
             logger.error("No valid JSON found in planner output: %s", e)
-            return state_dict, -1.0, None
+            return state_dict, -1.0, None, None, None
 
     # Extract chosen evolution point and evolution step
     chosen_point = plan_dict.get("chosen_evolution_point", {})
@@ -306,7 +391,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     if not target_file or not evolution_step:
         logger.error("Planner output missing required fields")
-        return state_dict, -1.0, None
+        return state_dict, -1.0, None, None, None
 
     logger.info("Planner selected: %s with persona: %s", target_file, plan_dict.get("chosen_persona", "Unknown"))
 
@@ -323,7 +408,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     initial_code = state_dict.get(target_file, "")
     if not initial_code:
         logger.error("Target file %s not found in planning state", target_file)
-        return state_dict, -1.0, None
+        return state_dict, -1.0, None, None, None
 
     if evolver:
         # Use LLM evolver
@@ -416,8 +501,15 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 5: Evaluate the evolved state
     logger.info("Step 5: Evaluating evolved code")
-    reward, overall_score = evaluate_state(output_dir, iteration)
-    logger.info("Evaluation completed: reward=%.4f, overall_score=%s", reward, overall_score)
+    reward, overall_score, area_score, delay_score = evaluate_state(output_dir, iteration)
+    logger.info("Evaluation completed: reward=%.4f, overall_score=%s, area_score=%s, delay_score=%s", 
+                reward, overall_score, area_score, delay_score)
+    
+    # Store scores and strategy for next iteration
+    new_state['prev_area_score'] = area_score
+    new_state['prev_delay_score'] = delay_score
+    new_state['prev_overall_score'] = overall_score
+    new_state['prev_strategy'] = plan_dict.get('chosen_persona', 'Unknown')
 
     # Save metadata
     with open(os.path.join(iter_dir, "metadata.txt"), 'w', encoding='utf-8') as f:
@@ -436,7 +528,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         f.write(evolver_output)
 
     logger.info("Iteration %d completed", iteration)
-    return new_state, reward, overall_score
+    return new_state, reward, overall_score, area_score, delay_score
 
 
 def main():
@@ -487,19 +579,21 @@ def main():
     # Track best state
     best_reward = -1.0
     best_state = state_dict.copy()
+    best_iteration = 0
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        evolved_state, reward, overall_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
+        evolved_state, reward, overall_score, area_score, delay_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
 
         # Update best state if reward improved
         if reward > best_reward:
             best_reward = reward
             best_state = evolved_state.copy()
+            best_iteration = i + 1
             if reward > 0:
-                logger.info("🎉 New best SUCCESS: %.4f (overall_score: %s)", best_reward, overall_score)
+                logger.info("🎉 New best SUCCESS: %.4f (overall_score: %s) at iteration %d", best_reward, overall_score, best_iteration)
             else:
-                logger.info("📈 New best (least bad): %.4f (overall_score: %s)", best_reward, overall_score)
+                logger.info("📈 New best (least bad): %.4f (overall_score: %s) at iteration %d", best_reward, overall_score, best_iteration)
         # We either keep the new state (if it's good) or revert to best state (if it's bad)
         if reward < args.revert_threshold:
             logger.warning("⚠️  Severe failure (reward %.4f < %.2f), will continue from best state", reward, args.revert_threshold)
@@ -515,6 +609,7 @@ def main():
             {
                 "total_iterations": args.iterations,
                 "best_reward": best_reward,
+                "best_iteration": best_iteration,
                 "model": args.model,
                 "openevolve": args.openevolve,
                 "revert_threshold": args.revert_threshold,
@@ -524,7 +619,7 @@ def main():
             indent=2,
         )
 
-    logger.info("Evolution completed. Best reward: %.4f", best_reward)
+    logger.info("Evolution completed. Best reward: %.4f at iteration %d", best_reward, best_iteration)
 
 
 if __name__ == "__main__":
