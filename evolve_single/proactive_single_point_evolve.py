@@ -4,7 +4,6 @@ import os
 import re
 import json
 import yaml
-import tempfile
 from datetime import datetime
 from typing import Callable, Dict, Any, Tuple
 import importlib.util
@@ -92,9 +91,9 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="qwen3-max", help="Model name")
+    parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
     parser.add_argument("--api-key", type=str, default="", help="API key")
-    parser.add_argument("--base-url", type=str, default="https://dashscope.aliyuncs.com/compatible-mode/v1", help="API base URL")
+    parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--revert-threshold", type=float, default=-0.1, help="Revert to best state when reward is below this threshold")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
@@ -138,50 +137,50 @@ def load_initial_files():
 def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_overall_score, prev_strategy):
     """
     Build context string for planner that includes code and previous iteration metrics.
-    
+
     Args:
         code_context: The merged code context (mapping_all.hpp content)
         prev_area_score: Previous iteration's area_score (None for first iteration or if evaluation failed)
         prev_delay_score: Previous iteration's delay_score (None for first iteration or if evaluation failed)
         prev_overall_score: Previous iteration's overall_score (None for first iteration or if evaluation failed)
-        prev_strategy: Previous iteration's optimization strategy/persona (None for first iteration)
-    
+        prev_strategy: Previous iteration's optimization strategy (None for first iteration)
+
     Returns:
         Formatted context string for the planner
     """
     context_parts = []
-    
+
     # Add previous iteration metrics if this is not the first iteration
     # Check if we have any indication this is not the first iteration (strategy is set or any score is set)
-    is_first_iteration = (prev_strategy is None and prev_area_score is None and 
-                         prev_delay_score is None and prev_overall_score is None)
-    
+    is_first_iteration = prev_strategy is None and prev_area_score is None and prev_delay_score is None and prev_overall_score is None
+
     if not is_first_iteration:
         context_parts.append("## Previous Iteration Results")
         context_parts.append("The following information is from the previous evolution iteration:")
         context_parts.append("")
-        
+
         if prev_strategy is not None:
             context_parts.append(f"**Optimization Strategy Used**: {prev_strategy}")
         else:
             context_parts.append("**Optimization Strategy Used**: Not available")
-        
+
         if prev_area_score is not None:
-            context_parts.append(f"**Area Score**: {prev_area_score}")
+            context_parts.append(f"**Area Reduction**: {prev_area_score}")
         else:
-            context_parts.append("**Area Score**: Not available (evaluation may have failed)")
-        
+            context_parts.append("**Area Reduction**: Not available (evaluation may have failed)")
+
         if prev_delay_score is not None:
-            context_parts.append(f"**Delay Score**: {prev_delay_score}")
+            context_parts.append(f"**Delay Reduction**: {prev_delay_score}")
         else:
-            context_parts.append("**Delay Score**: Not available (evaluation may have failed)")
-        
+            context_parts.append("**Delay Reduction**: Not available (evaluation may have failed)")
+
         if prev_overall_score is not None:
             context_parts.append(f"**Overall Score**: {prev_overall_score}")
         else:
             context_parts.append("**Overall Score**: Not available (evaluation may have failed)")
-        
+
         context_parts.append("")
+        '''
         context_parts.append("Use this information to guide your next evolution step. Consider:")
         context_parts.append("- Whether the previous strategy was effective")
         context_parts.append("- Which metric (area/delay/overall) needs improvement")
@@ -190,11 +189,12 @@ def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_
         context_parts.append("")
         context_parts.append("=" * 60)
         context_parts.append("")
-    
+        '''
+
     # Add the code context
     context_parts.append("## Current Code Context")
     context_parts.append(code_context)
-    
+
     return "\n".join(context_parts)
 
 
@@ -251,6 +251,8 @@ def evaluate_state(output_dir, iteration):
 
         # Initialize default values
         reward = 0.0
+        area_score = None
+        delay_score = None
         overall_score = None
         failed_rate = None
         error_msg = None
@@ -273,6 +275,8 @@ def evaluate_state(output_dir, iteration):
                 # Check failed_rate for logical equivalence
                 failed_rate = result.get("failed_rate", 1.0)  # Default to 1.0 (failed) if not present
                 overall_score = result.get("overall_score")
+                delay_score = result.get("delay_score")
+                area_score = result.get("area_score")
 
                 if failed_rate > 0:
                     # Code has logical equivalence failures - less severe than compilation error
@@ -325,9 +329,6 @@ def evaluate_state(output_dir, iteration):
                 indent=2,
             )
 
-        area_score = result.get("area_score") if isinstance(result, dict) else None
-        delay_score = result.get("delay_score") if isinstance(result, dict) else None
-        
         return reward, overall_score, area_score, delay_score
     except Exception as e:
         logger.error("Failed to evaluate iteration %d: %s", iteration, e)
@@ -350,21 +351,15 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
-    
+
     # Get previous iteration metrics from state_dict
     prev_area_score = state_dict.get('prev_area_score')
     prev_delay_score = state_dict.get('prev_delay_score')
     prev_overall_score = state_dict.get('prev_overall_score')
     prev_strategy = state_dict.get('prev_strategy')
-    
+
     # Build context with previous iteration info
-    planner_context = build_planner_context(
-        state_dict['context'],
-        prev_area_score,
-        prev_delay_score,
-        prev_overall_score,
-        prev_strategy
-    )
+    planner_context = build_planner_context(state_dict['context'], prev_area_score, prev_delay_score, prev_overall_score, prev_strategy)
 
     planner_output = planner.get_output(planner_context)
 
@@ -393,7 +388,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         logger.error("Planner output missing required fields")
         return state_dict, -1.0, None, None, None
 
-    logger.info("Planner selected: %s with persona: %s", target_file, plan_dict.get("chosen_persona", "Unknown"))
+    logger.info("Planner selected: %s with strategy: %s", target_file, plan_dict.get("chosen_strategy", "Unknown"))
 
     # Save planner output
     iter_dir = os.path.join(output_dir, f"iter_{iteration}")
@@ -502,20 +497,19 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     # Step 5: Evaluate the evolved state
     logger.info("Step 5: Evaluating evolved code")
     reward, overall_score, area_score, delay_score = evaluate_state(output_dir, iteration)
-    logger.info("Evaluation completed: reward=%.4f, overall_score=%s, area_score=%s, delay_score=%s", 
-                reward, overall_score, area_score, delay_score)
-    
+    logger.info("Evaluation completed: reward=%.4f, overall_score=%s, area_score=%s, delay_score=%s", reward, overall_score, area_score, delay_score)
+
     # Store scores and strategy for next iteration
     new_state['prev_area_score'] = area_score
     new_state['prev_delay_score'] = delay_score
     new_state['prev_overall_score'] = overall_score
-    new_state['prev_strategy'] = plan_dict.get('chosen_persona', 'Unknown')
+    new_state['prev_strategy'] = plan_dict.get('chosen_strategy', 'Unknown')
 
     # Save metadata
     with open(os.path.join(iter_dir, "metadata.txt"), 'w', encoding='utf-8') as f:
         f.write(f"Iteration: {iteration}\n")
         f.write(f"Target File: {target_file}\n")
-        f.write(f"Persona: {plan_dict.get('chosen_persona', 'Unknown')}\n")
+        f.write(f"Strategy: {plan_dict.get('chosen_strategy', 'Unknown')}\n")
         f.write(f"Reward: {reward}\n")
         f.write(f"Overall Score: {overall_score}\n")
         f.write("=" * 50 + "\n")

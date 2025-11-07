@@ -10,10 +10,10 @@ Analyze the technology mapping algorithm and propose **one targeted evolution st
 The input context contains two main sections:
 
 1. **Previous Iteration Results** (if available):
-   - **Optimization Strategy Used**: The persona/strategy (Area Optimizer, Delay Optimizer, or Balanced Optimizer) used in the previous iteration
-   - **Area Score**: The area score from the previous iteration's evaluation
-   - **Delay Score**: The delay score from the previous iteration's evaluation
-   - **Overall Score**: The overall score (weighted combination of area and delay) from the previous iteration
+   - **Optimization Strategy Used**: The strategy (Area Optimizer, Delay Optimizer, or Balanced Optimizer) used in the previous iteration
+   - **Area Reduction**: The average area reduction from the previous iteration's evaluation
+   - **Delay Reduction**: The average delay reduction from the previous iteration's evaluation
+   - **Overall Score**: The overall score (weighted combination of area reduction and delay reduction) from the previous iteration
    - For the first iteration, all these values will be None
 
 2. **Current Code Context**:
@@ -45,7 +45,7 @@ The input context contains two main sections:
     "module": "match_phase.cpp",
     "selection_rationale": "Comparison across all three conceptual regions, explaining why this one offers the greatest improvement potential."
   },
-  "chosen_persona": "Balanced Optimizer",
+  "chosen_strategy": "Balanced Optimizer",
   "evolution_step": {
     "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), cost computation loop for candidate cuts",
     "objective": "Refine the cost function to better capture the area-delay tradeoff.",
