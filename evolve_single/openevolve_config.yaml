@@ -1,19 +1,22 @@
 # Configuration for OpenEvolve mapping
-max_iterations: 3
+max_iterations: 90
 checkpoint_interval: 3
 log_level: "INFO"
 
 # LLM configuration
 llm:
   primary_model: "deepseek-v3-241226"
+  # primary_model: "qwen3-coder-plus"
   primary_model_weight: 0.8
   secondary_model: "deepseek-v3-241226"
+  # secondary_model: "qwen3-coder-plus"
   secondary_model_weight: 0.2
   api_key: ""
   api_base: "https://ark.cn-beijing.volces.com/api/v3"
-  temperature: 0.7
+  # api_base: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  temperature: 0.8 # Increased from 0.7 for more diversity in code variations
   top_p: 0.95
-  max_tokens: 8192
+  max_tokens: 16384 # Increased from 8192 to handle larger file contexts and detailed responses
 
 # Prompt configuration
 prompt:
@@ -29,6 +32,10 @@ prompt:
     3. **Template Safety**: Handle DO_AREA template parameter correctly (true/false branches)
     4. **Edge Cases**: Guard against division by zero, null pointers, empty cuts, boundary conditions
     5. **Performance**: Maintain algorithmic complexity and avoid regressions
+    6. **Keep Markers Intact**: Do not remove, rename, or relocate the EVOLVE-BLOCK markers themselves
+    7. **No New Dependencies**: Do not add new headers or external dependencies; do not add/remove includes
+    8. **Scope Preservation**: Do not modify namespaces or using directives outside the EVOLVE-BLOCK
+    9. **Formatting Stability**: Preserve file encoding (UTF-8) and line endings; avoid gratuitous whitespace-only changes
 
     ## Implementation Guidelines
     - **Minimal Changes**: Only modify what's necessary for the objective while maintaining logical equivalence with the input circuit
@@ -36,11 +43,63 @@ prompt:
     - **Reference Management**: Respect cut_ref/cut_deref semantics in exact phases
     - **Cost Consistency**: Maintain proper area/delay cost calculation patterns
     - **Style Consistency**: Follow existing code conventions and naming
+    - **Epsilon Comparisons**: Use epsilon for floating-point comparisons (avoid exact == for double/float)
+
+    ## Pre-Output Self-Validation Checklist
+    Before generating final output, verify:
+    - [ ] All edits are strictly within EVOLVE-BLOCK markers
+    - [ ] Function signatures unchanged (check template<...>, return types, parameter lists)
+    - [ ] DO_AREA branches both handled if modified (if constexpr/if-else)
+    - [ ] No division by zero (check denominators: cut.size(), flow values)
+    - [ ] No new #include directives added
+    - [ ] Epsilon comparisons used for floating-point (avoid exact == for double)
+    - [ ] cut_ref() and cut_deref() calls balanced in exact phases
+    - [ ] File still compiles conceptually (no obvious syntax errors)
 
     ## Common Evolution Patterns
     - **match_phase**: Area-flow calculations (`cut_leaves_flow`), arrival time computation, cost metrics
+      * Delay mechanism: Arrival time computed via `cuts.compute_truth_table()` evaluation; compare `arrival < best_arrival - threshold` to select fastest cut
+      * For delay optimization: Use threshold = 0.0001 (instead of epsilon=0.005) to prefer cuts with even slightly better arrival time; when arrivals nearly equal, examine per-pin delays
+      * For area optimization: Adjust area_flow weights, consider cut size penalties
     - **match_phase_exact**: Reference counting (`cut_ref`/`cut_deref`), exact area calculation, switch activity
+      * Delay mechanism: Enforces `worst_arrival <= node_data.required[index] + epsilon` to preserve timing
+      * Ensure cut_ref/cut_deref balance is maintained
+      * Tighten required time checks during ELA mode for delay preservation (reduce epsilon or add safety margin)
     - **match_drop_phase**: Phase decision logic, inverter cost analysis, ELA mode optimizations
+      * Delay mechanism: Phase flip decision compares `new_arrival` vs `old_arrival` for critical nodes
+      * For delay: Allow phase flip if `new_arrival < old_arrival - 0.01` even if area increases slightly (up to 1-2%)
+      * For area: Tighten inverter cost accounting to minimize phase flips
+
+    ## Strategy-Specific Guidance
+
+    ### When Delay Optimizer Strategy is Active:
+    - In match_phase (DO_AREA=false):
+      * Use more sensitive arrival comparison threshold (0.0001 instead of epsilon=0.005)
+      * When arrivals are nearly equal (<0.001 difference), prefer the cut that minimizes worst pin delay or has fewer levels
+      * Be cautious with area_flow tradeoffs: only accept area increase if delay gain is substantial (>1.5%)
+    - In match_drop_phase:
+      * Implement "critical-path-aware phase selection": allow phase flip if worst_arrival improves by >0.01 time units
+      * Tolerate small area increase (up to 1-2%) if delay improves significantly (>2%)
+      * Track phase flip impact on downstream node arrivals
+    - In match_phase_exact:
+      * Preserve required time constraints: ensure `worst_arrival <= required + epsilon` is not relaxed
+      * If ELA mode is active, add safety margin to required time checks to prevent timing violations
+
+    ### When Area Optimizer Strategy is Active:
+    - In match_phase (DO_AREA=true):
+      * Adjust area_flow calculation to penalize larger cuts more aggressively
+      * Consider cut size and fanout impact on downstream area
+    - In match_phase_exact:
+      * Optimize cut_ref/cut_deref logic for precise area accounting
+      * Fine-tune exact area calculation with switch activity consideration
+    - In match_drop_phase:
+      * Minimize inverter insertion through better phase decision logic
+      * Tighten phase selection to avoid unnecessary area overhead
+
+    ### When Balanced Optimizer Strategy is Active:
+    - Apply conservative modifications that improve both or maintain one while improving the other
+    - Use moderate thresholds (between area-focused and delay-focused values)
+    - Prioritize correctness and stability over aggressive optimization
 
     Focus on **correctness, algorithmic soundness, and measurable performance improvement**.
   num_top_programs: 3
@@ -49,16 +108,16 @@ prompt:
 # Database configuration
 database:
   population_size: 50
-  archive_size: 20
+  archive_size: 30 # Increased from 20 to retain more historical good solutions
   num_islands: 3
-  elite_selection_ratio: 0.2
-  exploitation_ratio: 0.7
+  elite_selection_ratio: 0.3 # Increased from 0.2 to preserve more top performers
+  exploitation_ratio: 0.65 # Decreased from 0.7 to encourage more exploration
 
 # Evaluator configuration
 evaluator:
   timeout: 400
   cascade_evaluation: true
-  cascade_thresholds: [0.5, 0.75]
+  cascade_thresholds: [0.6, 0.8] # Adjusted from [0.5, 0.75] for better filtering
   parallel_evaluations: 4
   use_llm_feedback: false
 

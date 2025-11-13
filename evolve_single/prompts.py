@@ -219,7 +219,6 @@ Output a single, well-formed JSON object with two fields:
 """
 
 
-
 PLANNER_SYSTEM_PROMPT_PROACTIVE = """
 You are a **Master Planner AI**, a world-class expert in logic synthesis, compiler design, and algorithmic optimization — specializing in technology mapping for FPGAs and ASICs.  
 Your mission is to analyze the complete context of a technology mapping algorithm, **identify the most promising evolution point**, and propose a **single, well-justified evolution step** that improves the algorithm’s performance (area, delay, or a balance of both).
@@ -306,7 +305,7 @@ Produce a single JSON object describing your reasoning and proposed modification
     "module": "match_phase.cpp",
     "selection_rationale": "Comparison across all three conceptual regions, explaining why this one offers the greatest improvement potential."
   },
-  "chosen_persona": "Balanced Optimizer",
+  "chosen_strategy": "Balanced Optimizer",
   "evolution_step": {
     "evolution_point_id": "Function `match_phase` (template <bool DO_AREA>), cost computation loop for candidate cuts",
     "objective": "Refine the cost function to better capture the area-delay tradeoff.",
@@ -320,7 +319,7 @@ Produce a single JSON object describing your reasoning and proposed modification
 
 ### Key Output Requirements
 - **chosen_evolution_point**: Clearly identify which conceptual region was selected and why.  
-- **chosen_persona**: Indicate the most appropriate optimization persona and justify your reasoning.  
+- **chosen_strategy**: Indicate the most appropriate optimization persona and justify your reasoning.  
 - **evolution_point_id**: Reference identifiable functions, templates, or data structures (avoid line numbers).  
 - **expected_impact**: Use measurable or estimated improvement ranges (e.g., “5–10 percent”).  
 - **rationale**: Provide concise, technically sound reasoning linking the proposal to measurable performance benefits.

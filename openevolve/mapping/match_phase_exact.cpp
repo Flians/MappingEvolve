@@ -79,7 +79,34 @@ namespace mockturtle::detail {
         if (worst_arrival > node_data.required[phase] + epsilon)
           continue;
 
-        if (compare_map<true>(worst_arrival, best_arrival, area_exact, best_exact_area, cut->size(), best_size)) {
+        // begin compare_map
+        bool flag_compare_map = false;
+        if constexpr (true) {
+          if (area_exact < best_exact_area - epsilon) {
+            flag_compare_map = true;
+          } else if (area_exact > best_exact_area + epsilon) {
+            flag_compare_map = false;
+          } else if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        } else {
+          if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (area_exact < best_exact_area - epsilon) {
+            flag_compare_map = true;
+          } else if (area_exact > best_exact_area + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        }
+        if (flag_compare_map) {
           best_arrival = worst_arrival;
           best_exact_area = area_exact;
           best_area = gate.area;
@@ -88,6 +115,7 @@ namespace mockturtle::detail {
           best_phase = gate_polarity;
           best_supergate = &gate;
         }
+        // end compare_map
       }
 
       ++cut_index;
@@ -224,39 +252,6 @@ namespace mockturtle::detail {
       }
     }
     return count;
-  }
-#endif
-
-#ifndef compare_map_ENABLED
-#define compare_map_ENABLED
-  template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
-  template <bool DO_AREA>
-  bool tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
-    if constexpr (DO_AREA) {
-      if (area_flow < best_area_flow - epsilon) {
-        return true;
-      } else if (area_flow > best_area_flow + epsilon) {
-        return false;
-      } else if (arrival < best_arrival - epsilon) {
-        return true;
-      } else if (arrival > best_arrival + epsilon) {
-        return false;
-      }
-    } else {
-      if (arrival < best_arrival - epsilon) {
-        return true;
-      } else if (arrival > best_arrival + epsilon) {
-        return false;
-      } else if (area_flow < best_area_flow - epsilon) {
-        return true;
-      } else if (area_flow > best_area_flow + epsilon) {
-        return false;
-      }
-    }
-    if (size < best_size) {
-      return true;
-    }
-    return false;
   }
 #endif
 } // namespace mockturtle::detail

@@ -1,3 +1,4 @@
+import shutil
 import sys
 import argparse
 import os
@@ -5,7 +6,7 @@ import re
 import json
 import yaml
 from datetime import datetime
-from typing import Callable, Dict, Any, Tuple
+from typing import Callable, Dict, Any, Tuple, List
 import importlib.util
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -65,12 +66,12 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
 
     # Build evolution step context string
     evolution_context = "\n\n## Current Evolution Step (from Planner)\n"
-    evolution_context += f"**Evolution Point**: {evolution_step.get('evolution_point_id', 'N/A')}\n"
-    evolution_context += f"**Objective**: {evolution_step.get('objective', 'N/A')}\n"
-    evolution_context += f"**Direction and Strategy**: {evolution_step.get('direction_and_strategy', 'N/A')}\n"
-    evolution_context += f"**Expected Impact**: {evolution_step.get('expected_impact', 'N/A')}\n"
-    evolution_context += f"**Constraints**: {evolution_step.get('constraints', 'N/A')}\n"
-    evolution_context += f"**Rationale**: {evolution_step.get('rationale', 'N/A')}\n"
+    evolution_context += f"**Evolution Point**: {evolution_step.get('evolution_point_id', 'None')}\n"
+    evolution_context += f"**Objective**: {evolution_step.get('objective', 'None')}\n"
+    evolution_context += f"**Direction and Strategy**: {evolution_step.get('direction_and_strategy', 'None')}\n"
+    evolution_context += f"**Expected Impact**: {evolution_step.get('expected_impact', 'None')}\n"
+    evolution_context += f"**Constraints**: {evolution_step.get('constraints', 'None')}\n"
+    evolution_context += f"**Rationale**: {evolution_step.get('rationale', 'None')}\n"
     evolution_context += "\n**Important**: Implement the modification described above while following all the rules and guidelines specified in this prompt.\n"
 
     # Modify system_message to include evolution step
@@ -91,9 +92,9 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
+    parser.add_argument("--model", type=str, default="qwen3-coder-plus", help="Model name")
     parser.add_argument("--api-key", type=str, default="", help="API key")
-    parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
+    parser.add_argument("--base-url", type=str, default="https://dashscope.aliyuncs.com/compatible-mode/v1", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--revert-threshold", type=float, default=-0.1, help="Revert to best state when reward is below this threshold")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
@@ -127,91 +128,178 @@ def load_initial_files():
         "match_phase.cpp": match_phase,
         "match_phase_exact.cpp": match_phase_exact,
         "match_drop_phase.cpp": match_drop_phase,
-        "prev_area_score": None,
-        "prev_delay_score": None,
-        "prev_overall_score": None,
-        "prev_strategy": None,
-        "prev_module": None,
+        "history": [],
     }
 
 
-def build_planner_context(code_context, prev_area_score, prev_delay_score, prev_overall_score, prev_strategy, prev_module):
+def build_planner_context(code_context, history=None):
     """
     Build context string for planner that includes code and previous iteration metrics.
 
     Args:
         code_context: The merged code context (mapping_all.hpp content)
-        prev_area_score: Previous iteration's area_score (None for first iteration or if evaluation failed)
-        prev_delay_score: Previous iteration's delay_score (None for first iteration or if evaluation failed)
-        prev_overall_score: Previous iteration's overall_score (None for first iteration or if evaluation failed)
-        prev_strategy: Previous iteration's optimization strategy (None for first iteration)
+        history: List of previous iteration results (dictionaries)
 
     Returns:
-        Formatted context string for the planner
+        (context_string, must_switch_module_flag: bool, previous_module: Optional[str])
     """
     context_parts = []
+    last_entry = None
+    if history:
+        last_entry = history[-1]
 
-    # Add previous iteration metrics if this is not the first iteration
-    # Check if we have any indication this is not the first iteration (strategy is set or any score is set)
-    is_first_iteration = prev_strategy is None and prev_area_score is None and prev_delay_score is None and prev_overall_score is None
-
-    if not is_first_iteration:
+    if last_entry:
         context_parts.append("## Previous Iteration Results")
-        context_parts.append("The following information is from the previous evolution iteration:")
+        prev_json = {
+            "chosen_module": last_entry.get("module", "None"),
+            "chosen_strategy": last_entry.get("strategy", "None"),
+            "area_score": last_entry.get("area_score", "None"),
+            "delay_score": last_entry.get("delay_score", "None"),
+            "overall_score": last_entry.get("overall_score", "None"),
+            "failed_rate": last_entry.get("failed_rate", "None"),
+        }
+        context_parts.append("```json")
+        try:
+            context_parts.append(json.dumps(prev_json, ensure_ascii=False, indent=2))
+        except Exception:
+            context_parts.append("{\n  \"error\": \"failed to serialize previous results\"\n}")
+        context_parts.append("```")
         context_parts.append("")
 
-        if prev_module is not None:
-            context_parts.append(f"**Module Chosen**: {prev_module}")
-        else:
-            context_parts.append("**Module Chosen**: Not available")
+    # Add adaptive & diversity signals if history available
+    must_switch_module = False
+    previous_module_val = None
+    if history:
+        try:
+            lookback_k = min(5, len(history))
+            recent = history[-lookback_k:]
+            delay_improvements = sum(1 for h in recent if isinstance(h.get("delay_score"), (int, float)) and (h.get("delay_score") or 0.0) > 0.0)
+            area_improvements = sum(1 for h in recent if isinstance(h.get("area_score"), (int, float)) and (h.get("area_score") or 0.0) > 0.0)
+            avg_delay = sum((h.get("delay_score") or 0.0) for h in recent) / max(1, len(recent))
+            avg_area = sum((h.get("area_score") or 0.0) for h in recent) / max(1, len(recent))
+            if delay_improvements == 0 and area_improvements == 0:
+                objective_hint = "Balanced"
+            elif avg_delay > 0 and avg_area > 0:
+                objective_hint = "Balanced"
+            elif avg_area > avg_delay:
+                objective_hint = "Area Priority"
+            else:
+                objective_hint = "Delay Priority"
 
-        if prev_strategy is not None:
-            context_parts.append(f"**Strategy Used**: {prev_strategy}")
-        else:
-            context_parts.append("**Strategy Used**: Not available")
+            # Module usage statistics
+            from collections import Counter
 
-        if prev_area_score is not None:
-            context_parts.append(f"**Area Reduction**: {prev_area_score}")
-        else:
-            context_parts.append("**Area Reduction**: Not available (evaluation may have failed)")
+            modules = [h.get("module") for h in history if h.get("module")]
+            previous_module_val = modules[-1] if modules else None
+            usage_counter = Counter(modules)
+            all_modules = ["match_phase.cpp", "match_phase_exact.cpp", "match_drop_phase.cpp"]
+            unexplored = [m for m in all_modules if usage_counter.get(m, 0) == 0]
+            consecutive_same = 0
+            if modules:
+                for m in reversed(modules):
+                    if m == previous_module_val:
+                        consecutive_same += 1
+                    else:
+                        break
+            # Stagnation: no improvements in recent window (independent of consecutive count)
+            last_k_no_improve = delay_improvements == 0 and area_improvements == 0
+            # Strict switch rule: if stagnation persists and same module is being reused frequently
+            stagnation = last_k_no_improve
+            must_switch_module = stagnation and consecutive_same >= 3
 
-        if prev_delay_score is not None:
-            context_parts.append(f"**Delay Reduction**: {prev_delay_score}")
-        else:
-            context_parts.append("**Delay Reduction**: Not available (evaluation may have failed)")
+            # Recommend explore: unexplored first else least used different from last
+            if unexplored:
+                recommended_explore = unexplored[:2]
+            else:
+                # sort by usage ascending excluding current last module
+                others = [m for m in all_modules if m != previous_module_val]
+                recommended_explore = sorted(others, key=lambda x: usage_counter.get(x, 0))[:2]
 
-        if prev_overall_score is not None:
-            context_parts.append(f"**Overall Score**: {prev_overall_score}")
-        else:
-            context_parts.append("**Overall Score**: Not available (evaluation may have failed)")
+            # Candidate weights heuristic: penalize fatigue on current module
+            candidate_weights = {}
+            for m in all_modules:
+                base = 1.0
+                fatigue_penalty = max(0, consecutive_same - 2) * 0.15 if modules and m == modules[-1] else 0.0
+                explore_bonus = 0.3 if m in recommended_explore else 0.0
+                candidate_weights[m] = round(base - fatigue_penalty + explore_bonus, 3)
 
-        context_parts.append("")
+            context_parts.append("## Adaptive & Diversity Signals")
+            context_parts.append(f"Recent window size: {lookback_k}")
+            context_parts.append(f"Avg area_score: {avg_area:.6f} | Avg delay_score: {avg_delay:.6f}")
+            context_parts.append(f"Area improvements in window: {area_improvements} | Delay improvements in window: {delay_improvements}")
+            context_parts.append(f"Objective Hint: {objective_hint}")
+            context_parts.append(f"Module usage: {dict(usage_counter)}")
+            context_parts.append(f"Consecutive same module: {consecutive_same}")
+            context_parts.append(f"Unexplored modules: {unexplored if unexplored else 'None'}")
+            context_parts.append(f"Recommended explore: {recommended_explore}")
+            context_parts.append(f"Stagnation (no improvement in window): {stagnation}")
+            context_parts.append(f"Must switch module (strict rule): {must_switch_module}")
+            # Provide machine-readable JSON for planner
+            diversity_json = {
+                "objective_hint": objective_hint,
+                "module_usage": dict(usage_counter),
+                "consecutive_same_module": consecutive_same,
+                "previous_module": previous_module_val,
+                "unexplored_modules": unexplored,
+                "recommended_explore": recommended_explore,
+                "stagnation": stagnation,
+                "last_k_no_improve": last_k_no_improve,
+                "must_switch_module": must_switch_module,
+                "candidate_weights": candidate_weights,
+            }
+            context_parts.append("```json")
+            context_parts.append(json.dumps(diversity_json, ensure_ascii=False, indent=2))
+            context_parts.append("```")
+            context_parts.append("")
+        except Exception as e:
+            context_parts.append(f"<!-- diversity signals error: {e} -->")
 
     # Add the code context
     context_parts.append("## Current Code Context")
     context_parts.append(code_context)
 
-    return "\n".join(context_parts)
+    return "\n".join(context_parts), must_switch_module, previous_module_val
 
 
-def merge_mapping_files(state_dict, output_dir, iteration):
-    """Merge evolved source files into mapping_all.hpp and return updated context."""
+def prepare_evaluation_env(state_dict, iter_dir):
+    """Copy evaluator and initial mapping files to iteration directory."""
+    shutil.copy2(f'{PARENT_DIR}/mapping/evaluator.py', os.path.join(iter_dir, "evaluator.py"))
+    shutil.copytree(f'{PARENT_DIR}/mapping', os.path.join(iter_dir, "initial_mapping"), dirs_exist_ok=True)
+
     file_order = [
-        ("match_phase.cpp", 50),
-        ("match_phase_exact.cpp", 152),
-        ("match_drop_phase.cpp", 167),
+        ("match_phase.cpp", 18),
+        ("match_phase_exact.cpp", 120),
+        ("match_drop_phase.cpp", 135),
     ]
 
     source_paths = {}
     for fname, _ in file_order:
         if fname in state_dict:
-            path = os.path.join(output_dir, f"iter_{iteration}", fname)
+            path = os.path.join(iter_dir, 'initial_mapping', fname)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, 'w', encoding='utf-8') as f:
                 f.write(state_dict[fname])
             source_paths[fname] = path
 
-    output_mapping_path = os.path.join(output_dir, f"iter_{iteration}", "mapping_all.hpp")
+
+def merge_mapping_files(state_dict, iter_dir):
+    """Merge evolved source files into evolved_mapping_all.hpp and return updated context."""
+    file_order = [
+        ("match_phase.cpp", 18),
+        ("match_phase_exact.cpp", 120),
+        ("match_drop_phase.cpp", 135),
+    ]
+
+    source_paths = {}
+    for fname, _ in file_order:
+        if fname in state_dict:
+            path = os.path.join(iter_dir, 'evolved_mapping', fname)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(state_dict[fname])
+            source_paths[fname] = path
+
+    output_mapping_path = os.path.join(iter_dir, "evolved_mapping_all.hpp")
     append_fn = _get_append_hpp_code()
 
     current_base = None
@@ -234,12 +322,12 @@ def evaluate_state(output_dir, iteration):
     program_paths = []
 
     for name in file_names:
-        path = os.path.join(iter_dir, name)
+        path = os.path.join(iter_dir, 'evolved_mapping', name)
         if os.path.exists(path):
             program_paths.append(path)
 
     if not program_paths:
-        return -1.0, None, None, None
+        return -1.0, None, None, None, None
 
     try:
         evaluate_fn = _get_evaluator_evaluate()
@@ -325,13 +413,13 @@ def evaluate_state(output_dir, iteration):
                 indent=2,
             )
 
-        return reward, overall_score, area_score, delay_score
+        return reward, area_score, delay_score, overall_score, failed_rate
     except Exception as e:
         logger.error("Failed to evaluate iteration %d: %s", iteration, e)
-        return -1.0, None, None, None
+        return -1.0, None, None, None, None
 
 
-def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration):
+def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration, global_history):
     """Perform one evolution iteration: planner proposes -> evolver implements -> evaluate.
 
     Args:
@@ -348,44 +436,102 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
 
-    # Get previous iteration metrics from state_dict
-    prev_area_score = state_dict.get('prev_area_score')
-    prev_delay_score = state_dict.get('prev_delay_score')
-    prev_overall_score = state_dict.get('prev_overall_score')
-    prev_strategy = state_dict.get('prev_strategy')
-    prev_module = state_dict.get('prev_module')
-
-    # Build context with previous iteration info
-    planner_context = build_planner_context(state_dict['context'], prev_area_score, prev_delay_score, prev_overall_score, prev_strategy, prev_module)
+    # Build planner context using global history (independent from state_dict)
+    planner_context, must_switch_module_flag, previous_module_in_history = build_planner_context(state_dict['context'], history=global_history)
 
     planner_output = planner.get_output(planner_context)
 
-    # Extract JSON from planner output
-    json_match = re.search(r'```json\s*(\{.*?\})\s*```', planner_output, re.DOTALL)
-    if json_match:
+    # Extract JSON from planner output with robustness to multiple blocks
+    def _is_valid_plan(obj: Dict[str, Any]) -> bool:
         try:
-            plan_dict = json.loads(json_match.group(1))
-        except json.JSONDecodeError as e:
-            logger.error("Invalid JSON in planner output: %s", e)
-            return state_dict, -1.0, None, None, None
-    else:
-        # Try parsing as raw JSON
+            if not isinstance(obj, dict):
+                return False
+            if "chosen_evolution_point" not in obj or "chosen_strategy" not in obj or "evolution_step" not in obj:
+                return False
+            cep = obj.get("chosen_evolution_point", {})
+            if not isinstance(cep, dict):
+                return False
+            cm = cep.get("chosen_module")
+            return isinstance(cm, str) and len(cm) > 0
+        except Exception:
+            return False
+
+    plan_dict = None
+    fenced_blocks = re.findall(r"```json\s*(\{[\s\S]*?\})\s*```", planner_output)
+    for block in fenced_blocks:
         try:
-            plan_dict = json.loads(planner_output)
-        except json.JSONDecodeError as e:
-            logger.error("No valid JSON found in planner output: %s", e)
-            return state_dict, -1.0, None, None, None
+            candidate = json.loads(block)
+            if _is_valid_plan(candidate):
+                plan_dict = candidate
+        except Exception:
+            continue
+    if plan_dict is None:
+        # Fallback to raw JSON parse
+        try:
+            candidate = json.loads(planner_output)
+            if _is_valid_plan(candidate):
+                plan_dict = candidate
+        except Exception as e:
+            logger.error("No valid JSON plan found in planner output: %s", e)
+            return state_dict, -1.0, None, None, None, None
+    if plan_dict is None:
+        logger.error("Planner output did not contain a valid plan JSON block")
+        return state_dict, -1.0, None, None, None, None
 
     # Extract chosen evolution point and evolution step
     chosen_point = plan_dict.get("chosen_evolution_point", {})
-    target_file = chosen_point.get("module", "")
+    target_file = chosen_point.get("chosen_module", "")
     evolution_step = plan_dict.get("evolution_step", {})
+    chosen_strategy = plan_dict.get("chosen_strategy", "Unknown")
+
+    # Enforce must_switch_module via one lightweight retry if violated
+    if must_switch_module_flag and previous_module_in_history and target_file == previous_module_in_history:
+        logger.info("Must-switch violation detected (module=%s used consecutively under stagnation). Retrying planner once with explicit constraint.", target_file)
+        retry_hint = (
+            "\n\n[ENFORCEMENT NOTICE]\n"
+            "Stagnation persists and the previous module '%s' was chosen again despite must_switch_module=true. "
+            "You MUST choose a DIFFERENT module than '%s'. Prefer one of the recommended_explore modules from the diversity signals. "
+            "Re-evaluate and output ONLY the corrected JSON plan." % (target_file, target_file)
+        )
+        # Append enforcement notice to original planner output context
+        planner_output_retry = planner.get_output(planner_context + retry_hint)
+        # Parse retry output using same logic
+        fenced_blocks_retry = re.findall(r"```json\s*(\{[\s\S]*?\})\s*```", planner_output_retry)
+        retry_plan = None
+        for block in fenced_blocks_retry:
+            try:
+                cand = json.loads(block)
+
+                # reuse validation function
+                def _is_valid_plan(obj: Dict[str, Any]) -> bool:
+                    if not isinstance(obj, dict):
+                        return False
+                    if "chosen_evolution_point" not in obj or "chosen_strategy" not in obj or "evolution_step" not in obj:
+                        return False
+                    cep = obj.get("chosen_evolution_point", {})
+                    cm = cep.get("chosen_module") if isinstance(cep, dict) else None
+                    return isinstance(cm, str) and len(cm) > 0 and cm != previous_module_in_history
+
+                if _is_valid_plan(cand):
+                    retry_plan = cand
+            except Exception:
+                continue
+        if retry_plan is not None:
+            plan_dict = retry_plan
+            chosen_point = plan_dict.get("chosen_evolution_point", {})
+            target_file = chosen_point.get("chosen_module", "")
+            evolution_step = plan_dict.get("evolution_step", {})
+            chosen_strategy = plan_dict.get("chosen_strategy", "Unknown")
+            logger.info("Retry succeeded with new module: %s", target_file)
+        else:
+            logger.warning("Retry did not produce a valid switched module; proceeding with original selection (%s) and recording violation.", target_file)
+            # Optionally could mark hist_entry later with violation flag (handled after evaluation)
 
     if not target_file or not evolution_step:
         logger.error("Planner output missing required fields")
-        return state_dict, -1.0, None, None, None
+        return state_dict, -1.0, None, None, None, None
 
-    logger.info("Planner selected: %s with strategy: %s", target_file, plan_dict.get("chosen_strategy", "Unknown"))
+    logger.info("Planner selected: %s with strategy: %s", target_file, chosen_strategy)
 
     # Save planner output
     iter_dir = os.path.join(output_dir, f"iter_{iteration}")
@@ -400,7 +546,9 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
     initial_code = state_dict.get(target_file, "")
     if not initial_code:
         logger.error("Target file %s not found in planning state", target_file)
-        return state_dict, -1.0, None, None, None
+        return state_dict, -1.0, None, None, None, None
+    # copy the evaluator.py to iter_dir
+    prepare_evaluation_env(state_dict, iter_dir)
 
     if evolver:
         # Use LLM evolver
@@ -419,12 +567,6 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
             evolved_content = evo_json.get("evolved_file_content", initial_code)
         except Exception as e:
             logger.warning("Failed to parse evolver JSON, keeping original: %s", e)
-
-        # Save evolver output
-        with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
-            f.write(evolver_output)
-        with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
-            f.write(evolved_content)
     else:
         # Use openevolve.run_evolution for evolution
         logger.info("Using openevolve to evolve %s", target_file)
@@ -450,8 +592,9 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
             try:
                 result = _oe_run_evolution(
                     initial_program=candidate_path,
-                    evaluator=f"{PARENT_DIR}/openevolve/mapping/evaluator.py",
+                    evaluator=os.path.join(iter_dir, "evaluator.py"),
                     config=cur_config_path,  # Use modified config with evolution_step
+                    iterations=3,
                     output_dir=openevolve_output_dir,
                 )
                 # Extract best_code from EvolutionResult
@@ -476,11 +619,11 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
                 evolver_output = f"OpenEvolve failed: {e}"
                 evolved_content = initial_code
 
-        # Save evolver output (openevolve status)
-        with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
-            f.write(evolver_output)
-        with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
-            f.write(evolved_content)
+    # Save evolver output
+    with open(os.path.join(iter_dir, "evolver_output.txt"), 'w', encoding='utf-8') as f:
+        f.write(evolver_output)
+    with open(os.path.join(iter_dir, f"evolved_{target_file}"), 'w', encoding='utf-8') as f:
+        f.write(evolved_content)
 
     # Step 3: Update state with evolved file
     new_state = state_dict.copy()
@@ -488,26 +631,33 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
 
     # Step 4: Merge files and update context
     logger.info("Step 4: Merging files and updating context")
-    new_context = merge_mapping_files(new_state, output_dir, iteration)
+    new_context = merge_mapping_files(new_state, iter_dir)
     new_state["context"] = new_context
 
     # Step 5: Evaluate the evolved state
     logger.info("Step 5: Evaluating evolved code")
-    reward, overall_score, area_score, delay_score = evaluate_state(output_dir, iteration)
-    logger.info("Evaluation completed: reward=%.4f, overall_score=%s, area_score=%s, delay_score=%s", reward, overall_score, area_score, delay_score)
+    reward, area_score, delay_score, overall_score, failed_rate = evaluate_state(output_dir, iteration)
+    logger.info("Evaluation completed: reward=%.4f, area_score=%s, delay_score=%s, overall_score=%s, failed_rate=%s", reward, area_score, delay_score, overall_score, failed_rate)
 
-    # Store scores and strategy for next iteration
-    new_state['prev_area_score'] = area_score
-    new_state['prev_delay_score'] = delay_score
-    new_state['prev_overall_score'] = overall_score
-    new_state['prev_strategy'] = plan_dict.get('chosen_strategy', 'Unknown')
-    new_state['prev_module'] = target_file
+    # Prepare this iteration history entry; do not decide acceptance here
+    hist_entry = {
+        "iteration": iteration,
+        "module": target_file,
+        "strategy": chosen_strategy,
+        "area_score": area_score,
+        "delay_score": delay_score,
+        "overall_score": overall_score,
+        "failed_rate": failed_rate,
+        "must_switch_module": must_switch_module_flag,
+        "switch_violation": must_switch_module_flag and previous_module_in_history and target_file == previous_module_in_history,
+    }
+    # Do not modify new_state['history'] here; managed by caller upon acceptance
 
     # Save metadata
     with open(os.path.join(iter_dir, "metadata.txt"), 'w', encoding='utf-8') as f:
         f.write(f"Iteration: {iteration}\n")
         f.write(f"Target File: {target_file}\n")
-        f.write(f"Strategy: {plan_dict.get('chosen_strategy', 'Unknown')}\n")
+        f.write(f"Strategy: {chosen_strategy}\n")
         f.write(f"Reward: {reward}\n")
         f.write(f"Overall Score: {overall_score}\n")
         f.write("=" * 50 + "\n")
@@ -520,7 +670,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration)
         f.write(evolver_output)
 
     logger.info("Iteration %d completed", iteration)
-    return new_state, reward, overall_score, area_score, delay_score
+    return new_state, reward, overall_score, area_score, delay_score, hist_entry
 
 
 def main():
@@ -572,10 +722,14 @@ def main():
     best_reward = -1.0
     best_state = state_dict.copy()
     best_iteration = 0
+    best_delay = 0
+
+    # Global history accumulates all iterations (accepted or reverted)
+    global_history = []
 
     # Perform evolution iterations
     for i in range(args.iterations):
-        evolved_state, reward, overall_score, area_score, delay_score = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1)
+        evolved_state, reward, overall_score, area_score, delay_score, hist_entry = evolve_single_iteration(state_dict, planner, evolver, output_dir, i + 1, global_history)
 
         # Update best state if reward improved
         if reward > best_reward:
@@ -586,13 +740,47 @@ def main():
                 logger.info("🎉 New best SUCCESS: %.4f (overall_score: %s) at iteration %d", best_reward, overall_score, best_iteration)
             else:
                 logger.info("📈 New best (least bad): %.4f (overall_score: %s) at iteration %d", best_reward, overall_score, best_iteration)
-        # We either keep the new state (if it's good) or revert to best state (if it's bad)
-        if reward < args.revert_threshold:
-            logger.warning("⚠️  Severe failure (reward %.4f < %.2f), will continue from best state", reward, args.revert_threshold)
-            state_dict = best_state.copy()  # Revert to best state
+        # Multi-criteria acceptance logic
+        accepted_by = None
+        if reward >= args.revert_threshold:
+            accepted = True
+            accepted_by = "threshold"
+        elif isinstance(delay_score, (int, float)) and delay_score is not None and delay_score > 0.9 * best_delay:
+            accepted = True
+            accepted_by = "delay_tradeoff"
         else:
-            logger.info("✅ Acceptable result (reward %.4f ≥ %.2f), using new state", reward, args.revert_threshold)
-            state_dict = evolved_state.copy()  # Use new state
+            accepted = False
+            accepted_by = "none"
+
+        if best_delay > delay_score:
+            best_delay = delay_score
+
+        if hist_entry is None:
+            hist_entry = {
+                "iteration": i + 1,
+                "module": None,
+                "strategy": None,
+                "area_score": None,
+                "delay_score": None,
+                "overall_score": None,
+                "failed_rate": None,
+            }
+        hist_entry['accepted'] = accepted
+        hist_entry['accepted_by'] = accepted_by
+        global_history.append(hist_entry)
+        # Trim global history (keep last 200 for wider diversity window)
+        if len(global_history) > 200:
+            global_history = global_history[-200:]
+
+        if not accepted:
+            logger.warning("⚠️  Reverting (accepted_by=%s, reward %.4f < %.2f)", accepted_by, reward, args.revert_threshold)
+            state_dict = best_state.copy()
+        else:
+            logger.info("✅ Accepted via %s (reward %.4f)", accepted_by, reward)
+            state_dict = evolved_state.copy()
+            accepted_hist = list(state_dict.get('history', []))
+            accepted_hist.append({k: hist_entry[k] for k in hist_entry if k not in ('accepted',)})
+            state_dict['history'] = accepted_hist[-50:]
 
     # Save final summary
     summary_path = os.path.join(output_dir, "summary.json")

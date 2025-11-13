@@ -96,11 +96,11 @@ def merge_all_codes(output_mapping_path: str, file_list: list[str]):
     for source_file in file_list:
         n = 1
         if 'match_phase.' in source_file:
-            n = 50
+            n = 18
         elif 'match_phase_exact.' in source_file:
-            n = 152
+            n = 120
         elif 'match_drop_phase.' in source_file:
-            n = 167
+            n = 135
         else:
             continue
         success = append_hpp_code(output_mapping_path, source_file, n, mapping_hpp_path=current_out_file)
@@ -112,7 +112,7 @@ def merge_all_codes(output_mapping_path: str, file_list: list[str]):
 
 if __name__ == "__main__":
     # Execute the append operation
-    # success = append_hpp_code('openevolve/ccode/mapping_all.hpp', 'openevolve/mapping/match_phase.cpp', 50)
+    # success = append_hpp_code('openevolve/ccode/mapping_all.hpp', 'openevolve/mapping/match_phase.cpp', 18)
     success = merge_all_codes('openevolve/ccode/mapping_all.hpp', ['openevolve/mapping/match_phase.cpp', 'openevolve/mapping/match_phase_exact.cpp', 'openevolve/mapping/match_drop_phase.cpp'])
 
     if not success:

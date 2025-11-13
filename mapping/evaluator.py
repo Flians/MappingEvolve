@@ -33,7 +33,7 @@ def find_matching_function(file_path: str, encoding: str = "utf-8") -> str:
 
 def build_and_run_cmake_project(
     program_path: str | os.PathLike | list[str | os.PathLike],
-    project_dir: str | os.PathLike = f'{CUR_DIR}/../../',
+    project_dir: str | os.PathLike = f'{CUR_DIR}/../../../',
     build_type: str = "Release",
     generator: str | None = None,
     target: str | None = None,
@@ -54,14 +54,13 @@ def build_and_run_cmake_project(
     if not isinstance(program_path, list):
         program_path = [program_path]
 
-    src = Path(f'{project_dir}/mapping').resolve()
+    src = Path(f'{CUR_DIR}/initial_mapping').resolve()
     src_CMakeLists = Path(f'{project_dir}/CMakeLists.txt').resolve()
     src_mockturtule = Path(f'{project_dir}/third-party/mockturtle').resolve()
     src_third_CMakeLists = Path(f'{project_dir}/third-party/CMakeLists.txt').resolve()
     with tempfile.TemporaryDirectory(prefix="mapping_") as tmpdir:
         tmp_path = Path(tmpdir)
-        dst = tmp_path / src.name
-        shutil.copytree(src, dst, dirs_exist_ok=True)
+        shutil.copytree(src, tmp_path / 'mapping', dirs_exist_ok=True)
         shutil.copy2(src_CMakeLists, tmp_path / "CMakeLists.txt")
         shutil.copytree(src_mockturtule, tmp_path / "third-party/mockturtle", dirs_exist_ok=True)
         shutil.copy2(src_third_CMakeLists, tmp_path / "third-party/CMakeLists.txt")
@@ -69,7 +68,7 @@ def build_and_run_cmake_project(
         for p in program_path:
             tpp_name = find_matching_function(p)
             if tpp_name:
-                shutil.copy(p, f"{dst}/{tpp_name}.cpp")
+                shutil.copy(p, f"{tmp_path}/mapping/{tpp_name}.cpp")
 
         build_dir = tmp_path / "build"
         build_dir.mkdir(exist_ok=True)

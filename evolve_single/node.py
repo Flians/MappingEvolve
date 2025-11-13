@@ -165,9 +165,15 @@ class LLMNode(Node):
 
     def find_random_child(self):
         node_classes = [
-            AreaMatchPhaseNode, AreaMatchPhaseExactNode, AreaMatchDropPhaseNode,
-            DelayMatchPhaseNode, DelayMatchPhaseExactNode, DelayMatchDropPhaseNode,
-            BalancedMatchPhaseNode, BalancedMatchPhaseExactNode, BalancedMatchDropPhaseNode
+            AreaMatchPhaseNode,
+            AreaMatchPhaseExactNode,
+            AreaMatchDropPhaseNode,
+            DelayMatchPhaseNode,
+            DelayMatchPhaseExactNode,
+            DelayMatchDropPhaseNode,
+            BalancedMatchPhaseNode,
+            BalancedMatchPhaseExactNode,
+            BalancedMatchDropPhaseNode,
         ]
         return random.choice(node_classes)(self.state if self._initialized else self.state_dict, self.planner, self.evolver, self.output_dir, openevolve=self.openevolve, parent=self, depth=self.depth + 1)
 
@@ -257,7 +263,7 @@ class LLMNode(Node):
         # Get the target file for this node
         target_file = getattr(self, 'target_file', None)
         assert target_file is not None, "Node must have a target_file attribute"
-        
+
         # Planner proposes a plan based on the context and prompt
         planner_output = self.planner.get_output(previous_state_dict["context"] + self.prompt)
 
@@ -275,16 +281,14 @@ class LLMNode(Node):
         assert "evolution_step" in plan_dict, f"Plan must contain 'evolution_step' field. Got keys: {list(plan_dict.keys())}"
         assert "target_file" in plan_dict, f"Plan must contain 'target_file' field. Got keys: {list(plan_dict.keys())}"
         assert plan_dict["target_file"] == target_file, f"Plan target_file '{plan_dict['target_file']}' does not match node target_file '{target_file}'"
-        
+
         expected_files = {"match_phase.cpp", "match_phase_exact.cpp", "match_drop_phase.cpp"}
         assert target_file in expected_files, f"Target file {target_file} is not in expected files: {expected_files}"
 
         # Convert plan format to {filename: plan_description} for evolver
         # Plan format from planner: {target_file, persona, evolution_step}
         evolution_step = plan_dict["evolution_step"]
-        self.plan = {
-            target_file: json.dumps(evolution_step, indent=2)
-        }
+        self.plan = {target_file: json.dumps(evolution_step, indent=2)}
 
         # Evolver proposes changes for the target file
         self.proposed_changes = {}
@@ -376,9 +380,9 @@ class LLMNode(Node):
 
             # Write evolved/current files to disk under this node directory
             file_order = [
-                ("match_phase.cpp", 50),
-                ("match_phase_exact.cpp", 152),
-                ("match_drop_phase.cpp", 167),
+                ("match_phase.cpp", 18),
+                ("match_phase_exact.cpp", 120),
+                ("match_drop_phase.cpp", 135),
             ]
 
             source_paths = {}
@@ -414,6 +418,7 @@ class LLMNode(Node):
 
 
 # 9 node classes: (Area/Delay/Balanced) × (match_phase.cpp/match_phase_exact.cpp/match_drop_phase.cpp)
+
 
 class AreaMatchPhaseNode(LLMNode):
     prompt = "\n\nYou are acting as an Area Optimizer. Your target evolution point file is: match_phase.cpp. Propose a single evolution step for this file."

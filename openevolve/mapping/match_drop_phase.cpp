@@ -67,11 +67,43 @@ namespace mockturtle::detail {
             auto size_phase = cuts.cuts(index)[node_data.best_cut[phase]].size();
             auto size_nphase = cuts.cuts(index)[node_data.best_cut[nphase]].size();
 
-            if (compare_map<DO_AREA>(node_data.arrival[nphase] + lib_inv_delay, node_data.arrival[phase], node_data.flows[nphase] + lib_inv_area, node_data.flows[phase], size_nphase, size_phase)) {
+            // begin compare_map
+            double arrival = node_data.arrival[nphase] + lib_inv_delay;
+            double best_arrival = node_data.arrival[phase];
+            double area_flow = node_data.flows[nphase] + lib_inv_area;
+            double best_area_flow = node_data.flows[phase];
+            bool flag_compare_map = false;
+            if constexpr (DO_AREA) {
+              if (area_flow < best_area_flow - epsilon) {
+                flag_compare_map = true;
+              } else if (area_flow > best_area_flow + epsilon) {
+                flag_compare_map = false;
+              } else if (arrival < best_arrival - epsilon) {
+                flag_compare_map = true;
+              } else if (arrival > best_arrival + epsilon) {
+                flag_compare_map = false;
+              } else if (size_nphase < size_phase) {
+                flag_compare_map = true;
+              }
+            } else {
+              if (arrival < best_arrival - epsilon) {
+                flag_compare_map = true;
+              } else if (arrival > best_arrival + epsilon) {
+                flag_compare_map = false;
+              } else if (area_flow < best_area_flow - epsilon) {
+                flag_compare_map = true;
+              } else if (area_flow > best_area_flow + epsilon) {
+                flag_compare_map = false;
+              } else if (size_nphase < size_phase) {
+                flag_compare_map = true;
+              }
+            }
+            if (flag_compare_map) {
               /* invert the choice */
               use_zero = !use_zero;
               use_one = !use_one;
             }
+            // end compare_map
           }
         }
       }
@@ -90,10 +122,41 @@ namespace mockturtle::detail {
     if (use_zero && use_one) {
       auto size_zero = cuts.cuts(index)[node_data.best_cut[0]].size();
       auto size_one = cuts.cuts(index)[node_data.best_cut[1]].size();
-      if (compare_map<DO_AREA>(worst_arrival_nneg, worst_arrival_npos, node_data.flows[0], node_data.flows[1], size_zero, size_one))
+      // begin compare_map
+      double area_flow = node_data.flows[0];
+      double best_area_flow = node_data.flows[1];
+      bool flag_compare_map = false;
+      if constexpr (DO_AREA) {
+        if (area_flow < best_area_flow - epsilon) {
+          flag_compare_map = true;
+        } else if (area_flow > best_area_flow + epsilon) {
+          flag_compare_map = false;
+        } else if (worst_arrival_nneg < worst_arrival_npos - epsilon) {
+          flag_compare_map = true;
+        } else if (worst_arrival_nneg > worst_arrival_npos + epsilon) {
+          flag_compare_map = false;
+        } else if (size_zero < size_one) {
+          flag_compare_map = true;
+        }
+      } else {
+        if (worst_arrival_nneg < worst_arrival_npos - epsilon) {
+          flag_compare_map = true;
+        } else if (worst_arrival_nneg > worst_arrival_npos + epsilon) {
+          flag_compare_map = false;
+        } else if (area_flow < best_area_flow - epsilon) {
+          flag_compare_map = true;
+        } else if (area_flow > best_area_flow + epsilon) {
+          flag_compare_map = false;
+        } else if (size_zero < size_one) {
+          flag_compare_map = true;
+        }
+      }
+      if (flag_compare_map) {
         use_one = false;
-      else
+      } else {
         use_zero = false;
+      }
+      // end compare_map
     }
 
     if (use_zero) {
@@ -261,39 +324,6 @@ namespace mockturtle::detail {
       }
     }
     return count;
-  }
-#endif
-
-#ifndef compare_map_ENABLED
-#define compare_map_ENABLED
-  template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
-  template <bool DO_AREA>
-  bool tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
-    if constexpr (DO_AREA) {
-      if (area_flow < best_area_flow - epsilon) {
-        return true;
-      } else if (area_flow > best_area_flow + epsilon) {
-        return false;
-      } else if (arrival < best_arrival - epsilon) {
-        return true;
-      } else if (arrival > best_arrival + epsilon) {
-        return false;
-      }
-    } else {
-      if (arrival < best_arrival - epsilon) {
-        return true;
-      } else if (arrival > best_arrival + epsilon) {
-        return false;
-      } else if (area_flow < best_area_flow - epsilon) {
-        return true;
-      } else if (area_flow > best_area_flow + epsilon) {
-        return false;
-      }
-    }
-    if (size < best_size) {
-      return true;
-    }
-    return false;
   }
 #endif
 } // namespace mockturtle::detail

@@ -623,7 +623,19 @@ namespace mockturtle {
       template <bool DO_AREA, bool ELA>
       void match_drop_phase(node<Ntk> const &n, float required_margin_factor);
 
-      inline void set_match_complemented_phase(uint32_t index, uint8_t phase, double worst_arrival_n);
+      inline void set_match_complemented_phase(uint32_t index, uint8_t phase, double worst_arrival_n) {
+        auto &node_data = node_match[index];
+        auto phase_n = phase ^ 1;
+        node_data.same_match = true;
+        node_data.best_supergate[phase_n] = nullptr;
+        node_data.best_cut[phase_n] = node_data.best_cut[phase];
+        node_data.phase[phase_n] = node_data.phase[phase];
+        node_data.arrival[phase_n] = worst_arrival_n;
+        node_data.area[phase_n] = node_data.area[phase];
+        node_data.flows[phase] = node_data.flows[phase] / node_data.est_refs[2];
+        node_data.flows[phase_n] = node_data.flows[phase];
+        node_data.flows[2] = node_data.flows[phase];
+      }
 
       void match_constants(uint32_t index) {
         auto &node_data = node_match[index];
@@ -662,13 +674,126 @@ namespace mockturtle {
         }
       }
 
-      double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      double cut_leaves_flow(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        double flow{0.0f};
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+
+        uint8_t ctr = 0u;
+        for (auto leaf : cut) {
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+          flow += node_match[leaf].flows[leaf_phase];
+        }
+
+        return flow;
+      }
 
       template <bool SwitchActivity>
-      float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      float cut_ref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+        float count;
+
+        if constexpr (SwitchActivity)
+          count = switch_activity[ntk.node_to_index(n)];
+        else
+          count = node_data.area[phase];
+
+        uint8_t ctr = 0;
+        for (auto leaf : cut) {
+          /* compute leaf phase using the current gate */
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+
+          if (ntk.is_constant(ntk.index_to_node(leaf))) {
+            continue;
+          } else if (ntk.is_ci(ntk.index_to_node(leaf))) {
+            /* reference PIs, add inverter cost for negative phase */
+            if (leaf_phase == 1u) {
+              if (node_match[leaf].map_refs[1]++ == 0u) {
+                if constexpr (SwitchActivity)
+                  count += switch_activity[leaf];
+                else
+                  count += lib_inv_area;
+              }
+            } else {
+              ++node_match[leaf].map_refs[0];
+            }
+            continue;
+          }
+
+          if (node_match[leaf].same_match) {
+            /* Add inverter area if not present yet and leaf node is implemented in the opposite phase */
+            if (node_match[leaf].map_refs[leaf_phase]++ == 0u && node_match[leaf].best_supergate[leaf_phase] == nullptr) {
+              if constexpr (SwitchActivity)
+                count += switch_activity[leaf];
+              else
+                count += lib_inv_area;
+            }
+            /* Recursive referencing if leaf was not referenced */
+            if (node_match[leaf].map_refs[2]++ == 0u) {
+              count += cut_ref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          } else {
+            ++node_match[leaf].map_refs[2];
+            if (node_match[leaf].map_refs[leaf_phase]++ == 0u) {
+              count += cut_ref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          }
+        }
+        return count;
+      }
 
       template <bool SwitchActivity>
-      float cut_deref(cut_t const &cut, node<Ntk> const &n, uint8_t phase);
+      float cut_deref(cut_t const &cut, node<Ntk> const &n, uint8_t phase) {
+        auto const &node_data = node_match[ntk.node_to_index(n)];
+        float count;
+
+        if constexpr (SwitchActivity)
+          count = switch_activity[ntk.node_to_index(n)];
+        else
+          count = node_data.area[phase];
+
+        uint8_t ctr = 0;
+        for (auto leaf : cut) {
+          /* compute leaf phase using the current gate */
+          uint8_t leaf_phase = (node_data.phase[phase] >> ctr++) & 1;
+
+          if (ntk.is_constant(ntk.index_to_node(leaf))) {
+            continue;
+          } else if (ntk.is_ci(ntk.index_to_node(leaf))) {
+            /* dereference PIs, add inverter cost for negative phase */
+            if (leaf_phase == 1u) {
+              if (--node_match[leaf].map_refs[1] == 0u) {
+                if constexpr (SwitchActivity)
+                  count += switch_activity[leaf];
+                else
+                  count += lib_inv_area;
+              }
+            } else {
+              --node_match[leaf].map_refs[0];
+            }
+            continue;
+          }
+
+          if (node_match[leaf].same_match) {
+            /* Add inverter area if it is used only by the current gate and leaf node is implemented in the opposite phase */
+            if (--node_match[leaf].map_refs[leaf_phase] == 0u && node_match[leaf].best_supergate[leaf_phase] == nullptr) {
+              if constexpr (SwitchActivity)
+                count += switch_activity[leaf];
+              else
+                count += lib_inv_area;
+            }
+            /* Recursive dereferencing */
+            if (--node_match[leaf].map_refs[2] == 0u) {
+              count += cut_deref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          } else {
+            --node_match[leaf].map_refs[2];
+            if (--node_match[leaf].map_refs[leaf_phase] == 0u) {
+              count += cut_deref<SwitchActivity>(cuts.cuts(leaf)[node_match[leaf].best_cut[leaf_phase]], ntk.index_to_node(leaf), leaf_phase);
+            }
+          }
+        }
+        return count;
+      }
 
       void insert_buffers() {
         if (lib_buf_id != UINT32_MAX) {
@@ -849,7 +974,33 @@ namespace mockturtle {
       }
 
       template <bool DO_AREA>
-      bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size);
+      bool compare_map(double arrival, double best_arrival, double area_flow, double best_area_flow, uint32_t size, uint32_t best_size) {
+        if constexpr (DO_AREA) {
+          if (area_flow < best_area_flow - epsilon) {
+            return true;
+          } else if (area_flow > best_area_flow + epsilon) {
+            return false;
+          } else if (arrival < best_arrival - epsilon) {
+            return true;
+          } else if (arrival > best_arrival + epsilon) {
+            return false;
+          }
+        } else {
+          if (arrival < best_arrival - epsilon) {
+            return true;
+          } else if (arrival > best_arrival + epsilon) {
+            return false;
+          } else if (area_flow < best_area_flow - epsilon) {
+            return true;
+          } else if (area_flow > best_area_flow + epsilon) {
+            return false;
+          }
+        }
+        if (size < best_size) {
+          return true;
+        }
+        return false;
+      }
 
       double compute_switching_power() {
         double power = 0.0f;
@@ -994,6 +1145,459 @@ namespace mockturtle {
 
 } /* namespace mockturtle */
 
-#include "match_drop_phase.cpp"
-#include "match_phase.cpp"
-#include "match_phase_exact.cpp"
+
+// ===== Appended from match_phase.cpp (excluding last 18 lines) =====
+namespace mockturtle::detail {
+  template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
+  template <bool DO_AREA>
+  void tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::match_phase(node<Ntk> const &n, uint8_t phase) {
+    double best_arrival = std::numeric_limits<double>::max();
+    double best_area_flow = std::numeric_limits<double>::max();
+    float best_area = std::numeric_limits<float>::max();
+    uint32_t best_size = UINT32_MAX;
+    uint8_t best_cut = 0u;
+    uint8_t best_phase = 0u;
+    uint8_t cut_index = 0u;
+    auto index = ntk.node_to_index(n);
+
+    auto &node_data = node_match[index];
+    auto &cut_matches = matches[index];
+    supergate<NInputs> const *best_supergate = node_data.best_supergate[phase];
+
+    /* recompute best match info */
+    if (best_supergate != nullptr) {
+      auto const &cut = cuts.cuts(index)[node_data.best_cut[phase]];
+
+      best_phase = node_data.phase[phase];
+      best_arrival = 0.0f;
+      best_area_flow = best_supergate->area + cut_leaves_flow(cut, n, phase);
+      best_area = best_supergate->area;
+      best_cut = node_data.best_cut[phase];
+      best_size = cut.size();
+
+      auto ctr = 0u;
+      for (auto l : cut) {
+        double arrival_pin = node_match[l].arrival[(best_phase >> ctr) & 1] + best_supergate->tdelay[ctr];
+        best_arrival = std::max(best_arrival, arrival_pin);
+        ++ctr;
+      }
+    }
+
+    /* foreach cut */
+    for (auto &cut : cuts.cuts(index)) {
+      /* trivial cuts or not matched cuts */
+      if ((*cut)->data.ignore) {
+        ++cut_index;
+        continue;
+      }
+
+      auto const &supergates = cut_matches[(*cut)->data.match_index].supergates;
+      auto const negation = cut_matches[(*cut)->data.match_index].negations[phase];
+
+      if (supergates[phase] == nullptr) {
+        ++cut_index;
+        continue;
+      }
+
+      /* match each gate and take the best one */
+      for (auto const &gate : *supergates[phase]) {
+        uint8_t gate_polarity = gate.polarity ^ negation;
+        node_data.phase[phase] = gate_polarity;
+        double area_local = gate.area + cut_leaves_flow(*cut, n, phase);
+        double worst_arrival = 0.0f;
+
+        auto ctr = 0u;
+        for (auto l : *cut) {
+          double arrival_pin = node_match[l].arrival[(gate_polarity >> ctr) & 1] + gate.tdelay[ctr];
+          worst_arrival = std::max(worst_arrival, arrival_pin);
+          ++ctr;
+        }
+
+        if constexpr (DO_AREA) {
+          if (worst_arrival > node_data.required[phase] + epsilon)
+            continue;
+        }
+
+        // begin compare_map
+        bool flag_compare_map = false;
+        if constexpr (DO_AREA) {
+          if (area_local < best_area_flow - epsilon) {
+            flag_compare_map = true;
+          } else if (area_local > best_area_flow + epsilon) {
+            flag_compare_map = false;
+          } else if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        } else {
+          if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (area_local < best_area_flow - epsilon) {
+            flag_compare_map = true;
+          } else if (area_local > best_area_flow + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        }
+        if (flag_compare_map) {
+          best_arrival = worst_arrival;
+          best_area_flow = area_local;
+          best_size = cut->size();
+          best_cut = cut_index;
+          best_area = gate.area;
+          best_phase = gate_polarity;
+          best_supergate = &gate;
+        }
+        // end compare_map
+      }
+
+      ++cut_index;
+    }
+
+    node_data.flows[phase] = best_area_flow;
+    node_data.arrival[phase] = best_arrival;
+    node_data.area[phase] = best_area;
+    node_data.best_cut[phase] = best_cut;
+    node_data.phase[phase] = best_phase;
+    node_data.best_supergate[phase] = best_supergate;
+  }
+
+} // namespace mockturtle::detail
+// EVOLVE-BLOCK-END
+
+
+// ===== Appended from match_phase_exact.cpp (excluding last 120 lines) =====
+namespace mockturtle::detail {
+  template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
+  template <bool SwitchActivity>
+  void tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::match_phase_exact(node<Ntk> const &n, uint8_t phase) {
+    double best_arrival = std::numeric_limits<double>::max();
+    float best_exact_area = std::numeric_limits<float>::max();
+    float best_area = std::numeric_limits<float>::max();
+    uint32_t best_size = UINT32_MAX;
+    uint8_t best_cut = 0u;
+    uint8_t best_phase = 0u;
+    uint8_t cut_index = 0u;
+    auto index = ntk.node_to_index(n);
+
+    auto &node_data = node_match[index];
+    auto &cut_matches = matches[index];
+    supergate<NInputs> const *best_supergate = node_data.best_supergate[phase];
+
+    /* recompute best match info */
+    if (best_supergate != nullptr) {
+      auto const &cut = cuts.cuts(index)[node_data.best_cut[phase]];
+
+      best_phase = node_data.phase[phase];
+      best_arrival = 0.0f;
+      best_area = best_supergate->area;
+      best_cut = node_data.best_cut[phase];
+      best_size = cut.size();
+
+      auto ctr = 0u;
+      for (auto l : cut) {
+        double arrival_pin = node_match[l].arrival[(best_phase >> ctr) & 1] + best_supergate->tdelay[ctr];
+        best_arrival = std::max(best_arrival, arrival_pin);
+        ++ctr;
+      }
+
+      /* if cut is implemented, remove it from the cover */
+      if (!node_data.same_match && node_data.map_refs[phase]) {
+        best_exact_area = cut_deref<SwitchActivity>(cuts.cuts(index)[best_cut], n, phase);
+      } else {
+        best_exact_area = cut_ref<SwitchActivity>(cuts.cuts(index)[best_cut], n, phase);
+        cut_deref<SwitchActivity>(cuts.cuts(index)[best_cut], n, phase);
+      }
+    }
+
+    /* foreach cut */
+    for (auto &cut : cuts.cuts(index)) {
+      /* trivial cuts or not matched cuts */
+      if ((*cut)->data.ignore) {
+        ++cut_index;
+        continue;
+      }
+
+      auto const &supergates = cut_matches[(*cut)->data.match_index].supergates;
+      auto const negation = cut_matches[(*cut)->data.match_index].negations[phase];
+
+      if (supergates[phase] == nullptr) {
+        ++cut_index;
+        continue;
+      }
+
+      /* match each gate and take the best one */
+      for (auto const &gate : *supergates[phase]) {
+        uint8_t gate_polarity = gate.polarity ^ negation;
+        node_data.phase[phase] = gate_polarity;
+        node_data.area[phase] = gate.area;
+        float area_exact = cut_ref<SwitchActivity>(*cut, n, phase);
+        cut_deref<SwitchActivity>(*cut, n, phase);
+        double worst_arrival = 0.0f;
+
+        auto ctr = 0u;
+        for (auto l : *cut) {
+          double arrival_pin = node_match[l].arrival[(gate_polarity >> ctr) & 1] + gate.tdelay[ctr];
+          worst_arrival = std::max(worst_arrival, arrival_pin);
+          ++ctr;
+        }
+
+        if (worst_arrival > node_data.required[phase] + epsilon)
+          continue;
+
+        // begin compare_map
+        bool flag_compare_map = false;
+        if constexpr (true) {
+          if (area_exact < best_exact_area - epsilon) {
+            flag_compare_map = true;
+          } else if (area_exact > best_exact_area + epsilon) {
+            flag_compare_map = false;
+          } else if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        } else {
+          if (worst_arrival < best_arrival - epsilon) {
+            flag_compare_map = true;
+          } else if (worst_arrival > best_arrival + epsilon) {
+            flag_compare_map = false;
+          } else if (area_exact < best_exact_area - epsilon) {
+            flag_compare_map = true;
+          } else if (area_exact > best_exact_area + epsilon) {
+            flag_compare_map = false;
+          } else if (cut->size() < best_size) {
+            flag_compare_map = true;
+          }
+        }
+        if (flag_compare_map) {
+          best_arrival = worst_arrival;
+          best_exact_area = area_exact;
+          best_area = gate.area;
+          best_size = cut->size();
+          best_cut = cut_index;
+          best_phase = gate_polarity;
+          best_supergate = &gate;
+        }
+        // end compare_map
+      }
+
+      ++cut_index;
+    }
+
+    node_data.flows[phase] = best_exact_area;
+    node_data.arrival[phase] = best_arrival;
+    node_data.area[phase] = best_area;
+    node_data.best_cut[phase] = best_cut;
+    node_data.phase[phase] = best_phase;
+    node_data.best_supergate[phase] = best_supergate;
+
+    if (!node_data.same_match && node_data.map_refs[phase]) {
+      best_exact_area = cut_ref<SwitchActivity>(cuts.cuts(index)[best_cut], n, phase);
+    }
+  }
+
+} // namespace mockturtle::detail
+// EVOLVE-BLOCK-END
+
+
+// ===== Appended from match_drop_phase.cpp (excluding last 135 lines) =====
+namespace mockturtle::detail {
+  template <class Ntk, unsigned CutSize, typename CutData, unsigned NInputs, classification_type Configuration>
+  template <bool DO_AREA, bool ELA>
+  void tech_map_impl<Ntk, CutSize, CutData, NInputs, Configuration>::match_drop_phase(node<Ntk> const &n, float required_margin_factor) {
+    auto index = ntk.node_to_index(n);
+    auto &node_data = node_match[index];
+
+    /* compute arrival adding an inverter to the other match phase */
+    double worst_arrival_npos = node_data.arrival[1] + lib_inv_delay;
+    double worst_arrival_nneg = node_data.arrival[0] + lib_inv_delay;
+    bool use_zero = false;
+    bool use_one = false;
+
+    /* only one phase is matched */
+    if (node_data.best_supergate[0] == nullptr) {
+      set_match_complemented_phase(index, 1, worst_arrival_npos);
+      if constexpr (ELA) {
+        if (node_data.map_refs[2])
+          cut_ref<false>(cuts.cuts(index)[node_data.best_cut[1]], n, 1);
+      }
+      return;
+    } else if (node_data.best_supergate[1] == nullptr) {
+      set_match_complemented_phase(index, 0, worst_arrival_nneg);
+      if constexpr (ELA) {
+        if (node_data.map_refs[2])
+          cut_ref<false>(cuts.cuts(index)[node_data.best_cut[0]], n, 0);
+      }
+      return;
+    }
+
+    /* try to use only one match to cover both phases */
+    if constexpr (!DO_AREA) {
+      /* if arrival improves matching the other phase and inserting an inverter */
+      if (worst_arrival_npos < node_data.arrival[0] + epsilon) {
+        use_one = true;
+      }
+      if (worst_arrival_nneg < node_data.arrival[1] + epsilon) {
+        use_zero = true;
+      }
+    } else {
+      /* check if both phases + inverter meet the required time */
+      use_zero = worst_arrival_nneg < (node_data.required[1] + epsilon - required_margin_factor * lib_inv_delay);
+      use_one = worst_arrival_npos < (node_data.required[0] + epsilon - required_margin_factor * lib_inv_delay);
+    }
+
+    /* condition on not used phases, evaluate a substitution during exact area recovery */
+    if constexpr (ELA) {
+      if (iteration != 0) {
+        if (node_data.map_refs[0] == 0 || node_data.map_refs[1] == 0) {
+          /* select the used match */
+          auto phase = 0;
+          auto nphase = 0;
+          if (node_data.map_refs[0] == 0) {
+            phase = 1;
+            use_one = true;
+            use_zero = false;
+          } else {
+            nphase = 1;
+            use_one = false;
+            use_zero = true;
+          }
+          /* select the not used match instead if it leads to area improvement and doesn't violate the required time */
+          if (node_data.arrival[nphase] + lib_inv_delay < node_data.required[phase] + epsilon) {
+            auto size_phase = cuts.cuts(index)[node_data.best_cut[phase]].size();
+            auto size_nphase = cuts.cuts(index)[node_data.best_cut[nphase]].size();
+
+            // begin compare_map
+            double arrival = node_data.arrival[nphase] + lib_inv_delay;
+            double best_arrival = node_data.arrival[phase];
+            double area_flow = node_data.flows[nphase] + lib_inv_area;
+            double best_area_flow = node_data.flows[phase];
+            bool flag_compare_map = false;
+            if constexpr (DO_AREA) {
+              if (area_flow < best_area_flow - epsilon) {
+                flag_compare_map = true;
+              } else if (area_flow > best_area_flow + epsilon) {
+                flag_compare_map = false;
+              } else if (arrival < best_arrival - epsilon) {
+                flag_compare_map = true;
+              } else if (arrival > best_arrival + epsilon) {
+                flag_compare_map = false;
+              } else if (size_nphase < size_phase) {
+                flag_compare_map = true;
+              }
+            } else {
+              if (arrival < best_arrival - epsilon) {
+                flag_compare_map = true;
+              } else if (arrival > best_arrival + epsilon) {
+                flag_compare_map = false;
+              } else if (area_flow < best_area_flow - epsilon) {
+                flag_compare_map = true;
+              } else if (area_flow > best_area_flow + epsilon) {
+                flag_compare_map = false;
+              } else if (size_nphase < size_phase) {
+                flag_compare_map = true;
+              }
+            }
+            if (flag_compare_map) {
+              /* invert the choice */
+              use_zero = !use_zero;
+              use_one = !use_one;
+            }
+            // end compare_map
+          }
+        }
+      }
+    }
+
+    if (!use_zero && !use_one) {
+      /* use both phases */
+      node_data.flows[0] = node_data.flows[0] / node_data.est_refs[0];
+      node_data.flows[1] = node_data.flows[1] / node_data.est_refs[1];
+      node_data.flows[2] = node_data.flows[0] + node_data.flows[1];
+      node_data.same_match = false;
+      return;
+    }
+
+    /* use area flow as a tiebreaker */
+    if (use_zero && use_one) {
+      auto size_zero = cuts.cuts(index)[node_data.best_cut[0]].size();
+      auto size_one = cuts.cuts(index)[node_data.best_cut[1]].size();
+      // begin compare_map
+      double area_flow = node_data.flows[0];
+      double best_area_flow = node_data.flows[1];
+      bool flag_compare_map = false;
+      if constexpr (DO_AREA) {
+        if (area_flow < best_area_flow - epsilon) {
+          flag_compare_map = true;
+        } else if (area_flow > best_area_flow + epsilon) {
+          flag_compare_map = false;
+        } else if (worst_arrival_nneg < worst_arrival_npos - epsilon) {
+          flag_compare_map = true;
+        } else if (worst_arrival_nneg > worst_arrival_npos + epsilon) {
+          flag_compare_map = false;
+        } else if (size_zero < size_one) {
+          flag_compare_map = true;
+        }
+      } else {
+        if (worst_arrival_nneg < worst_arrival_npos - epsilon) {
+          flag_compare_map = true;
+        } else if (worst_arrival_nneg > worst_arrival_npos + epsilon) {
+          flag_compare_map = false;
+        } else if (area_flow < best_area_flow - epsilon) {
+          flag_compare_map = true;
+        } else if (area_flow > best_area_flow + epsilon) {
+          flag_compare_map = false;
+        } else if (size_zero < size_one) {
+          flag_compare_map = true;
+        }
+      }
+      if (flag_compare_map) {
+        use_one = false;
+      } else {
+        use_zero = false;
+      }
+      // end compare_map
+    }
+
+    if (use_zero) {
+      if constexpr (ELA) {
+        /* set cut references */
+        if (!node_data.same_match) {
+          /* dereference the negative phase cut if in use */
+          if (node_data.map_refs[1] > 0)
+            cut_deref<false>(cuts.cuts(index)[node_data.best_cut[1]], n, 1);
+          /* reference the positive cut if not in use before */
+          if (node_data.map_refs[0] == 0 && node_data.map_refs[2])
+            cut_ref<false>(cuts.cuts(index)[node_data.best_cut[0]], n, 0);
+        } else if (node_data.map_refs[2])
+          cut_ref<false>(cuts.cuts(index)[node_data.best_cut[0]], n, 0);
+      }
+      set_match_complemented_phase(index, 0, worst_arrival_nneg);
+    } else {
+      if constexpr (ELA) {
+        /* set cut references */
+        if (!node_data.same_match) {
+          /* dereference the positive phase cut if in use */
+          if (node_data.map_refs[0] > 0)
+            cut_deref<false>(cuts.cuts(index)[node_data.best_cut[0]], n, 0);
+          /* reference the negative cut if not in use before */
+          if (node_data.map_refs[1] == 0 && node_data.map_refs[2])
+            cut_ref<false>(cuts.cuts(index)[node_data.best_cut[1]], n, 1);
+        } else if (node_data.map_refs[2])
+          cut_ref<false>(cuts.cuts(index)[node_data.best_cut[1]], n, 1);
+      }
+      set_match_complemented_phase(index, 1, worst_arrival_npos);
+    }
+  }
+
+} // namespace mockturtle::detail
+// EVOLVE-BLOCK-END
