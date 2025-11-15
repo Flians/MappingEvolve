@@ -5,6 +5,7 @@ import os
 import re
 import json
 import yaml
+from collections import Counter
 from datetime import datetime
 from typing import Callable, Dict, Any, Tuple, List
 import importlib.util
@@ -144,7 +145,7 @@ def build_planner_context(code_context, history=None):
         history: List of previous iteration results (dictionaries)
 
     Returns:
-        (context_string, must_switch_module_flag: bool, previous_module: Optional[str])
+        (context_string, previous_module: Optional[str])
     """
     context_parts = []
     last_entry = None
@@ -170,37 +171,60 @@ def build_planner_context(code_context, history=None):
         context_parts.append("")
 
     # Add adaptive & diversity signals if history available
-    must_switch_module = False
     previous_module_val = None
     if history:
         try:
             lookback_k = min(5, len(history))
             recent = history[-lookback_k:]
-            delay_improvements = sum(1 for h in recent if isinstance(h.get("delay_score"), (int, float)) and (h.get("delay_score") or 0.0) > 0.0)
-            area_improvements = sum(1 for h in recent if isinstance(h.get("area_score"), (int, float)) and (h.get("area_score") or 0.0) > 0.0)
-            avg_delay = sum((h.get("delay_score") or 0.0) for h in recent) / max(1, len(recent))
-            avg_area = sum((h.get("area_score") or 0.0) for h in recent) / max(1, len(recent))
 
-            # Determine objective hint with priority to negative scores
-            if delay_improvements == 0 and area_improvements == 0:
-                objective_hint = "Balanced"
-            elif avg_delay < -0.5:  # Severe delay degradation - top priority
-                objective_hint = "Delay Priority"
-            elif avg_area < -0.5:  # Severe area degradation - top priority
-                objective_hint = "Area Priority"
-            elif avg_delay > 0 and avg_area > 0:  # Both positive - balanced
-                objective_hint = "Balanced"
-            elif avg_delay > avg_area + 0.5:  # Area much worse (even if both negative)
-                objective_hint = "Area Priority"
-            elif avg_area > avg_delay + 0.5:  # Delay much worse (even if both negative)
-                objective_hint = "Delay Priority"
+            # Calculate improvements by comparing adjacent iterations (relative progress)
+            delay_improvements = 0
+            area_improvements = 0
+            delay_deltas = []
+            area_deltas = []
+
+            for i in range(1, len(recent)):
+                prev = recent[i - 1]
+                curr = recent[i]
+
+                # Calculate delay delta (current vs previous)
+                prev_delay = prev.get("delay_score") or 0.0
+                curr_delay = curr.get("delay_score") or 0.0
+                delay_delta = curr_delay - prev_delay
+                delay_deltas.append(delay_delta)
+                if delay_delta > 1e-6:  # Meaningful improvement threshold
+                    delay_improvements += 1
+
+                # Calculate area delta (current vs previous)
+                prev_area = prev.get("area_score") or 0.0
+                curr_area = curr.get("area_score") or 0.0
+                area_delta = curr_area - prev_area
+                area_deltas.append(area_delta)
+                if area_delta > 1e-6:  # Meaningful improvement threshold
+                    area_improvements += 1
+
+            # Average of deltas (relative progress rate)
+            avg_delay = sum(delay_deltas) / max(1, len(delay_deltas)) if delay_deltas else 0.0
+            avg_area = sum(area_deltas) / max(1, len(area_deltas)) if area_deltas else 0.0
+
+            # Delay stagnation: absolute stagnation OR no relative progress
+            absolute_delay_stagnation = all(abs(h.get("delay_score") or 0.0) < 1e-6 for h in recent)
+            relative_delay_stagnation = delay_improvements == 0
+            delay_stagnation = area_improvements > 0 and (absolute_delay_stagnation or relative_delay_stagnation)
+
+            # Objective hint with delay_stagnation as highest priority
+            if avg_delay < -0.5:
+                objective_hint = "Delay Priority"  # Severe delay degradation
+            elif avg_area < -0.5:
+                objective_hint = "Area Priority"  # Severe area degradation
+            elif area_improvements > 0 and delay_improvements == 0:
+                objective_hint = "Area Priority"  # Area is improving, keep momentum
+            elif delay_improvements > 0 and area_improvements == 0:
+                objective_hint = "Delay Priority"  # Delay has breakthrough, continue
             else:
-                objective_hint = "Balanced"
+                objective_hint = "Balanced"  # Default balanced exploration
 
-            # Module usage statistics
-            from collections import Counter
-
-            modules = [h.get("module") for h in history if h.get("module")]
+            modules = [h.get("module") for h in recent if h.get("module")]
             previous_module_val = modules[-1] if modules else None
             usage_counter = Counter(modules)
             all_modules = ["match_phase.cpp", "match_phase_exact.cpp", "match_drop_phase.cpp"]
@@ -212,51 +236,30 @@ def build_planner_context(code_context, history=None):
                         consecutive_same += 1
                     else:
                         break
-            # Stagnation: no improvements in recent window (independent of consecutive count)
-            last_k_no_improve = delay_improvements == 0 and area_improvements == 0
-            # Strict switch rule: if stagnation persists and same module is being reused frequently
-            stagnation = last_k_no_improve
-            must_switch_module = stagnation and consecutive_same >= 3
+            # Diversity pressure increases with consecutive usage
+            diversity_pressure = "HIGH" if consecutive_same >= 3 else "MEDIUM" if consecutive_same >= 2 else "LOW"
 
-            # Recommend explore: unexplored first else least used different from last
+            # Recommend explore: unexplored first, then least used
             if unexplored:
                 recommended_explore = unexplored[:2]
             else:
-                # sort by usage ascending excluding current last module
+                # sort by usage ascending, excluding current module
                 others = [m for m in all_modules if m != previous_module_val]
                 recommended_explore = sorted(others, key=lambda x: usage_counter.get(x, 0))[:2]
 
-            # Candidate weights heuristic: penalize fatigue on current module
-            candidate_weights = {}
-            for m in all_modules:
-                base = 1.0
-                fatigue_penalty = max(0, consecutive_same - 2) * 0.15 if modules and m == modules[-1] else 0.0
-                explore_bonus = 0.3 if m in recommended_explore else 0.0
-                candidate_weights[m] = round(base - fatigue_penalty + explore_bonus, 3)
-
             context_parts.append("## Adaptive & Diversity Signals")
-            context_parts.append(f"Recent window size: {lookback_k}")
-            context_parts.append(f"Avg area_score: {avg_area:.6f} | Avg delay_score: {avg_delay:.6f}")
-            context_parts.append(f"Area improvements in window: {area_improvements} | Delay improvements in window: {delay_improvements}")
-            context_parts.append(f"Objective Hint: {objective_hint}")
-            context_parts.append(f"Module usage: {dict(usage_counter)}")
-            context_parts.append(f"Consecutive same module: {consecutive_same}")
-            context_parts.append(f"Unexplored modules: {unexplored if unexplored else 'None'}")
-            context_parts.append(f"Recommended explore: {recommended_explore}")
-            context_parts.append(f"Stagnation (no improvement in window): {stagnation}")
-            context_parts.append(f"Must switch module (strict rule): {must_switch_module}")
-            # Provide machine-readable JSON for planner
+            # Provide comprehensive machine-readable JSON for planner
             diversity_json = {
+                "recent_window": lookback_k,
+                "avg_area_improvement": round(avg_area, 4),
+                "avg_delay_improvement": round(avg_delay, 4),
+                "area_improvements": area_improvements,
+                "delay_improvements": delay_improvements,
                 "objective_hint": objective_hint,
+                "delay_stagnation": delay_stagnation,
+                "diversity_pressure": diversity_pressure,
                 "module_usage": dict(usage_counter),
-                "consecutive_same_module": consecutive_same,
-                "previous_module": previous_module_val,
-                "unexplored_modules": unexplored,
                 "recommended_explore": recommended_explore,
-                "stagnation": stagnation,
-                "last_k_no_improve": last_k_no_improve,
-                "must_switch_module": must_switch_module,
-                "candidate_weights": candidate_weights,
             }
             context_parts.append("```json")
             context_parts.append(json.dumps(diversity_json, ensure_ascii=False, indent=2))
@@ -269,7 +272,7 @@ def build_planner_context(code_context, history=None):
     context_parts.append("## Current Code Context")
     context_parts.append(code_context)
 
-    return "\n".join(context_parts), must_switch_module, previous_module_val
+    return "\n".join(context_parts), previous_module_val
 
 
 def prepare_evaluation_env(state_dict, iter_dir):
@@ -451,7 +454,7 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
 
     # Build planner context using global history (independent from state_dict)
-    planner_context, must_switch_module_flag, previous_module_in_history = build_planner_context(state_dict['context'], history=global_history)
+    planner_context, previous_module_in_history = build_planner_context(state_dict['context'], history=global_history)
     with open(os.path.join(iter_dir, "planner_input.txt"), 'w', encoding='utf-8') as f:
         f.write(planner_context)
     planner_output = planner.get_output(planner_context)
@@ -503,48 +506,11 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
     evolution_step = plan_dict.get("evolution_step", {})
     chosen_strategy = plan_dict.get("chosen_strategy", "Unknown")
 
-    # Enforce must_switch_module via one lightweight retry if violated
-    if must_switch_module_flag and previous_module_in_history and target_file == previous_module_in_history:
-        logger.info("Must-switch violation detected (module=%s used consecutively under stagnation). Retrying planner once with explicit constraint.", target_file)
-        retry_hint = (
-            "\n\n[ENFORCEMENT NOTICE]\n"
-            "Stagnation persists and the previous module '%s' was chosen again despite must_switch_module=true. "
-            "You MUST choose a DIFFERENT module than '%s'. Prefer one of the recommended_explore modules from the diversity signals. "
-            "Re-evaluate and output ONLY the corrected JSON plan." % (target_file, target_file)
-        )
-        # Append enforcement notice to original planner output context
-        planner_output_retry = planner.get_output(planner_context + retry_hint)
-        # Parse retry output using same logic
-        fenced_blocks_retry = re.findall(r"```json\s*(\{[\s\S]*?\})\s*```", planner_output_retry)
-        retry_plan = None
-        for block in fenced_blocks_retry:
-            try:
-                cand = json.loads(block)
-
-                # reuse validation function
-                def _is_valid_plan(obj: Dict[str, Any]) -> bool:
-                    if not isinstance(obj, dict):
-                        return False
-                    if "chosen_evolution_point" not in obj or "chosen_strategy" not in obj or "evolution_step" not in obj:
-                        return False
-                    cep = obj.get("chosen_evolution_point", {})
-                    cm = cep.get("chosen_module") if isinstance(cep, dict) else None
-                    return isinstance(cm, str) and len(cm) > 0 and cm != previous_module_in_history
-
-                if _is_valid_plan(cand):
-                    retry_plan = cand
-            except Exception:
-                continue
-        if retry_plan is not None:
-            plan_dict = retry_plan
-            chosen_point = plan_dict.get("chosen_evolution_point", {})
-            target_file = chosen_point.get("chosen_module", "")
-            evolution_step = plan_dict.get("evolution_step", {})
-            chosen_strategy = plan_dict.get("chosen_strategy", "Unknown")
-            logger.info("Retry succeeded with new module: %s", target_file)
-        else:
-            logger.warning("Retry did not produce a valid switched module; proceeding with original selection (%s) and recording violation.", target_file)
-            # Optionally could mark hist_entry later with violation flag (handled after evaluation)
+    # Log diversity signals for tracking
+    if previous_module_in_history == target_file:
+        logger.info("Same module selected again: %s (consider diversity if stagnation persists)", target_file)
+    else:
+        logger.info("Module switched: %s -> %s", previous_module_in_history, target_file)
 
     if not target_file or not evolution_step:
         logger.error("Planner output missing required fields")
@@ -663,8 +629,6 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
         "delay_score": delay_score,
         "overall_score": overall_score,
         "failed_rate": failed_rate,
-        "must_switch_module": must_switch_module_flag,
-        "switch_violation": must_switch_module_flag and previous_module_in_history and target_file == previous_module_in_history,
     }
     # Do not modify new_state['history'] here; managed by caller upon acceptance
 
@@ -760,7 +724,7 @@ def main():
         if reward >= args.revert_threshold:
             accepted = True
             accepted_by = "threshold"
-        elif isinstance(delay_score, (int, float)) and delay_score is not None and delay_score > 0.9 * best_delay:
+        elif isinstance(delay_score, (int, float)) and delay_score is not None and delay_score > 0.8 * best_delay:
             accepted = True
             accepted_by = "delay_tradeoff"
         else:

@@ -16,11 +16,15 @@ Scope & Metrics
 - **match_phase_exact.cpp**: Exact optimization using cut_ref/cut_deref; suitable for fine-grained trade-offs
 - **match_drop_phase.cpp**: Final phase decision and inverter accounting; suitable for light area cleanup and correctness fixes
 
-3. **Adaptive & Diversity Signals** (optional):
-- Recent window summary of area_score / delay_score
-- Objective Hint (Delay Priority | Area Priority | Balanced)
-- Module usage, consecutive_same_module, unexplored_modules, recommended_explore, candidate_weights
-- Stagnation and must_switch_module flags
+3. **Adaptive & Diversity Signals** (optional JSON with fields):
+- `recent_window`: Number of recent iterations analyzed (typically 5)
+- `avg_area_improvement`, `avg_delay_improvement`: Average scores in recent window
+- `area_improvements`, `delay_improvements`: Count of iterations with positive improvements
+- `objective_hint`: Recommended focus (Delay Priority | Area Priority | Balanced)
+- `delay_stagnation`: Boolean flag (true when delay stuck at 0 for ≥3 iterations)
+- `diversity_pressure`: Exploration urgency level (HIGH | MEDIUM | LOW)
+- `module_usage`: Dictionary mapping module names to usage counts in recent window
+- `recommended_explore`: List of modules to prioritize (unexplored or least-used)
 
 ## Failure Analysis Guidelines
 If previous iteration failed (negative scores or evaluation errors):
@@ -29,10 +33,11 @@ If previous iteration failed (negative scores or evaluation errors):
 - Performance Regression (reward -0.4 to 0): Try corresponding (area/delay) optimization strategy or target different module
 - First Iteration: No previous data; assess opportunities across all modules
 
-## Diversity & Stagnation Rules
-- If `must_switch_module` is true (e.g., same module used ≥3 times with no recent improvements), you MUST choose a different module than the previous one.
-- Prefer modules in `recommended_explore`; consider `candidate_weights` as soft guidance (higher weight = more recommended).
-- Provide a brief comparison across modules and justify exclusions.
+## Diversity & Exploration Rules
+- When `diversity_pressure` is HIGH, strongly prefer switching to a different module
+- Prioritize modules in `recommended_explore` list (unexplored or least-used alternatives)
+- If `delay_stagnation` is true (appears when delay has been stuck at 0 for ≥3 iterations), you **MUST** select "Delay Optimizer" strategy
+- Provide a brief comparison across modules and justify your selection
 
 ## Analysis Process
 1. Assess Previous Results and root causes
@@ -44,13 +49,17 @@ If previous iteration failed (negative scores or evaluation errors):
 When an "Objective Hint" is provided, respect it unless strong safety reasons exist. The hint does not imply a fixed module; decide based on evidence and rules.
 
 ## Delay Optimization Focus
-**Activation Trigger**: When Objective Hint is "Delay Priority"
+**Activation Triggers**: 
+1. `delay_stagnation` is true in diversity signals (delay stuck at 0 for ≥3 recent iterations)
+2. Objective Hint is "Delay Priority" (delay degradation or area-delay imbalance)
 
-When activated:
-- **Root Cause Analysis**: Identify which module is causing delay degradation by examining arrival times, required time violations, or phase decisions
-- **Target Mechanisms** (choose based on root cause):
-  * **match_phase (DO_AREA=false)**: Tighten arrival time comparison logic to prioritize low-delay cuts
-  * **match_phase (cost calculation)**: Adjust cost formula to reduce penalty on low-delay cuts when area trade-off is acceptable
+**When activated:**
+- If `delay_stagnation` is true, you **MUST** select "Delay Optimizer" strategy (CRITICAL mode)
+- If only trigger 2 is active, strongly prefer "Delay Optimizer" over "Balanced"
+- **Root Cause Analysis**: Identify which module can best improve delay
+- **Target Mechanisms** (choose based on analysis):
+  * **match_phase (DO_AREA=false)**: Tighten arrival time comparison to prioritize low-delay cuts
+  * **match_phase (DO_AREA=true)**: Adjust cost formula to reduce penalty on low-delay cuts when area trade-off is acceptable
   * **match_phase_exact**: Strengthen required time constraints during exact local area (ELA) mode to prevent timing violations
   * **match_drop_phase**: Allow phase flips when they reduce worst-case arrival time, even if area increases moderately
 - **Trade-off Guidance**: Delay reductions often require modest area increases (1-3%). Explicitly state acceptable area cost in evolution_step's expected_impact (e.g., "1-2% delay reduction, tolerate up to 2% area increase").
