@@ -92,9 +92,12 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="qwen3-coder-plus", help="Model name")
+    parser.add_argument("--model", type=str, default="deepseek-v3-241226", help="Model name")
     parser.add_argument("--api-key", type=str, default="", help="API key")
-    parser.add_argument("--base-url", type=str, default="https://dashscope.aliyuncs.com/compatible-mode/v1", help="API base URL")
+    parser.add_argument("--base-url", type=str, default="https://ark.cn-beijing.volces.com/api/v3", help="API base URL")
+    # parser.add_argument("--model", type=str, default="qwen3-coder-plus", help="Model name")
+    # parser.add_argument("--api-key", type=str, default="", help="API key")
+    # parser.add_argument("--base-url", type=str, default="https://dashscope.aliyuncs.com/compatible-mode/v1", help="API base URL")
     parser.add_argument("--iterations", type=int, default=30, help="Number of evolution iterations")
     parser.add_argument("--revert-threshold", type=float, default=-0.1, help="Revert to best state when reward is below this threshold")
     parser.add_argument("--openevolve", action="store_true", help="Use openevolve to evolve the code instead of LLM evolver")
@@ -177,14 +180,22 @@ def build_planner_context(code_context, history=None):
             area_improvements = sum(1 for h in recent if isinstance(h.get("area_score"), (int, float)) and (h.get("area_score") or 0.0) > 0.0)
             avg_delay = sum((h.get("delay_score") or 0.0) for h in recent) / max(1, len(recent))
             avg_area = sum((h.get("area_score") or 0.0) for h in recent) / max(1, len(recent))
+
+            # Determine objective hint with priority to negative scores
             if delay_improvements == 0 and area_improvements == 0:
                 objective_hint = "Balanced"
-            elif avg_delay > 0 and avg_area > 0:
-                objective_hint = "Balanced"
-            elif avg_area > avg_delay:
-                objective_hint = "Area Priority"
-            else:
+            elif avg_delay < -0.5:  # Severe delay degradation - top priority
                 objective_hint = "Delay Priority"
+            elif avg_area < -0.5:  # Severe area degradation - top priority
+                objective_hint = "Area Priority"
+            elif avg_delay > 0 and avg_area > 0:  # Both positive - balanced
+                objective_hint = "Balanced"
+            elif avg_delay > avg_area + 0.5:  # Area much worse (even if both negative)
+                objective_hint = "Area Priority"
+            elif avg_area > avg_delay + 0.5:  # Delay much worse (even if both negative)
+                objective_hint = "Delay Priority"
+            else:
+                objective_hint = "Balanced"
 
             # Module usage statistics
             from collections import Counter
@@ -433,13 +444,19 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
     logger.info("Starting evolution iteration %d", iteration)
     logger.info("=" * 60)
 
+    iter_dir = os.path.join(output_dir, f"iter_{iteration}")
+    os.makedirs(iter_dir, exist_ok=True)
+
     # Step 1: Planner analyzes context and proposes evolution point and plan
     logger.info("Step 1: Planner analyzing context and proposing evolution step")
 
     # Build planner context using global history (independent from state_dict)
     planner_context, must_switch_module_flag, previous_module_in_history = build_planner_context(state_dict['context'], history=global_history)
-
+    with open(os.path.join(iter_dir, "planner_input.txt"), 'w', encoding='utf-8') as f:
+        f.write(planner_context)
     planner_output = planner.get_output(planner_context)
+    with open(os.path.join(iter_dir, "planner_output.txt"), 'w', encoding='utf-8') as f:
+        f.write(planner_output)
 
     # Extract JSON from planner output with robustness to multiple blocks
     def _is_valid_plan(obj: Dict[str, Any]) -> bool:
@@ -457,12 +474,14 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
             return False
 
     plan_dict = None
-    fenced_blocks = re.findall(r"```json\s*(\{[\s\S]*?\})\s*```", planner_output)
+    # Try to extract JSON from markdown code blocks first
+    fenced_blocks = re.findall(r"```(?:json)?\s*(\{[\s\S]*?\n\})\s*```", planner_output)
     for block in fenced_blocks:
         try:
             candidate = json.loads(block)
             if _is_valid_plan(candidate):
                 plan_dict = candidate
+                break
         except Exception:
             continue
     if plan_dict is None:
@@ -534,10 +553,6 @@ def evolve_single_iteration(state_dict, planner, evolver, output_dir, iteration,
     logger.info("Planner selected: %s with strategy: %s", target_file, chosen_strategy)
 
     # Save planner output
-    iter_dir = os.path.join(output_dir, f"iter_{iteration}")
-    os.makedirs(iter_dir, exist_ok=True)
-    with open(os.path.join(iter_dir, "planner_output.txt"), 'w', encoding='utf-8') as f:
-        f.write(planner_output)
     with open(os.path.join(iter_dir, "plan.json"), 'w', encoding='utf-8') as f:
         json.dump(plan_dict, f, ensure_ascii=False, indent=2)
 
@@ -752,7 +767,7 @@ def main():
             accepted = False
             accepted_by = "none"
 
-        if best_delay > delay_score:
+        if isinstance(delay_score, (int, float)) and delay_score > best_delay:
             best_delay = delay_score
 
         if hist_entry is None:

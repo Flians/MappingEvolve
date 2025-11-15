@@ -61,9 +61,8 @@ class ModelCalls:
         """
         self.total_prompt_tokens += prompt_tokens
         self.total_completion_tokens += completion_tokens
-        self.total_tokens += (prompt_tokens + completion_tokens)
+        self.total_tokens += prompt_tokens + completion_tokens
         self.api_calls += 1
-
 
 
 class DeepSeekModelCalls(ModelCalls):
@@ -93,19 +92,19 @@ class DeepSeekModelCalls(ModelCalls):
                 if self.system_prompt:
                     messages.append({"role": "system", "content": self.system_prompt})
                 messages.append({"role": "user", "content": prompt})
-                
+
                 # Call the API
                 chat_completion = self.client.chat.completions.create(
                     model=self.model_name,
                     messages=messages,
                     max_completion_tokens=8192,
                 )
-                
+
                 # Track token usage
                 if hasattr(chat_completion, "usage") and chat_completion.usage:
                     self.add_token_usage(chat_completion.usage.prompt_tokens, chat_completion.usage.completion_tokens)
                     logger.debug(f"API call {self.api_calls} completed with {chat_completion.usage.prompt_tokens} prompt tokens and {chat_completion.usage.completion_tokens} completion tokens")
-                
+
                 # Return the response
                 return chat_completion.choices[0].message.content
             except Exception as e:
@@ -147,19 +146,19 @@ class QwenModelCalls(ModelCalls):
                 if self.system_prompt:
                     messages.append({"role": "system", "content": self.system_prompt})
                 messages.append({"role": "user", "content": prompt})
-                
+
                 # Call the API
                 chat_completion = self.client.chat.completions.create(
                     model=self.model_name,
                     messages=messages,
-                    max_completion_tokens=32768,
+                    max_completion_tokens=8192,
                 )
-                
+
                 # Track token usage
                 if hasattr(chat_completion, "usage") and chat_completion.usage:
                     self.add_token_usage(chat_completion.usage.prompt_tokens, chat_completion.usage.completion_tokens)
                     logger.debug(f"API call {self.api_calls} completed with {chat_completion.usage.prompt_tokens} prompt tokens and {chat_completion.usage.completion_tokens} completion tokens")
-                
+
                 # Return the response
                 return chat_completion.choices[0].message.content
             except Exception as e:
@@ -172,4 +171,3 @@ class QwenModelCalls(ModelCalls):
                     logger.error("Max retries reached. Raising exception.")
                     # If all retries fail, raise an error
                     raise
-
