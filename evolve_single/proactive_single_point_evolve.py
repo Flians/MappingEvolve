@@ -208,18 +208,19 @@ def build_planner_context(code_context, history=None):
             avg_area = sum(area_deltas) / max(1, len(area_deltas)) if area_deltas else 0.0
 
             # Delay stagnation: absolute stagnation OR no relative progress
-            absolute_delay_stagnation = all(abs(h.get("delay_score") or 0.0) < 1e-6 for h in recent)
-            relative_delay_stagnation = delay_improvements == 0
-            delay_stagnation = area_improvements > 0 and (absolute_delay_stagnation or relative_delay_stagnation)
+            absolute_delay_stagnation = all((h.get("delay_score") or 0.0) < 0.0 for h in recent)
+            delay_stagnation = area_improvements > 0 and absolute_delay_stagnation
 
             # Objective hint with delay_stagnation as highest priority
-            if avg_delay < -0.5:
+            if delay_stagnation:
+                objective_hint = "Delay Priority"
+            elif avg_delay < -0.5:
                 objective_hint = "Delay Priority"  # Severe delay degradation
             elif avg_area < -0.5:
                 objective_hint = "Area Priority"  # Severe area degradation
-            elif area_improvements > 0 and delay_improvements == 0:
+            elif area_improvements > 0 and avg_delay >= 0:  # delay_improvements == 0:
                 objective_hint = "Area Priority"  # Area is improving, keep momentum
-            elif delay_improvements > 0 and area_improvements == 0:
+            elif delay_improvements > 0 and avg_area >= 0:  # area_improvements == 0:
                 objective_hint = "Delay Priority"  # Delay has breakthrough, continue
             else:
                 objective_hint = "Balanced"  # Default balanced exploration
@@ -724,7 +725,7 @@ def main():
         if reward >= args.revert_threshold:
             accepted = True
             accepted_by = "threshold"
-        elif isinstance(delay_score, (int, float)) and delay_score is not None and delay_score > 0.8 * best_delay:
+        elif reward > -0.4 and isinstance(delay_score, (int, float)) and delay_score is not None and delay_score > 0.8 * best_delay:
             accepted = True
             accepted_by = "delay_tradeoff"
         else:

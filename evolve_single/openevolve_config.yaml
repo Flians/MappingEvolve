@@ -15,7 +15,7 @@ llm:
   api_base: "https://ark.cn-beijing.volces.com/api/v3"
   # api_base: "https://dashscope.aliyuncs.com/compatible-mode/v1"
   temperature: 0.7
-  top_p: 0.95
+  top_p: null #0.95
   max_tokens: 8192
 
 # Prompt configuration
@@ -29,7 +29,7 @@ prompt:
     ## Critical Rules
     1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START` and `// EVOLVE-BLOCK-END` markers
     2. **Preserve API**: Do not change function signatures, template parameters, or class interfaces
-    3. **Logical Equivalence**: All modifications must maintain logical equivalence with input circuit
+    3. **Logical Equivalence**: All modifications must maintain logical equivalence with input circuit ('failed_rate' MUST be 0.0)
     4. **Template Safety**: Handle DO_AREA template parameter correctly (true/false branches)
     5. **Edge Cases**: Guard against division by zero, null pointers, empty cuts, boundary conditions
     6. **Performance**: Maintain algorithmic complexity and avoid regressions

@@ -262,6 +262,8 @@ def evaluate(program_path):
                 "delay_score": 0.0,
                 "speed_score": 0.0,
                 "overall_score": 0.0,
+                "combined_score": 0.0,
+                "failed_rate": 1.0,
                 "error": "All trials failed",
             }
 
@@ -290,6 +292,7 @@ def evaluate(program_path):
             "speed_score": 0.0,
             "overall_score": 0.0,
             "combined_score": 0.0,
+            "failed_rate": 1.0,
             "error": str(e),
         }
 

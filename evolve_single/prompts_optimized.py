@@ -18,10 +18,10 @@ Scope & Metrics
 
 3. **Adaptive & Diversity Signals** (optional JSON with fields):
 - `recent_window`: Number of recent iterations analyzed (typically 5)
-- `avg_area_improvement`, `avg_delay_improvement`: Average scores in recent window
+- `avg_area_improvement`, `avg_delay_improvement`: Average of step-wise deltas (comparing adjacent iterations)
 - `area_improvements`, `delay_improvements`: Count of iterations with positive improvements
 - `objective_hint`: Recommended focus (Delay Priority | Area Priority | Balanced)
-- `delay_stagnation`: Boolean flag (true when delay stuck at 0 for ≥3 iterations)
+- `delay_stagnation`: Boolean flag (true when area has positive improvements BUT all recent delay_scores are negative, indicating delay degradation while area improves)
 - `diversity_pressure`: Exploration urgency level (HIGH | MEDIUM | LOW)
 - `module_usage`: Dictionary mapping module names to usage counts in recent window
 - `recommended_explore`: List of modules to prioritize (unexplored or least-used)
@@ -33,36 +33,47 @@ If previous iteration failed (negative scores or evaluation errors):
 - Performance Regression (reward -0.4 to 0): Try corresponding (area/delay) optimization strategy or target different module
 - First Iteration: No previous data; assess opportunities across all modules
 
-## Diversity & Exploration Rules
-- When `diversity_pressure` is HIGH, strongly prefer switching to a different module
-- Prioritize modules in `recommended_explore` list (unexplored or least-used alternatives)
-- If `delay_stagnation` is true (appears when delay has been stuck at 0 for ≥3 iterations), you **MUST** select "Delay Optimizer" strategy
-- Provide a brief comparison across modules and justify your selection
+## Strategy Selection & Diversity Rules
+
+**Priority Hierarchy** (highest to lowest):
+1. **Delay Stagnation Mode** (when `delay_stagnation` is true):
+   - You **MUST** select "Delay Optimizer" strategy
+   - Focus on modules with strongest delay optimization potential
+   - Accept modest area trade-offs (1-3% increase) for delay improvements
+
+2. **Objective Hint Guidance** (when `objective_hint` is provided):
+   - "Delay Priority": Strongly prefer "Delay Optimizer" over "Balanced Optimizer"
+   - "Area Priority": Prefer "Area Optimizer" unless delay is critically degraded
+   - "Balanced": Use "Balanced Optimizer" as default
+
+3. **Diversity Pressure**:
+   - When `diversity_pressure` is HIGH, strongly prefer switching to a different module
+   - Prioritize modules in `recommended_explore` list (unexplored or least-used alternatives)
+
+**Module Selection Process**:
+- Provide a brief comparison across all three modules
+- Select ONE module with clear, specific evidence-based rationale
+- Avoid generic claims like "highest leverage" without technical justification
 
 ## Analysis Process
 1. Assess Previous Results and root causes
-2. Compare all three modules given the signals and objective hint
-3. Select ONE module with clear, specific reason; avoid generic claims like "highest leverage" without evidence
-4. Select ONE strategy: Area Optimizer | Delay Optimizer | Balanced Optimizer
+2. Apply Strategy Selection rules (check delay_stagnation → objective_hint → diversity_pressure)
+3. Compare all three modules given the signals and selected strategy
+4. Select ONE module with clear reason; avoid generic claims
 5. Propose ONE precise, implementable change with bounded risk
 
-When an "Objective Hint" is provided, respect it unless strong safety reasons exist. The hint does not imply a fixed module; decide based on evidence and rules.
+## Delay Optimization Technical Guide
+When "Delay Optimizer" strategy is selected, consider these module-specific mechanisms:
 
-## Delay Optimization Focus
-**Activation Triggers**: 
-1. `delay_stagnation` is true in diversity signals (delay stuck at 0 for ≥3 recent iterations)
-2. Objective Hint is "Delay Priority" (delay degradation or area-delay imbalance)
+**Root Cause Analysis**: Identify which module can best improve delay based on previous iteration patterns.
 
-**When activated:**
-- If `delay_stagnation` is true, you **MUST** select "Delay Optimizer" strategy (CRITICAL mode)
-- If only trigger 2 is active, strongly prefer "Delay Optimizer" over "Balanced"
-- **Root Cause Analysis**: Identify which module can best improve delay
-- **Target Mechanisms** (choose based on analysis):
-  * **match_phase (DO_AREA=false)**: Tighten arrival time comparison to prioritize low-delay cuts
-  * **match_phase (DO_AREA=true)**: Adjust cost formula to reduce penalty on low-delay cuts when area trade-off is acceptable
-  * **match_phase_exact**: Strengthen required time constraints during exact local area (ELA) mode to prevent timing violations
-  * **match_drop_phase**: Allow phase flips when they reduce worst-case arrival time, even if area increases moderately
-- **Trade-off Guidance**: Delay reductions often require modest area increases (1-3%). Explicitly state acceptable area cost in evolution_step's expected_impact (e.g., "1-2% delay reduction, tolerate up to 2% area increase").
+**Target Mechanisms** (choose based on analysis):
+- **match_phase (DO_AREA=false)**: Tighten arrival time comparison to prioritize low-delay cuts
+- **match_phase (DO_AREA=true)**: Adjust cost formula to reduce penalty on low-delay cuts when area trade-off is acceptable
+- **match_phase_exact**: Strengthen required time constraints during exact local area (ELA) mode to prevent timing violations
+- **match_drop_phase**: Allow phase flips when they reduce worst-case arrival time, even if area increases moderately
+
+**Trade-off Guidance**: Delay reductions often require modest area increases (1-3%). Explicitly state acceptable area cost in evolution_step's expected_impact (e.g., "1-2% delay reduction, tolerate up to 2% area increase").
 
 ## Change Budget and Safety
 - Per iteration, change only ONE logical decision point OR ONE weighting/threshold formula; do not modify multiple levers simultaneously.
@@ -101,7 +112,7 @@ Implement **one precise modification** to a C++ file based on Planner instructio
 ## Critical Rules
 1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START` and `// EVOLVE-BLOCK-END` markers
 2. **Preserve API**: Do not change function signatures, template parameters, or class interfaces
-3. **Logical Equivalence**: All modifications must maintain logical equivalence with input circuit
+3. **Logical Equivalence**: All modifications must maintain logical equivalence with input circuit ('failed_rate' MUST be 0.0)
 4. **Template Safety**: Handle DO_AREA template parameter correctly (true/false branches)
 5. **Edge Cases**: Guard against division by zero, null pointers, empty cuts, boundary conditions
 6. **Performance**: Maintain algorithmic complexity and avoid regressions
