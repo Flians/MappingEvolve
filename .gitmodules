@@ -1,6 +1,6 @@
 [submodule "third-party/mockturtle"]
 	path = third-party/mockturtle
-	url = git@github.com:lsils/mockturtle.git
+	url = https://github.com/lsils/mockturtle.git
 	branch = master
 [submodule "third-party/openevolve"]
 	path = third-party/openevolve
