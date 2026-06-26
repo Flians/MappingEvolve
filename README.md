@@ -48,18 +48,12 @@ The framework modifies three algorithmic operators within `EVOLVE-BLOCK` regions
 
 ```
 MappingEvolve/
-├── evolve/                    # MCTS-based multi-operator parallel evolution
-│   ├── main.py                # Entry point: Scheduler + Evolver LLM pipeline
-│   ├── mcts.py                # Standard MCTS (select/expand/simulate/backprop)
-│   ├── node.py                # LLMNode: AreaNode / DelayNode / BalancedNode
-│   ├── prompts.py             # System prompts for Scheduler & Evolver
-│   └── query_llm.py           # LLM API client (OpenAI-compatible)
 │
 ├── evolve_single/             # Single-point sequential evolution (main framework)
-│   ├── main.py                # Entry point: Planner → Evolver iterative loop
-│   ├── proactive_single_point_evolve.py  # Core loop with adaptive signals
+│   ├── proactive_single_point_evolve.py  # Entry: Planner → Evolver iterative loop
 │   ├── prompts_optimized.py   # Optimized prompts with trend/stagnation/diversity signals
-│   └── query_llm.py           # LLM API client
+│   ├── query_llm.py           # LLM API client
+│   └── openevolve_config.yaml # OpenEvolve configuration
 │
 ├── mapping/                   # C++ Technology Mapper + Python Evaluator
 │   ├── mapping.hpp            # Core mapper (based on mockturtle)
@@ -115,6 +109,12 @@ The mockturtle submodule is included — no separate installation needed:
 git submodule update --init --recursive
 ```
 
+### OpenEvolve (Evolver Component)
+MappingEvolve uses OpenEvolve as its code evolution engine:
+```bash
+pip install openevolve==0.2.18
+```
+
 ---
 
 ## 🚀 Quick Start
@@ -130,37 +130,73 @@ git submodule update --init --recursive
 ### 2. Run Technology Mapping
 
 ```bash
-./build/mapping/emap \
-    third-party/mockturtle/experiments/benchmarks/adder.aig \
+./build/mapping/mapping \
     third-party/mockturtle/experiments/cell_libraries/asap7.genlib \
+    third-party/mockturtle/experiments/benchmarks/adder.aig \
     adder.v
 ```
 
 **Output:**
 ```
-[i] processing adder.aig
-resyn runtime: 0.01
-[i] area: 102.80, gates: 887, depth: 130
-mapping runtime: 0.01
+[i] WARNING: 11 gates IGNORED (e.g., OA333x2_ASAP7_75t_R), too many inputs for the library settings
+{"area": 92.420000, "gates": 890.000000, "delay": 2574.359997, "depth": 128.000000, "runtime": 0.055223, "nec": 0.000000}
 ```
 
-### 3. Run Algorithm Evolution
+### 3. Run MappingEvolve (Planner + OpenEvolve Evolver)
 
 ```bash
-# Single-point sequential evolution (recommended)
-cd evolve_single
-python main.py
-
-# MCTS-based parallel evolution
-cd evolve
-python main.py
+# Configure LLM credentials in evolve_single/openevolve_config.yaml first
+python3 evolve_single/proactive_single_point_evolve.py --openevolve
 ```
 
-The evolution framework will:
-1. **Plan**: Analyze current code and historical trends → select operator + strategy
-2. **Evolve**: Modify the selected `EVOLVE-BLOCK` code region
-3. **Evaluate**: Build → Equivalence check → Benchmark → Score
-4. **Decide**: Accept improvement or revert based on dual-criteria policy
+The evolution framework follows the hierarchical Planner→Evolver→Evaluator loop:
+1. **Planner** (LLM): Analyzes recent performance history and adaptive signals → selects operator + strategy
+2. **Evolver** (OpenEvolve): Receives the Planner's evolution plan → population-based code evolution within `EVOLVE-BLOCK` regions
+3. **Evaluator**: Merges evolved operator with unchanged operators → Build → Equivalence Check (ABC `cec`) → QoR Scoring on ISCAS85
+4. **Decide**: Dual-criteria acceptance policy (reward threshold + delay protection) → accept or revert
+
+### 4. Run OpenEvolve Baselines (Standalone)
+
+To reproduce the paper's OpenEvolve baseline (directly evolve a single operator without Planner guidance).
+
+> **Note**: The local `openevolve/` directory shadows the pip-installed `openevolve` package.  
+> Use `python3 -c "from openevolve.cli import main; main()"` to invoke the CLI.
+
+```bash
+cd MappingEvolve
+
+# Evolve MatchPhase operator for 90 iterations
+nohup python3 -c "from openevolve.cli import main; main()" \
+    --config evolve_single/openevolve_config.yaml \
+    --output output/openevolve_match_phase \
+    --iterations 90 \
+    openevolve/mapping/match_phase.cpp \
+    openevolve/mapping/evaluator.py \
+    > openevolve.log 2>&1 &
+
+# Evolve MatchPhaseExact operator
+nohup python3 -c "from openevolve.cli import main; main()" \
+    --config evolve_single/openevolve_config.yaml \
+    --output output/openevolve_match_phase_exact \
+    --iterations 90 \
+    openevolve/mapping/match_phase_exact.cpp \
+    openevolve/mapping/evaluator.py \
+    > openevolve_exact.log 2>&1 &
+
+# Evolve MatchDropPhase operator
+nohup python3 -c "from openevolve.cli import main; main()" \
+    --config evolve_single/openevolve_config.yaml \
+    --output output/openevolve_match_drop_phase \
+    --iterations 90 \
+    openevolve/mapping/match_drop_phase.cpp \
+    openevolve/mapping/evaluator.py \
+    > openevolve_drop.log 2>&1 &
+```
+
+Alternatively, use `--openevolve` flag in MappingEvolve for Planner-guided evolution:
+```bash
+python3 evolve_single/proactive_single_point_evolve.py --openevolve
+```
 
 ---
 
@@ -175,7 +211,7 @@ API_KEY = "your-api-key"              # API key
 BASE_URL = "https://api.example.com"  # OpenAI-compatible endpoint
 ```
 
-### Evolution Parameters (`evolve_single/main.py`)
+### Evolution Parameters (`evolve_single/proactive_single_point_evolve.py`)
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
