@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "First iteration with no prior signals; default to Balanced. Among modules: match_phase.cpp influences early mapping decisions across all rounds and allows safe tie-breaker adjustments without touching cut generation; match_phase_exact.cpp is tuned for exact area recovery and prioritizes area_exact first, risking area-focus over delay; match_drop_phase.cpp handles phase/inverter decisions with lighter impact. A balanced optimization via a safe tie-breaker in match_phase.cpp can improve delay slightly with negligible area change, benefiting overall_score early in the flow."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase (EVOLVE-BLOCK), inside the per-gate compare_map block",
+    "objective": "Prefer gates with lower intrinsic pin delays when arrival and area_flow decisions are otherwise tied, to slightly reduce worst-case arrival without impacting area",
+    "direction_and_strategy": "Introduce a local tie-breaker based on the sum of candidate gate pin delays. Specifically: (1) Add a local variable `double best_tdelay_sum = std::numeric_limits<double>::max();` at the start of match_phase. (2) In the 'recompute best match info' block, when `best_supergate != nullptr`, compute `best_tdelay_sum` as the sum of `best_supergate->tdelay` for the number of pins used by the current best cut (`cut.size()`). (3) Inside the per-gate loop, compute `double gate_tdelay_sum = 0.0; for (auto d = 0u; d < cut->size(); ++d) gate_tdelay_sum += gate.tdelay[d];`. (4) Extend the compare_map tiebreaker: after existing checks and the size comparison, add `else if (cut->size() == best_size && gate_tdelay_sum < best_tdelay_sum - epsilon) flag_compare_map = true;`. (5) When updating the best selection, also set `best_tdelay_sum = gate_tdelay_sum;`.",
+    "expected_impact": "0.5-1.2% delay improvement, ≤0.2% area change",
+    "constraints": "EVOLVE-BLOCK-only change; no modifications to cut generation or external APIs; maintain template safety and existing epsilon-based compares; retain logical equivalence",
+    "rationale": "In early mapping, many candidates tie on worst_arrival within epsilon and area_flow, with cut size used as the final tie-breaker. Selecting the gate with a lower aggregate pin delay (sum of tdelay across used pins) improves internal timing characteristics and marginally reduces propagated arrival times on critical paths. This tie-breaker is safe, does not bias towards larger area, and operates only when prior criteria are effectively tied, aligning with balanced optimization without risking equivalence."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration used match_phase_exact.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement. Given the 'delay_stagnation' signal is true and objective_hint is 'Delay Priority', we must focus on delay optimization. While match_phase_exact.cpp handles fine-grained timing, match_phase.cpp controls the initial mapping decisions that fundamentally determine timing paths. The current match_phase.cpp implementation under DO_AREA=false (delay mode) already prioritizes arrival time but can be tightened to more aggressively reject cuts that don't improve worst-case delay, which is critical given recent delay stagnation."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp compare_map logic for DO_AREA=false",
+    "objective": "Strengthen delay prioritization by tightening arrival time comparison threshold to reduce timing violations",
+    "direction_and_strategy": "In the DO_AREA=false branch of compare_map within match_phase.cpp, replace the current epsilon-based comparison with a stricter condition that only accepts cuts with strictly better arrival time (even within epsilon range) unless they also improve area flow. Specifically, change the tie-breaking logic to require worst_arrival < best_arrival (without epsilon tolerance) before considering area flow.",
+    "expected_impact": "1-2% delay reduction, tolerate up to 1% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares for area comparisons",
+    "rationale": "Previous Delay Optimizer attempt in match_phase_exact.cpp failed to improve delay, indicating the issue originates earlier in initial mapping. The current match_phase.cpp logic allows cuts with equivalent arrival time (within epsilon) to be selected based on area, which can accumulate suboptimal timing paths. By requiring strictly better arrival time for selection during delay-focused rounds, we force genuine timing improvements while still allowing area as a secondary criterion only when timing is strictly better."
+  }
+}

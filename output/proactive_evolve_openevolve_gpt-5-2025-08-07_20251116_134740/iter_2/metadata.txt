@@ -1,0 +1,27 @@
+Iteration: 2
+Target File: match_phase_exact.cpp
+Strategy: Balanced Optimizer
+Reward: 0.0
+Overall Score: 0.0
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration targeted match_phase.cpp (balanced) with no gains. Objective hint is Balanced and diversity suggests exploring match_phase_exact.cpp or match_drop_phase.cpp. Among the three: (1) match_phase.cpp was just tried and already has careful tie-breakers; (2) match_phase_exact.cpp controls the exact-area rounds where area-first selection can subtly degrade delay; a guarded tweak here can improve overall score without risking equivalence; (3) match_drop_phase.cpp mainly does light cleanup and inverter accounting, offering smaller leverage. Thus, tuning match_phase_exact.cpp to protect timing while keeping exact-area benefits is the most promising next step."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact(...): within compare_map, area-first branch (inside the per-gate loop)",
+    "objective": "Avoid selecting exact-area improvements that cause noticeable local delay regressions; maintain or slightly improve delay while preserving most exact-area gains.",
+    "direction_and_strategy": "Introduce a small timing guard in the area-first acceptance. Specifically, in match_phase_exact, within the compare_map block, replace the unconditional acceptance when (area_exact < best_exact_area - epsilon) with a guarded acceptance: only set flag_compare_map = true if worst_arrival <= best_arrival + delay_guard; otherwise skip. Use a constant double delay_guard = 0.002. Concretely:\n- Before the compare_map if/else chain, add `const double delay_guard = 0.002;`\n- Change the first branch from `if (area_exact < best_exact_area - epsilon) { flag_compare_map = true; }` to `if (area_exact < best_exact_area - epsilon) { flag_compare_map = (worst_arrival <= best_arrival + delay_guard); }`.\n- Leave all other tie-breakers and epsilon compares unchanged.",
+    "expected_impact": "0.2-0.8% area (net), 0-0.6% delay improvement or ≤0.1% delay change; improved overall_score via reduced delay regressions in exact rounds.",
+    "constraints": "Preserve API/templates; modify only within EVOLVE-BLOCK; do not alter cut generation; keep existing epsilon comparisons and complexity; no changes to function signatures or external calls.",
+    "rationale": "In exact rounds, the current compare_map prioritizes area_exact, allowing slower cuts as long as they meet required time. This can erode slack and hurt worst-path timing even if global constraints are met, limiting overall_score. A small guard (delay_guard = 0.002, smaller than epsilon = 0.005) prevents accepting area improvements that materially increase local arrival, while still allowing timing-neutral or slightly slower (within guard) area wins. This aligns with the Balanced objective, stabilizing delay while keeping most area benefits. The change is a single, low-risk decision tweak and maintains logical equivalence."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

@@ -1,0 +1,8 @@
+{
+  "total_iterations": 30,
+  "best_reward": 0.15586347780026463,
+  "best_iteration": 20,
+  "model": "qwen3-max",
+  "openevolve": true,
+  "revert_threshold": -0.1
+}

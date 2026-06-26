@@ -1,0 +1,27 @@
+Iteration: 26
+Target File: match_phase.cpp
+Strategy: Area Optimizer
+Reward: 0.010975697200319455
+Overall Score: 0.0110975
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp (3x recently) with Area Optimizer and achieved area gains while delay stayed neutral. Objective hint is Area Priority, diversity pressure is LOW but recommended_explore includes match_phase.cpp. Comparing modules: (1) match_phase.cpp governs the primary area-flow round and currently includes a delay-biased tie-in via area_slack that can select higher-area cuts; removing this bias directly improves area globally while still honoring required times. (2) match_phase_exact.cpp already tuned and shows diminishing returns; continuing there risks overfitting. (3) match_drop_phase.cpp offers light cleanup but less leverage than adjusting the area-flow selection. Thus, tightening the area-first criterion in match_phase.cpp is the most impactful next step for area."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase<DO_AREA> compare_map branch in EVOLVE-BLOCK: the area_slack constant used before the early delay-favoring acceptance",
+    "objective": "Eliminate delay bias in area-flow selection so the area round strictly prefers lower-area cuts while meeting required times",
+    "direction_and_strategy": "Change the local threshold in match_phase<DO_AREA> compare_map from `const double area_slack = 0.5 * static_cast<double>(lib_inv_area);` to `const double area_slack = 0.0;`. Keep the rest of the compare_map logic unchanged so a lower-delay cut is only preferred if it does not increase area_flow at all.",
+    "expected_impact": "0.4-1.0% area; ~0% delay",
+    "constraints": "Modify only within EVOLVE-BLOCK; no changes to cut generation; preserve API/templates and existing epsilon compares; ensure required-time checks remain intact",
+    "rationale": "The current area-flow round occasionally accepts a higher-area cut when it offers a delay reduction within `0.5*inv_area`. Under Area Priority and with timing already safeguarded by the delay round and required-time checks, this bias needlessly sacrifices area. Setting area_slack to 0 removes this exception, ensuring area-first decisions while still filtering out any option violating required times. Given recent neutral delay and positive area trend, this tightened criterion should yield modest area savings without measurable delay degradation."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

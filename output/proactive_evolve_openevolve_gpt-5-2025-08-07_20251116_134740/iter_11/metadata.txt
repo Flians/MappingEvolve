@@ -1,0 +1,27 @@
+Iteration: 11
+Target File: match_phase_exact.cpp
+Strategy: Balanced Optimizer
+Reward: 0.0045720008003241105
+Overall Score: 0.004593
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration targeted match_drop_phase.cpp with negligible area gain and zero delay improvement. With Balanced objective and LOW diversity pressure, switching to match_phase_exact.cpp (recommended_explore and least-used among the two core matching stages) lets us refine the exact area pass, which currently prioritizes area before timing. This phase often introduces small timing regressions to gain tiny area, likely blocking delay gains observed as stagnation. A localized tie-break guard here can preserve or slightly improve delay while retaining most area benefits, complementing prior drop-phase tweaks better than another drop-phase change or altering initial matching."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact(node<Ntk> const&, uint8_t): compare_map block inside area-first branch",
+    "objective": "Preserve timing during exact area recovery by requiring a minimum area gain before accepting a worse arrival time",
+    "direction_and_strategy": "Inside match_phase_exact, in the compare_map decision where area_exact is prioritized, add a small gate: when area_exact improves but worst_arrival is worse than the current best, only accept the swap if the area gain exceeds a threshold. Concretely: introduce const float area_gain_gate = 0.5f * lib_inv_area; then, replace the first condition with: if (area_exact < best_exact_area - epsilon) { if (worst_arrival > best_arrival + epsilon && (best_exact_area - area_exact) < area_gain_gate) { flag_compare_map = false; } else { flag_compare_map = true; } } else if (...) unchanged. This keeps the area-first policy but prevents sacrificing timing for negligible area gains.",
+    "expected_impact": "0.2-0.8% delay improvement; ≤0.3% area regression versus prior exact-phase area gains",
+    "constraints": "Preserve API/templates; modify only EVOLVE-BLOCK; keep epsilon compares and overall complexity; do not change cut generation or external interfaces",
+    "rationale": "The exact phase currently accepts area improvements even when they slightly degrade arrival, provided required time is met. Given sustained zero delay improvement, these small degradations likely accumulate on critical paths, masking delay gains from earlier phases. By gating area-first selection with a minimum gain (0.5× inverter area), we avoid timing-worse substitutions that deliver trivial area savings, improving or stabilizing worst-case delay while retaining meaningful area reductions. This single-threshold change is low risk, localized to tie-breaking, and maintains logical equivalence and API compatibility."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

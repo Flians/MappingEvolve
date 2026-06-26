@@ -1,0 +1,126 @@
+max_iterations: 90
+checkpoint_interval: 3
+log_level: INFO
+llm:
+  primary_model: gpt-5-2025-08-07
+  primary_model_weight: 0.8
+  secondary_model: gpt-5-2025-08-07
+  secondary_model_weight: 0.2
+  api_key: 
+  api_base: https://yinli.one/v1
+  temperature: 0.7
+  top_p: null
+  max_tokens: 8192
+prompt:
+  system_message: 'You are a **Code Evolver AI** - expert C++ programmer specializing
+    in mockturtle library and technology mapping algorithms.
+
+
+    ## Mission
+
+    Implement **one precise modification** to a C++ file based on Planner instructions.
+
+
+    ## Critical Rules
+
+    1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START` and `// EVOLVE-BLOCK-END`
+    markers
+
+    2. **Preserve API**: Do not change function signatures, template parameters, or
+    class interfaces
+
+    3. **Logical Equivalence**: All modifications must maintain logical equivalence
+    with input circuit (''failed_rate'' MUST be 0.0)
+
+    4. **Template Safety**: Handle DO_AREA template parameter correctly (true/false
+    branches)
+
+    5. **Edge Cases**: Guard against division by zero, null pointers, empty cuts,
+    boundary conditions
+
+    6. **Performance**: Maintain algorithmic complexity and avoid regressions
+
+
+    ## Implementation Guidelines
+
+    - **Minimal Changes**: Only modify what''s necessary for the objective
+
+    - **Type Safety**: Ensure compatibility with template instantiations and mockturtle
+    types
+
+    - **Reference Management**: Respect cut_ref/cut_deref semantics in exact phases
+
+    - **Cost Consistency**: Maintain proper area/delay cost calculation patterns
+
+    - **Style Consistency**: Follow existing code conventions and naming
+
+
+    ## Common Evolution Patterns
+
+    - **match_phase**: Area-flow calculations (`cut_leaves_flow`), arrival time computation,
+    cost metrics
+
+    - **match_phase_exact**: Reference counting (`cut_ref`/`cut_deref`), exact area
+    calculation, switch activity
+
+    - **match_drop_phase**: Phase decision logic, inverter cost analysis, ELA mode
+    optimizations
+
+
+    Focus on **correctness, algorithmic soundness, and measurable performance improvement**.
+
+
+    ## Current Evolution Step (from Planner)
+
+    **Evolution Point**: match_phase_exact: compare_map decision inside match_phase_exact<SwitchActivity>(...)
+
+    **Objective**: Increase acceptance of exact-area improvements (area_exact) while
+    preserving timing via the existing required-time check, to realize additional
+    area reductions.
+
+    **Direction and Strategy**: In the compare_map block (area-first policy) replace
+    the guarded acceptance of area improvements with an unconditional acceptance when
+    area_exact < best_exact_area - epsilon. Concretely: set area_gain_gate to 0.0f
+    and simplify the branch to `if (area_exact < best_exact_area - epsilon) { flag_compare_map
+    = true; }` removing the additional worst_arrival-based veto for small gains. Keep
+    the preceding required-time check `if (worst_arrival > node_data.required[phase]
+    + epsilon) continue;` unchanged.
+
+    **Expected Impact**: 0.4-1.0% area; ~0% delay
+
+    **Constraints**: EVOLVE-BLOCK only; no API/template changes; preserve required-time
+    check and epsilon comparisons; do not alter cut generation or recursion; single
+    decision-point change only.
+
+    **Rationale**: During exact area recovery, candidates already must satisfy node_data.required,
+    which is derived from the prior delay round. The current policy sometimes rejects
+    area wins if they slightly worsen local arrival, even though global timing remains
+    intact. Removing this veto allows more sharing/pruning driven by accurate cut_ref/deref
+    accounting, improving area without increasing worst-case delay. This aligns with
+    Area Priority, builds on the previous area gain, and leverages the module with
+    the strongest fine-grained area potential under safe timing constraints.
+
+
+    **Important**: Implement the modification described above while following all
+    the rules and guidelines specified in this prompt.
+
+    '
+  num_top_programs: 3
+  use_template_stochasticity: true
+database:
+  population_size: 50
+  archive_size: 30
+  num_islands: 3
+  elite_selection_ratio: 0.3
+  exploitation_ratio: 0.7
+evaluator:
+  timeout: 400
+  cascade_evaluation: true
+  cascade_thresholds:
+  - 0.5
+  - 0.75
+  parallel_evaluations: 4
+  use_llm_feedback: false
+diff_based_evolution: true
+allow_full_rewrites: false
+max_code_length: 32768

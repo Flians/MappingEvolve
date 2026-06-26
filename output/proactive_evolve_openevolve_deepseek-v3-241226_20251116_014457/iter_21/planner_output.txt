@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration using match_phase_exact.cpp showed a significant delay degradation (-1.484214) despite area improvement (1.901989). Given the 'Balanced' objective hint and LOW diversity pressure, match_phase.cpp offers a more balanced optimization approach. It provides flexibility in adjusting the cost calculation and tie-breakers to better balance area and delay, which is critical given the current delay stagnation."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "compare_map in match_phase.cpp",
+    "objective": "Improve delay without significantly compromising area by adjusting the dynamic weighted scoring system in compare_map",
+    "direction_and_strategy": "Modify the dynamic weights in the scoring system to prioritize delay improvements more strongly when delay degradation is detected, while maintaining area considerations. Specifically, increase the delay_weight when delay_improvement is positive.",
+    "expected_impact": "0.5-1.5% delay improvement with up to 1% area trade-off",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous iteration's delay degradation suggests the need for stronger delay optimization. By adjusting the dynamic weights in compare_map, we can better balance area and delay, prioritizing delay improvements when they are most needed. This approach is bounded in risk as it only modifies the scoring system without altering the core mapping logic."
+  }
+}
+```

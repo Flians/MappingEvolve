@@ -1,0 +1,29 @@
+Iteration: 16
+Target File: match_phase.cpp
+Strategy: Delay Optimizer
+Reward: 0.11022885358771299
+Overall Score: 0.12388450000000001
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp with Balanced Optimizer, achieving area gain (+5.7%) but severe delay degradation (-82%). Adaptive signals confirm 'delay_stagnation': area improved while all recent delay scores are negative. Objective hint is 'Delay Priority', and diversity pressure is LOW, so we should stay focused but shift to a module better suited for primary delay optimization. match_phase.cpp handles the initial delay round (when DO_AREA=false) and directly controls cut selection based on arrival time; it offers higher leverage for delay improvement than match_phase_exact.cpp (which operates under area-focused ELA rounds) or match_drop_phase.cpp (which mainly handles phase cleanup)."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase<DO_AREA=false> compare_map logic in match_phase.cpp",
+    "objective": "Prioritize cuts with lower worst-case arrival time more aggressively during initial delay mapping round",
+    "direction_and_strategy": "In the non-area mode (DO_AREA=false), modify the comparison logic to give stronger preference to arrival time by reducing the tie-breaking reliance on area_flow. Specifically, after checking arrival time within epsilon, only consider area_flow if arrival times are truly equal (within epsilon), rather than using area as a secondary criterion that can override small delay advantages.",
+    "expected_impact": "1-3% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The current compare_map logic in match_phase.cpp for DO_AREA=false already prioritizes arrival time first, but uses area_flow as a secondary tie-breaker. In delay-stagnation mode, even minor delay improvements should be favored over area. By tightening the comparison to only consider area when arrival times are effectively identical (within epsilon), we ensure that any cut with strictly better arrival time is selected, even if its area_flow is slightly worse. This aligns with the Delay Optimizer strategy and addresses the root cause of delay degradation observed in the previous exact-area-focused iteration."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

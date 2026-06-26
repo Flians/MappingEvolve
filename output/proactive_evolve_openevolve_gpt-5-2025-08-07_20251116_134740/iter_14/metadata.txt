@@ -1,0 +1,27 @@
+Iteration: 14
+Target File: match_drop_phase.cpp
+Strategy: Area Optimizer
+Reward: 0.0045720008003241105
+Overall Score: 0.004593
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Previous iteration delivered a small positive area gain from exact area optimization with unchanged delay. With Area Priority and no delay stagnation, tightening phase-dropping decisions to avoid area increases is a low-risk lever. Among modules: match_phase.cpp affects early cost but may require broader rebalancing; match_phase_exact.cpp was just tuned and may face diminishing returns; match_drop_phase.cpp governs the final single-phase vs dual-phase choice and inverter accounting, where decisions currently consider only timing in DO_AREA mode. Adding an area-flow guard here directly prevents area regressions and can reduce total area without impacting timing. Diversity signals also recommend exploring match_drop_phase.cpp."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_drop_phase (EVOLVE-BLOCK), DO_AREA branch: unify decision for use_zero/use_one",
+    "objective": "Prevent phase unification when it does not reduce area_flow compared to keeping both phases, while respecting required time; thereby trimming area in the final decision stage.",
+    "direction_and_strategy": "Inside the DO_AREA branch, replace the current timing-only checks with combined timing and area-flow checks. Specifically:\n- Compute area_both = node_data.flows[0] + node_data.flows[1].\n- Compute area_zero = node_data.flows[0] + lib_inv_area and area_one = node_data.flows[1] + lib_inv_area.\n- Define a small tolerance: const float area_tol = 0.25f * lib_inv_area.\n- Gate unification by both timing and area: \n  bool can_zero = worst_arrival_nneg < (node_data.required[1] + epsilon - required_margin_factor * lib_inv_delay);\n  bool can_one  = worst_arrival_npos < (node_data.required[0] + epsilon - required_margin_factor * lib_inv_delay);\n  use_zero = can_zero && (area_zero + epsilon <= area_both - area_tol);\n  use_one  = can_one  && (area_one  + epsilon <= area_both - area_tol);\nLeave subsequent tie-breakers and ELA logic unchanged.",
+    "expected_impact": "0.4-1.2% area improvement; ~0% delay change",
+    "constraints": "Modify only within EVOLVE-BLOCK; preserve templates/APIs; keep existing epsilon-based compares; do not alter cut generation or broader control flow; ensure required time checks remain unchanged.",
+    "rationale": "In DO_AREA mode, match_drop_phase currently unifies phases solely on timing feasibility, which can inadvertently increase area due to inverter overhead versus dual-phase coverage. By adding an area-flow guard against the combined cost of both phases, we only apply unification when it lowers area_flow. Required time constraints remain intact, preserving delay. This change targets end-of-flow cleanups, complementing last iteration’s exact-area tuning, and is a single, bounded decision-point modification aligned with Area Priority."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

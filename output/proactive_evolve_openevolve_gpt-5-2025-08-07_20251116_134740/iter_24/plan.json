@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous change in match_drop_phase.cpp yielded slight area gain but no delay improvement. With a Balanced hint and no delay stagnation, the best leverage to nudge timing is earlier in the pipeline where cut selection is decided. Among modules: (1) match_phase.cpp governs both the initial delay pass and area-flow rounds; its DO_AREA compare rule can safely accept faster cuts for a tiny area cost, impacting global timing. (2) match_phase_exact.cpp is already used frequently and currently biased to area-first under timing feasibility, less likely to unlock delay. (3) match_drop_phase.cpp was just used; returns appear diminishing for delay. match_phase.cpp is also in the recommended_explore list and least used recently, making it a suitable, low-risk next step."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase<DO_AREA> DO_AREA-branch compare_map: adjust area_slack near 'const double area_slack = 0.25 * static_cast<double>(lib_inv_area);'",
+    "objective": "Allow the area-flow round to accept slightly higher area when it yields a clear arrival time reduction, to improve worst-case delay with bounded area impact.",
+    "direction_and_strategy": "In match_phase<DO_AREA>, within the compare_map block, increase the acceptance margin for delay-improving candidates by changing the slack from 0.25 to 0.5 inverter area: replace 'const double area_slack = 0.25 * static_cast<double>(lib_inv_area);' with 'const double area_slack = 0.5 * static_cast<double>(lib_inv_area);'. Keep all other conditions (arrival improvement must be > epsilon) unchanged.",
+    "expected_impact": "0.3-1.0% delay improvement, with 0.1-0.6% area increase",
+    "constraints": "Modify only the EVOLVE-BLOCK; preserve APIs/templates; keep epsilon-based comparisons; do not change cut generation or other decision points; maintain logical equivalence (failed_rate must remain 0).",
+    "rationale": "During area-flow optimization, strict area comparison can block selecting faster cuts that marginally increase area. By modestly increasing area_slack used only when worst_arrival strictly improves (by > epsilon), the mapper can adopt timing-favorable cuts while bounding area growth to a fraction of an inverter. This early-stage bias propagates to later rounds, offering a realistic path to reduce overall worst-case delay without aggressive area penalties. Given last iteration’s zero delay change and small area gain, this single-threshold adjustment aligns with a Balanced strategy and should unlock incremental timing improvement safely."
+  }
+}

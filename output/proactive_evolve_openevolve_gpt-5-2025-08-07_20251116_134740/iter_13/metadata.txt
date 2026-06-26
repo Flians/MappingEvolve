@@ -1,0 +1,27 @@
+Iteration: 13
+Target File: match_phase_exact.cpp
+Strategy: Area Optimizer
+Reward: 0.0045720008003241105
+Overall Score: 0.004593
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Objective hint favors Area Priority and recent gain came from area with no delay change. Among modules: (1) match_phase.cpp already tuned last iteration and mainly influences coarse choices; (2) match_drop_phase.cpp focuses on phase sharing/inverter cleanup with smaller headroom; (3) match_phase_exact.cpp performs exact area accounting via cut_ref/cut_deref under required-time constraints, making it the safest lever to further reduce area without degrading delay. It is also least-used recently and listed in recommended_explore, providing both effectiveness and diversity."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact: compare_map decision inside match_phase_exact<SwitchActivity>(...)",
+    "objective": "Increase acceptance of exact-area improvements (area_exact) while preserving timing via the existing required-time check, to realize additional area reductions.",
+    "direction_and_strategy": "In the compare_map block (area-first policy) replace the guarded acceptance of area improvements with an unconditional acceptance when area_exact < best_exact_area - epsilon. Concretely: set area_gain_gate to 0.0f and simplify the branch to `if (area_exact < best_exact_area - epsilon) { flag_compare_map = true; }` removing the additional worst_arrival-based veto for small gains. Keep the preceding required-time check `if (worst_arrival > node_data.required[phase] + epsilon) continue;` unchanged.",
+    "expected_impact": "0.4-1.0% area; ~0% delay",
+    "constraints": "EVOLVE-BLOCK only; no API/template changes; preserve required-time check and epsilon comparisons; do not alter cut generation or recursion; single decision-point change only.",
+    "rationale": "During exact area recovery, candidates already must satisfy node_data.required, which is derived from the prior delay round. The current policy sometimes rejects area wins if they slightly worsen local arrival, even though global timing remains intact. Removing this veto allows more sharing/pruning driven by accurate cut_ref/deref accounting, improving area without increasing worst-case delay. This aligns with Area Priority, builds on the previous area gain, and leverages the module with the strongest fine-grained area potential under safe timing constraints."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

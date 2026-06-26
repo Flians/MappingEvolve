@@ -1,0 +1,17 @@
+{
+  "overall_score": 0.0004865,
+  "reward": 0.00048626343283992337,
+  "failed_rate": 0.0,
+  "error_msg": null,
+  "error_type": "success",
+  "is_valid_code": true,
+  "is_improvement": true,
+  "raw_result": {
+    "area_score": 0.000973,
+    "delay_score": 0.0,
+    "speed_score": -1.870792,
+    "overall_score": 0.0004865,
+    "combined_score": 0.0004865,
+    "failed_rate": 0.0
+  }
+}

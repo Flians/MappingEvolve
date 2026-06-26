@@ -1,0 +1,27 @@
+Iteration: 18
+Target File: match_phase.cpp
+Strategy: Balanced Optimizer
+Reward: 0.006271914809678713
+Overall Score: 0.0063115
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Last iteration on match_drop_phase.cpp yielded a small area gain but no delay improvement. With a Balanced objective and low diversity pressure, improving early matching decisions is the most leveraged way to influence both area and delay. Among the modules, match_phase.cpp controls the initial mapping choice under both delay and area-flow rounds; a small bias here can propagate through subsequent exact and drop phases. match_phase_exact.cpp already contains a timing-preserving guard and was used recently; match_drop_phase.cpp mainly performs cleanup and is less effective for global delay. match_phase.cpp is the least-used module and recommended for exploration, making it the best next step."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase<DO_AREA> — DO_AREA branch compare_map decision inside EVOLVE-BLOCK",
+    "objective": "Allow selecting a slightly faster cut during area-flow rounds when the area increase is negligible, to gain small delay improvements without meaningful area cost.",
+    "direction_and_strategy": "Inside match_phase (template<bool DO_AREA>), in the DO_AREA==true compare_map block, add a single pre-check to the existing decision chain: if a candidate has strictly better worst_arrival and its area_flow is within a small tolerance of the current best, accept it. Concretely, introduce a local tolerance and guard before the existing area-first comparisons: const double area_slack = 0.25 * static_cast<double>(lib_inv_area); if (worst_arrival < best_arrival - epsilon && area_local <= best_area_flow + area_slack) { flag_compare_map = true; } else { /* fall back to existing DO_AREA compare_map chain */ } This change is scoped only to the DO_AREA branch; DO_AREA==false (delay round) remains unchanged.",
+    "expected_impact": "0.3-1.0% delay improvement; tolerate up to 0.5-1.0% area increase",
+    "constraints": "Modify code only within EVOLVE-BLOCK; preserve all APIs/templates and cut generation; keep existing epsilon-based comparisons; add a single guarded condition without changing overall complexity.",
+    "rationale": "In area-flow rounds, current selection is strictly area-first, then arrival. This can lock in slightly slower cuts even when a near-equal-area alternative gives better timing, causing persistent delay stagnation. Introducing a tiny area tolerance tied to inverter area (0.25×lib_inv_area) allows choosing lower-delay cuts when area_flow is effectively equivalent, achieving small timing gains with bounded area overhead. This aligns with a Balanced goal and avoids aggressive changes: required-time pruning remains intact, and the modification only affects tie-like cases in DO_AREA, ensuring logical equivalence and low risk."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration used match_drop_phase.cpp with Balanced Optimizer and achieved positive area improvement (+1.19%) but significant delay degradation (-0.82%). The adaptive signals show no recent improvements in either metric across 5 iterations, with objective_hint='Balanced' and low diversity pressure. Among the modules, match_phase.cpp handles the core cut selection logic and contains tunable cost comparison logic that directly impacts both area and delay. Its current implementation already includes EVOLVE-BLOCK regions with conditional logic for DO_AREA vs delay optimization, making it the highest-leverage point to address the observed delay regression while preserving area gains."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp compare_map logic inside flag_compare_map calculation for !DO_AREA branch",
+    "objective": "Improve delay performance during non-area rounds while maintaining area efficiency",
+    "direction_and_strategy": "Modify the delay-priority comparison logic to be more aggressive in accepting cuts with better arrival times even when area increases modestly. Specifically, change the condition from 'worst_arrival < best_arrival + epsilon && area_local < best_area_flow + epsilon * 2.0' to 'worst_arrival <= best_arrival + epsilon * 0.5 && area_local < best_area_flow + epsilon * 3.0' to allow slightly larger area increases for meaningful delay improvements.",
+    "expected_impact": "0.5-1.5% delay reduction with up to 1% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous iteration's delay degradation (-0.82%) despite area gains suggests the current balanced strategy is too conservative in accepting area-costly delay improvements. The existing code already has a mechanism for aggressive delay optimization (the commented condition), but the thresholds are too restrictive. By relaxing the area tolerance from 2.0*epsilon to 3.0*epsilon and tightening the arrival time window to 0.5*epsilon, we can capture more meaningful delay improvements without excessive area growth, addressing the core imbalance observed in the last result."
+  }
+}

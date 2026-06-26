@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Given the objective hint 'Balanced' and the recent lack of improvements in both area and delay, match_drop_phase.cpp is selected for its potential to clean up area without significantly impacting delay. Additionally, it has been least used in recent iterations, aligning with the diversity pressure signal."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_drop_phase<DO_AREA, ELA>",
+    "objective": "Improve area efficiency by optimizing phase dropping decisions while maintaining delay constraints.",
+    "direction_and_strategy": "Adjust the required_margin_factor to 0.75 to allow more aggressive phase dropping when it leads to area reduction without violating delay constraints.",
+    "expected_impact": "0.5-1.5% area reduction with minimal impact on delay.",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares.",
+    "rationale": "The adjustment to required_margin_factor will enable the algorithm to drop phases more frequently when it leads to area savings, which is crucial given the recent stagnation in area improvements. This change is bounded and safe as it only affects the margin for phase dropping decisions."
+  }
+}
+```

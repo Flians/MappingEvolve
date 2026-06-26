@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "The previous iteration used match_phase.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement (+1.05). The adaptive signals show no recent improvements in either metric and recommend exploring match_phase_exact.cpp (usage count: 2, but less recently than match_phase.cpp). Since the objective_hint is 'Balanced' and diversity_pressure is LOW, we can safely target match_phase_exact.cpp which handles exact area optimization with timing constraints and offers better control over the area-delay trade-off through precise cut referencing."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact comparison logic inside flag_compare_map calculation",
+    "objective": "Improve balanced area-delay trade-off by refining the timing slack consideration during exact matching",
+    "direction_and_strategy": "Replace the current timing-slack-based condition with a more robust balanced comparison that prioritizes cuts meeting required time while minimizing exact area, using the existing compare_map pattern for consistency",
+    "expected_impact": "0.5-1.5% area reduction with 0.5-1% delay improvement",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The current match_phase_exact implementation has an ad-hoc timing slack condition that may be too aggressive. By aligning its comparison logic with the established compare_map pattern (which properly balances arrival time and area flow based on DO_AREA), we can achieve better balanced optimization. This addresses the previous iteration's delay regression while maintaining area gains, fitting the 'Balanced' objective hint."
+  }
+}
+```

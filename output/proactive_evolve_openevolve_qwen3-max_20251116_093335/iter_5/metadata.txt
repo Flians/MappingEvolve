@@ -1,0 +1,29 @@
+Iteration: 5
+Target File: match_phase.cpp
+Strategy: Balanced Optimizer
+Reward: 0.10373344315586208
+Overall Score: 0.1157395
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp with Balanced Optimizer, achieving +5.3% area improvement but -82% delay degradation. Adaptive signals show consistent delay regression (0/4 recent iterations improved delay) despite area gains, and objective_hint remains 'Balanced'. Although delay_stagnation is false, the severe delay penalty suggests over-aggressive area optimization in exact phase. match_phase.cpp governs initial cut selection and has a timing_slack guard that currently allows up to 10% violation during DO_AREA mode. Tightening this guard can prevent pathological delay choices early, while still permitting modest area trade-offs. match_drop_phase.cpp is under-explored but better suited for final cleanup; fixing root cause in match_phase is higher leverage."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp: timing_slack condition in DO_AREA block",
+    "objective": "Prevent excessive delay violations during area optimization by tightening the relative violation threshold",
+    "direction_and_strategy": "Reduce relative_violation threshold from 0.1 (10%) to 0.03 (3%) in the timing slack check. Change `relative_violation > 0.1` to `relative_violation > 0.03` to reject cuts with significant timing degradation even during area rounds.",
+    "expected_impact": "Recover 1-3% delay at cost of ≤0.5% area; prevents worst-case delay outliers while preserving most area gains",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous Balanced Optimizer run in match_phase_exact.cpp caused severe delay regression (-82%), indicating that area optimization aggressively violated timing. The root cause likely originates in match_phase.cpp's permissive timing_slack guard (10% violation allowed). Tightening to 3% maintains area focus but blocks cuts with catastrophic delay impact. This aligns with Balanced objective by preventing extreme trade-offs, and uses minimal change budget (single threshold tweak) with low risk since it only adds rejection criteria."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

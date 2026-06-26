@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Previous balanced tweak in match_phase.cpp yielded small area gain but no delay improvement. With Balanced objective and no delay stagnation flag, a light change to the final phase decision can unlock timing wins with minimal area impact. Among modules: (1) match_phase.cpp tweaks will rehash initial selection where delay already plateaued; (2) match_phase_exact.cpp currently uses an area-first exact policy and risks trading away timing; (3) match_drop_phase.cpp directly controls single-phase substitution with inverter in the delay round, which can reduce worst-case arrival by selecting the faster phase while allowing tiny area relaxation. It’s the least-used lever recently and offers a safe, bounded change aligned with balanced goals."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_drop_phase: in DO_AREA=false branch, area tolerance for phase-drop decision",
+    "objective": "Permit minimal area increase when using a single phase + inverter only if it improves arrival, to convert delay plateaus into measurable gains with negligible area impact.",
+    "direction_and_strategy": "In tech_map_impl::match_drop_phase (DO_AREA == false), change the strict area condition to allow a small tolerance. Replace: 'const float area_tol = 0.0f;' with 'const float area_tol = 0.5f * lib_inv_area;'. Keep the existing requirement that worst_arrival_npos/neg < current arrival (timing improvement). No other logic is modified.",
+    "expected_impact": "0.3-1.0% delay improvement; tolerate up to ~0.2-0.6% area increase.",
+    "constraints": "Modify only inside EVOLVE-BLOCK; no API/template changes; preserve compare_map and epsilon usage; keep computational complexity unchanged; ensure logical equivalence remains intact (failed_rate stays 0).",
+    "rationale": "Currently, in the delay round, phase dropping is only accepted if it strictly improves arrival AND does not increase area at all. This blocks beneficial substitutions where using the faster phase plus a single inverter slightly increases local area but reduces worst-case arrival. Allowing a tiny area tolerance proportional to lib_inv_area preserves correctness and bounds area growth, while enabling timing wins exactly where they matter. This is a single, isolated constant change, risk-bounded, and aligns with balanced optimization by trading a negligible area increase for modest delay reduction."
+  }
+}

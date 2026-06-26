@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "The previous iteration used match_phase.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement (+1.05). The adaptive signals show no recent improvements in either metric and recommend exploring match_phase_exact.cpp and match_drop_phase.cpp. Since the objective_hint is 'Balanced' and diversity_pressure is LOW, we can maintain focus on optimization while switching modules. match_phase_exact.cpp performs exact area optimization with precise cut referencing/dereferencing and already includes timing slack considerations, making it well-suited for balanced improvements without the aggressive delay-only focus that failed previously."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact comparison logic inside flag_compare_map calculation",
+    "objective": "Improve balanced area-delay trade-off by adjusting the timing slack priority threshold in exact matching",
+    "direction_and_strategy": "Reduce the timing slack advantage threshold from 'epsilon * 2.0f' to 'epsilon * 1.0f' to make area improvements more competitive against minor timing gains, encouraging better area reduction while still respecting timing constraints",
+    "expected_impact": "0.5-1.5% area reduction with minimal delay impact (≤0.5% change)",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The current exact matching logic strongly favors cuts with better timing slack even when area cost is significantly higher (allowing up to 2*epsilon area increase). Given the previous iteration's poor delay result despite using Delay Optimizer on match_phase, we need a more balanced approach. Reducing the timing slack advantage threshold will make area improvements more competitive, aligning with the 'Balanced' objective hint while leveraging match_phase_exact's precise area accounting through cut_ref/cut_deref mechanisms."
+  }
+}

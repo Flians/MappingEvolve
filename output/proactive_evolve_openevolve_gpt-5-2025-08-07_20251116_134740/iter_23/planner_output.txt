@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Previous iteration improved area slightly with match_phase_exact but did not improve delay. Objective hint is Balanced, and diversity pressure is MEDIUM with recommended_explore pointing to match_drop_phase.cpp, which has not been used recently. Among modules: (1) match_phase.cpp tunes initial cut selection and may have broader impact but has been explored; (2) match_phase_exact.cpp has been used most and already applies area-first refinements; (3) match_drop_phase.cpp governs final phase selection and inverter accounting, offering a low-risk way to trade a tiny area tolerance for potential delay wins and cleanup. Given Balanced goals and exploration needs, adjusting phase-drop heuristics in match_drop_phase.cpp is the most targeted next step."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_drop_phase (DO_AREA=false) — area tolerance in single-phase substitution decision",
+    "objective": "Allow a tiny area tolerance when flipping to a single-phase implementation with an output inverter if it improves arrival time, to unlock small delay gains without noticeable area increase.",
+    "direction_and_strategy": "In the DO_AREA=false block, change the strict area tie from allowing no area increase to allowing a very small tolerance. Specifically, replace `const float area_tol = 0.0f;` with `const float area_tol = 0.15f * lib_inv_area;` and keep the existing inequalities: (node_data.flows[1] + lib_inv_area <= node_data.flows[0] + area_tol) and similarly for the other phase.",
+    "expected_impact": "0.3-1.0% delay improvement; tolerate up to 0.1-0.5% area increase.",
+    "constraints": "Preserve API/templates; modify only within EVOLVE-BLOCK; do not alter cut generation; keep epsilon-based compares; single-parameter tweak only.",
+    "rationale": "Currently, during the delay round, a flip to using one phase plus an output inverter is only accepted if it does not increase area at all. This can block beneficial replacements that slightly improve worst-arrival with negligible area change. Introducing a tiny tolerance proportional to lib_inv_area maintains safety in area while enabling timing-friendly substitutions. Subsequent area-flow and exact area rounds can recover any small area increase, fitting the Balanced objective. The change is localized, maintains logical equivalence, and adheres to the single-lever adjustment budget."
+  }
+}

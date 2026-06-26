@@ -1,0 +1,29 @@
+Iteration: 3
+Target File: match_phase_exact.cpp
+Strategy: Balanced Optimizer
+Reward: 0.0
+Overall Score: 0.0
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Given the balanced objective hint and medium diversity pressure, match_phase_exact.cpp offers precise optimization opportunities. It allows fine-grained trade-offs between area and delay, making it suitable for exploring improvements in both metrics. This module has been underutilized in recent iterations (only 2 uses of match_phase.cpp), aligning with the recommended exploration list."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact.cpp: compare_map logic",
+    "objective": "Improve both area and delay by optimizing the exact area calculation and arrival time comparison",
+    "direction_and_strategy": "Modify the compare_map logic to give slightly higher weight to area improvements when both area and delay are close (within epsilon), while maintaining strict delay constraints. Specifically, adjust the area comparison threshold to be more aggressive in selecting area improvements when delay differences are minimal.",
+    "expected_impact": "0.5-1.5% area improvement with neutral or slight delay improvement (0-0.5%)",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The current implementation treats area and delay equally when differences are within epsilon. By slightly favoring area in these cases, we can achieve better area scores without significantly impacting delay, which aligns with the balanced optimization strategy. This change is bounded in risk as it only affects the selection logic when metrics are very close."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

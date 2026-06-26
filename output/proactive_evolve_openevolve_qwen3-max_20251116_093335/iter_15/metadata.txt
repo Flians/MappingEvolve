@@ -1,0 +1,29 @@
+Iteration: 15
+Target File: match_phase_exact.cpp
+Strategy: Balanced Optimizer
+Reward: 0.10549361098811648
+Overall Score: 0.11793500000000001
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration used match_phase.cpp with Balanced Optimizer, achieving +5.3% area but -82% delay degradation. Adaptive signals show no recent improvements in either metric and recommend exploring match_drop_phase.cpp, but diversity pressure is LOW. However, the severe delay regression indicates that the area-biased decisions in match_phase (during area_flow rounds) likely violated timing constraints too aggressively. match_phase_exact.cpp controls exact area optimization with explicit required time checks and can better balance area/delay by adjusting its selection criteria to prioritize timing slack while still reducing area."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact compare_map logic inside flag_compare_map calculation",
+    "objective": "Improve delay while maintaining area gains by tightening timing slack prioritization during exact area mapping",
+    "direction_and_strategy": "Replace the current timing-slack-aware comparison with a more aggressive delay-first tie-breaker: if candidate meets required time and has better arrival than current best, select it even with slight area increase (within epsilon*2). Specifically, modify the compare_map block to prioritize worst_arrival improvement over area when both meet timing constraints.",
+    "expected_impact": "10-20% delay recovery (reducing negative score magnitude), with area maintained within ±1%",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous balanced attempt in match_phase.cpp allowed significant timing violations during area optimization (via relative_violation > 0.1 threshold), causing severe delay degradation. match_phase_exact.cpp already enforces hard required_time constraints (skipping cuts with worst_arrival > required+epsilon). By strengthening its selection logic to prefer lower arrival times even when area is slightly worse (within noise margin), we can recover delay without sacrificing area gains. This aligns with Balanced objective while addressing the root cause of delay collapse."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

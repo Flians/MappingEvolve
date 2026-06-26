@@ -1,0 +1,27 @@
+Iteration: 4
+Target File: match_phase.cpp
+Strategy: Area Optimizer
+Reward: 0.00010198959706109977
+Overall Score: 0.000102
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration achieved a small area gain from phase-dropping, but delay did not improve. Objective hint is Area Priority and diversity pressure is LOW; among modules, match_phase.cpp influences all subsequent rounds during area-flow optimization and offers safe, fine-tuned tie-breaker adjustments without affecting cut generation. Compared to match_phase_exact.cpp (already area-first in exact local area) and match_drop_phase.cpp (recently used with limited gains), refining area-flow selection in match_phase.cpp is the most direct path to consistent area reduction while respecting required times."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase<DO_AREA>: DO_AREA compare_map tie-breakers inside EVOLVE-BLOCK",
+    "objective": "Bias area-flow selection to prefer lower-area gates when area is tied and prevent switching solely for marginal arrival improvements during area-flow rounds",
+    "direction_and_strategy": "Within match_phase (DO_AREA branch), modify the compare_map block as follows: (1) Strengthen the arrival improvement threshold only when area_local is within epsilon of best_area_flow by changing worst_arrival comparisons to use 2*epsilon instead of epsilon: replace `worst_arrival < best_arrival - epsilon` with `worst_arrival < best_arrival - 2*epsilon`, and `worst_arrival > best_arrival + epsilon` with `worst_arrival > best_arrival + 2*epsilon`. (2) Add a final tiebreaker to prefer smaller intrinsic gate area when area_local, arrival, and cut size are tied: append `else if (gate.area < best_area - epsilon) { flag_compare_map = true; }` in the DO_AREA branch. No other logic or thresholds are changed.",
+    "expected_impact": "0.1-0.3% area improvement; ~0% delay change (cap delay impact at ≤0.05%)",
+    "constraints": "Apply changes only inside EVOLVE-BLOCK; do not alter cut generation or external APIs; preserve existing epsilon-based comparisons; keep computational complexity and templates unchanged; maintain logical equivalence (no functional changes to mapping semantics).",
+    "rationale": "During area-flow rounds, current tie-breakers can select a cut for marginal arrival improvements even when area gains are negligible, foregoing area reductions. Tightening the arrival threshold (2*epsilon) reduces such switches, keeping choices biased to area. Additionally, when area_flow ties arise from different leaf-sharing patterns, preferring lower intrinsic gate.area yields small area savings without affecting required-time screening. These changes operate within the existing required-time guard (worst_arrival must still meet `required + epsilon`), thus preserving timing feasibility while improving area."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

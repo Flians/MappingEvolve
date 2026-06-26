@@ -1,0 +1,29 @@
+Iteration: 4
+Target File: match_drop_phase.cpp
+Strategy: Balanced Optimizer
+Reward: 0.0
+Overall Score: 0.0
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Given the objective hint of 'Balanced' and the recent lack of improvements in both area and delay, the match_drop_phase module is selected. It offers a light area cleanup opportunity while maintaining logical equivalence, which aligns with the current need for balanced optimization. Additionally, it is recommended for exploration as per the diversity signals."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_drop_phase",
+    "objective": "Improve area efficiency by reducing redundant phase implementations while maintaining delay constraints.",
+    "direction_and_strategy": "Adjust the required_margin_factor to be more aggressive in dropping redundant phases, ensuring that the delay does not degrade beyond acceptable limits.",
+    "expected_impact": "0.5-1.5% area reduction with minimal delay impact.",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares.",
+    "rationale": "The match_drop_phase module is well-suited for light area cleanup, and adjusting the required_margin_factor can help in reducing area without significantly impacting delay, aligning with the balanced optimization strategy."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

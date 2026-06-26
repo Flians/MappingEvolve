@@ -1,0 +1,29 @@
+Iteration: 22
+Target File: match_phase.cpp
+Strategy: Delay Optimizer
+Reward: 0.15586347780026463
+Overall Score: 0.1846425
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement. The adaptive signals indicate delay_stagnation=true and objective_hint='Delay Priority', requiring a shift to more aggressive delay optimization. While match_phase_exact.cpp handles exact area with timing constraints, match_phase.cpp (DO_AREA=false mode) controls the initial delay-driven mapping round and has more direct influence on worst-case arrival times through its cost comparison logic. The current implementation in match_phase.cpp already includes some delay-optimization logic but can be strengthened to better prioritize low-delay cuts even with modest area increases."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp compare_map logic for DO_AREA=false",
+    "objective": "Strengthen delay optimization by prioritizing cuts with better arrival times even when they have slightly higher area flow",
+    "direction_and_strategy": "Modify the delay-priority comparison logic to accept cuts with up to 2% higher area flow if they provide meaningful arrival time improvement. Specifically, change the condition from 'area_local < best_area_flow - epsilon' to a more permissive threshold that allows modest area trade-offs for delay gains.",
+    "expected_impact": "1-2% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous attempt in match_phase_exact.cpp failed to improve delay, likely because exact area optimization is too constrained by existing cut references. The initial delay round in match_phase.cpp (DO_AREA=false) has more freedom to select low-delay cuts. Current logic requires both arrival and area improvements, which is too conservative under delay priority. By allowing modest area increases (within 2% tolerance) for better arrival times, we can break the delay stagnation while maintaining reasonable area growth."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

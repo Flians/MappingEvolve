@@ -1,0 +1,29 @@
+Iteration: 22
+Target File: match_phase.cpp
+Strategy: Balanced Optimizer
+Reward: 0.1727931672715617
+Overall Score: 0.2088875
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration showed a significant area improvement (area_score: 1.901989) but a delay degradation (delay_score: -1.484214). Given the objective hint is 'Balanced' and diversity pressure is LOW, focusing on match_phase.cpp allows us to address the delay degradation while maintaining area improvements. The adaptive thresholds and dynamic weighted scoring system in match_phase.cpp provide a balanced approach to optimize both area and delay."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "compare_map",
+    "objective": "Improve delay while maintaining area improvements by refining the dynamic weighted scoring system in compare_map.",
+    "direction_and_strategy": "Enhance the adaptive thresholds and dynamic weights in compare_map to prioritize delay improvements when delay degradation is detected, while still considering area flow. Specifically, increase the delay_weight when delay degradation is significant and adjust the area_threshold based on the current best area flow.",
+    "expected_impact": "1-2% delay improvement with minimal area impact (≤0.5% area increase).",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares.",
+    "rationale": "The previous iteration showed a delay degradation, indicating a need to prioritize delay improvements. By refining the dynamic weighted scoring system in compare_map, we can better balance area and delay optimizations. This change is bounded in risk as it only adjusts thresholds and weights within the existing logic, ensuring logical equivalence is maintained."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

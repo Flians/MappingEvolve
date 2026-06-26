@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Objective hint is Area Priority with no delay stagnation and low diversity pressure. Previous iteration used match_phase_exact.cpp and yielded an area gain with neutral delay. To further reduce area safely, the phase-dropping decision (single-phase with output inverter vs. dual-phase) is the most direct lever to eliminate redundant gates and account for inverter area explicitly. Compared to match_phase.cpp (global tie-breakers) and another pass in match_phase_exact.cpp (already recently used), refining match_drop_phase.cpp targets inverter accounting and phase consolidation, which are well-suited for incremental area cleanup without impacting equivalence."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_drop_phase (DO_AREA=true), decision of use_zero/use_one",
+    "objective": "Only drop to a single-phase implementation when it is timing-feasible AND does not worsen area (counting the inverter), to ensure consistent area reduction during area rounds.",
+    "direction_and_strategy": "In the DO_AREA branch of match_drop_phase, augment the current timing-only checks for use_zero/use_one with an area guard that compares single-phase cost (chosen phase flow + lib_inv_area) against dual-phase cost (flows[0] + flows[1]). Implement:\n- Compute req0/req1 and zero/one timing OK as today.\n- Compute dual_flow = node_data.flows[0] + node_data.flows[1].\n- Define a small tolerance: area_tol = 0.1f * lib_inv_area.\n- Set:\n  const bool zero_area_ok = (node_data.flows[0] + lib_inv_area) <= (dual_flow + area_tol);\n  const bool one_area_ok  = (node_data.flows[1] + lib_inv_area) <= (dual_flow + area_tol);\n  use_zero = zero_timing_ok && zero_area_ok;\n  use_one  = one_timing_ok && one_area_ok;\nThis is a localized change to the two boolean assignments under the DO_AREA branch.",
+    "expected_impact": "0.2-0.7% area improvement; delay neutral (no degradation expected).",
+    "constraints": "Modify only within EVOLVE-BLOCK; keep API/templates intact; preserve existing epsilon-based compares; do not change cut generation; avoid additional complexity beyond the local boolean decision; maintain exact references logic in ELA mode.",
+    "rationale": "Currently, in area rounds (DO_AREA=true), the phase drop decision relies solely on required-time feasibility, potentially selecting a single-phase implementation even when it increases area due to missing inverter accounting in the flow metric. By adding an explicit area guard that includes lib_inv_area, we ensure single-phase replacement occurs only when it does not worsen (and typically improves) area, while still respecting timing via required[]. This targets redundant dual-phase mappings, yielding modest area savings without altering delay or logical equivalence. The small area tolerance absorbs flow approximation noise and avoids oscillations."
+  }
+}

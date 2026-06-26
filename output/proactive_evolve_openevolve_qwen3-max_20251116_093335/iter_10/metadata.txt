@@ -1,0 +1,29 @@
+Iteration: 10
+Target File: match_phase.cpp
+Strategy: Delay Optimizer
+Reward: 0.10373344315586208
+Overall Score: 0.1157395
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration used match_drop_phase.cpp with Balanced Optimizer and achieved area improvement (+5.29%) but significant delay degradation (-82.14%). Given that recent_window shows zero improvements in both area and delay across the last 5 iterations, and diversity_pressure is LOW, we can stay within previously explored modules. However, match_drop_phase only makes final phase decisions and cannot recover from poor cut selections made earlier. The root cause likely lies in match_phase.cpp, which selects cuts during initial mapping. Since the objective_hint is 'Balanced', but the last result shows severe delay penalty, we need to adjust the primary cut selection logic to better respect timing during area optimization rounds."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp: timing violation threshold in DO_AREA block",
+    "objective": "Reduce delay degradation during area optimization by tightening timing violation tolerance",
+    "direction_and_strategy": "Change the relative_violation threshold from 0.1 (10%) to 0.02 (2%) and add absolute epsilon check to prevent significant timing violations during area optimization rounds",
+    "expected_impact": "2-5% delay improvement, tolerate up to 1% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous iteration's severe delay regression (-82%) suggests that the current area optimization phase allows cuts with excessive timing violations (current threshold: 10% relative violation). By tightening this to 2% relative violation plus absolute epsilon check, we prevent selection of cuts that significantly degrade timing while still allowing minor violations for area trade-offs. This targeted change addresses the root cause in cut selection rather than trying to fix it later in match_drop_phase."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

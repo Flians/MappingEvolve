@@ -1,0 +1,27 @@
+Iteration: 20
+Target File: match_phase.cpp
+Strategy: Area Optimizer
+Reward: 0.006271914809678713
+Overall Score: 0.0063115
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used exact area recovery and delivered small area gains with no delay change, aligning with Area Priority. With no delay stagnation and LOW diversity pressure, we target broader leverage earlier in the pipeline. Among modules: (1) match_phase.cpp influences all nodes during area-flow rounds and currently allows a small area penalty to chase better arrival; tightening this should directly reduce area. (2) match_phase_exact.cpp already optimized in the last iteration and shows diminishing returns; further tweaks risk overfitting. (3) match_drop_phase.cpp can clean up phase usage, but impact is typically smaller than shifting the area-flow selection criteria. Recommended_explore includes match_phase.cpp, further supporting this choice."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase(node<Ntk> const& n, uint8_t phase) DO_AREA compare_map: area_slack constant",
+    "objective": "Eliminate the allowance for extra area in area-flow rounds when preferring lower-arrival cuts, to bias selection toward lower area without violating timing.",
+    "direction_and_strategy": "Inside match_phase<DO_AREA>, in the DO_AREA portion of the compare_map block, change the slack constant from `const double area_slack = 0.25 * static_cast<double>(lib_inv_area);` to `const double area_slack = 0.0;`. Leave all other logic, including required-time checks and epsilon comparisons, unchanged.",
+    "expected_impact": "0.3-0.8% area; ~0% delay",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; do not modify cut generation; retain required-time gating and epsilon compares; keep overall algorithmic complexity unchanged; maintain logical equivalence.",
+    "rationale": "The current DO_AREA compare_map allows a small area increase (25% of an inverter) to accept cuts with better arrival. Under Area Priority and given timing is not degraded, this tolerance can keep slightly larger implementations. Removing it enforces strictly area-first selection while still honoring `worst_arrival <= required + epsilon`, thus preserving timing feasibility. This adjustment acts globally in the area-flow round, enabling subsequent exact area steps to further refine area. Given last iteration’s improvements came from exact recovery, shifting the area-flow baseline should yield additional area savings with negligible effect on worst-case delay."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Given the delay stagnation signal and 'Delay Priority' objective hint, match_phase_exact.cpp offers the most precise control over delay optimization through its exact local area (ELA) mode. This module allows for fine-grained trade-offs between area and delay, which is critical for addressing the current delay degradation while maintaining logical equivalence."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact<SwitchActivity>",
+    "objective": "Improve delay by strengthening required time constraints during exact local area (ELA) mode to prevent timing violations",
+    "direction_and_strategy": "Adjust the required time constraints in the exact local area mode to prioritize low-delay cuts more aggressively, even if it leads to a modest area increase. Specifically, tighten the required time margin by 5% to ensure delay improvements are prioritized.",
+    "expected_impact": "1-3% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous iteration showed significant delay degradation (-1.466161) despite area improvements. By strengthening the required time constraints in the exact local area mode, we can more aggressively prioritize low-delay cuts, which is critical for addressing the delay stagnation. This approach leverages the precise control offered by match_phase_exact.cpp while maintaining logical equivalence."
+  }
+}

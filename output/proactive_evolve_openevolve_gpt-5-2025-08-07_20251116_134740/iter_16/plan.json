@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Last iteration focused on exact area (match_phase_exact.cpp) with a small area gain and no delay change. With a Balanced objective and LOW diversity pressure, it is prudent to adjust the early match_phase cost/tie-breaking to gently favor lower-delay choices when area is nearly equal. This stage affects both initial delay and the subsequent area-flow rounds, offering broader influence than final-phase cleanup. match_phase_exact has already been used frequently (3x), so exploring match_phase.cpp improves diversity and can unlock delay improvements without sacrificing area."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase<DO_AREA>(...) — DO_AREA compare_map block: area tie threshold",
+    "objective": "Encourage selection of lower-delay cuts during area-flow rounds when area differences are negligible, improving timing with minimal area impact.",
+    "direction_and_strategy": "In the DO_AREA branch of the flag_compare_map decision inside match_phase, replace the strict epsilon-based area equality with a small absolute tie window tied to inverter area. Specifically, introduce: double area_tie = std::max<double>(epsilon, 0.1 * lib_inv_area); Then use area_tie instead of epsilon in the area comparisons: if (area_local < best_area_flow - area_tie) ... else if (area_local > best_area_flow + area_tie) ... else proceed to arrival-based tie-breaker. Do not alter the non-DO_AREA path or other logic.",
+    "expected_impact": "0.2-0.7% delay reduction with ≤0.4% area increase; likely neutral to slightly positive overall_score.",
+    "constraints": "Modify only within EVOLVE-BLOCK; preserve APIs/templates; keep existing epsilon comparisons elsewhere; do not change cut generation or data structures; single-threshold change only.",
+    "rationale": "In area-flow rounds, the mapper currently prioritizes area and only considers arrival when areas are essentially equal (within epsilon). Many near-equivalent area candidates can yield better worst-arrival, but are rejected due to tiny area differences. By widening the area tie region slightly (relative to lib_inv_area), we treat near-equal area as a tie and prefer better arrival, improving critical paths early. Using lib_inv_area anchors the tolerance to a minimal technology unit, limiting area growth, while max with epsilon preserves numerical stability. This single-threshold tweak is low-risk, preserves logical equivalence, and aligns with a balanced objective."
+  }
+}

@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "The previous iteration used match_phase.cpp with Delay Optimizer but resulted in significant delay degradation (-0.818704) despite area improvement. The adaptive signals indicate 'delay_stagnation' is true, requiring a strict focus on delay optimization. While match_phase.cpp was already tried, match_phase_exact.cpp operates during exact local area (ELA) rounds and uses precise cut_ref/cut_deref for area accounting while still being able to prioritize timing. It has been used only twice recently compared to match_phase.cpp's three times, and the recommended_explore list includes match_drop_phase.cpp but diversity_pressure is LOW, so we can stay within high-leverage modules. match_phase_exact.cpp's current compare_map logic already attempts delay prioritization but can be strengthened further to better handle the delay stagnation condition."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact compare_map logic inside flag_compare_map calculation",
+    "objective": "Strengthen delay prioritization in exact mapping phase to recover from delay degradation while controlling area increase",
+    "direction_and_strategy": "Modify the compare_map logic in match_phase_exact.cpp to prioritize cuts with better arrival times more aggressively, accepting up to 2% area increase for meaningful delay improvements. Specifically, change the condition to accept candidates with worst_arrival < best_arrival - epsilon * 0.5 even if area_exact is up to best_exact_area + epsilon * 3.0f, and add a direct check for significant delay improvement regardless of minor area cost.",
+    "expected_impact": "1-2% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous Delay Optimizer attempt in match_phase.cpp failed to improve delay, likely because its compare_map logic wasn't aggressive enough in trading area for delay. match_phase_exact.cpp operates in ELA rounds where precise area accounting via cut_ref/cut_deref enables more informed trade-offs. By strengthening the delay priority in its comparison logic—specifically allowing slightly higher area costs (epsilon * 3.0f instead of epsilon * 2.0f) for meaningful arrival time improvements—we can directly address the delay stagnation indicated by the adaptive signals. This targeted change maintains correctness while focusing on the critical delay objective."
+  }
+}
+```

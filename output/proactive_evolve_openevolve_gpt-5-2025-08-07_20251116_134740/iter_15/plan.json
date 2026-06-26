@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Objective hint is Area Priority and delay is stable (no stagnation). Comparing modules: (1) match_phase.cpp affects initial cost/ties but yields indirect area gains and risks perturbing timing choices; (2) match_phase_exact.cpp governs exact local area (ELA) using cut_ref/cut_deref under required-time constraints—ideal for safe, measurable area reduction without delay degradation; (3) match_drop_phase.cpp was just optimized and yielded area gains; further tweaks likely have diminishing returns and risk inverter accounting side-effects. Diversity pressure is LOW, but match_phase_exact.cpp is on the recommended_explore list; its area acceptance gate is a focused lever for additional area savings while preserving timing."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact.cpp: tech_map_impl::match_phase_exact -> compare_map area-first policy (area_gain_gate threshold)",
+    "objective": "Increase acceptance of area-reducing substitutions during exact local area optimization while maintaining required-time feasibility.",
+    "direction_and_strategy": "Inside match_phase_exact compare_map block (area-first policy), change the gate for accepting slightly slower candidates when they reduce exact area: replace `const float area_gain_gate = 0.5f * lib_inv_area;` with `const float area_gain_gate = 0.25f * lib_inv_area;`.",
+    "expected_impact": "0.3-0.8% area, ~0% delay",
+    "constraints": "Preserve API/templates; modify only within EVOLVE-BLOCK; do not change cut generation; keep epsilon-based compares; no new data structures or complexity increases.",
+    "rationale": "In ELA rounds, worst_arrival must already satisfy required time. The current guard only accepts a candidate that worsens arrival if it yields at least 0.5×inv area improvement; this filters out many small, safe area wins. Lowering the threshold to 0.25×inv area allows more exact-area-reducing replacements while still enforcing required-time and epsilon checks. This is a single, bounded change that should yield incremental area reductions without impacting worst-case delay, maintaining logical equivalence and failed_rate at 0."
+  }
+}

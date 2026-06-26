@@ -1,0 +1,27 @@
+Iteration: 22
+Target File: match_phase_exact.cpp
+Strategy: Area Optimizer
+Reward: 0.006271914809678713
+Overall Score: 0.0063115
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration using exact area optimization yielded +1.26% area improvement with 0 delay change. Objective hint is Area Priority and diversity pressure is LOW, so we favor the module with the strongest area lever under strict timing guards. Across modules: (1) match_phase.cpp currently allows slight area slack for better delay in DO_AREA, which is counter to area priority right now; changing it risks perturbing upstream cost heuristics. (2) match_drop_phase.cpp offers light cleanup but limited headroom compared to exact deref/ref accounting. (3) match_phase_exact.cpp’s ELA stage makes precise area decisions under required-time constraints; a small relaxation of its acceptance threshold can harvest more area without violating timing. Hence we refine the compare_map policy in match_phase_exact to safely squeeze additional area."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase_exact (EVOLVE-BLOCK) -> compare_map decision in area-first policy: constant area_gain_gate",
+    "objective": "Increase acceptance of exact-area-improving alternatives while preserving global timing via required-time guards",
+    "direction_and_strategy": "In match_phase_exact’s compare_map block, change the acceptance threshold for area-only improvements when worst_arrival is slightly worse:\n- Replace: `const float area_gain_gate = 0.5f * lib_inv_area;`\n- With: `const float area_gain_gate = 0.25f * lib_inv_area;`\nNo other logic changes.",
+    "expected_impact": "0.3-0.9% area improvement; ~0% delay impact (bounded by required-time checks)",
+    "constraints": "EVOLVE-BLOCK only; keep API/templates intact; do not alter cut generation; preserve epsilon-based compares; single-parameter tweak only",
+    "rationale": "The exact mapping phase already enforces `worst_arrival <= required + epsilon`, limiting any global delay increase. Lowering area_gain_gate from 0.5 to 0.25 inverter area modestly relaxes the condition that blocks area-reducing substitutions when their local arrival is slightly worse, enabling more area wins while keeping overall timing within the current required time. This targets additional area reductions beyond the prior iteration without destabilizing initial mapping heuristics or inverter accounting."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

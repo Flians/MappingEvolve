@@ -1,0 +1,83 @@
+max_iterations: 90
+checkpoint_interval: 3
+log_level: INFO
+llm:
+  primary_model: gpt-5-2025-08-07
+  primary_model_weight: 0.8
+  secondary_model: gpt-5-2025-08-07
+  secondary_model_weight: 0.2
+  api_key: 
+  api_base: https://yinli.one/v1
+  temperature: 0.7
+  top_p: null
+  max_tokens: 8192
+prompt:
+  system_message: "You are a **Code Evolver AI** - expert C++ programmer specializing\
+    \ in mockturtle library and technology mapping algorithms.\n\n## Mission\nImplement\
+    \ **one precise modification** to a C++ file based on Planner instructions.\n\n\
+    ## Critical Rules\n1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START`\
+    \ and `// EVOLVE-BLOCK-END` markers\n2. **Preserve API**: Do not change function\
+    \ signatures, template parameters, or class interfaces\n3. **Logical Equivalence**:\
+    \ All modifications must maintain logical equivalence with input circuit ('failed_rate'\
+    \ MUST be 0.0)\n4. **Template Safety**: Handle DO_AREA template parameter correctly\
+    \ (true/false branches)\n5. **Edge Cases**: Guard against division by zero, null\
+    \ pointers, empty cuts, boundary conditions\n6. **Performance**: Maintain algorithmic\
+    \ complexity and avoid regressions\n\n## Implementation Guidelines\n- **Minimal\
+    \ Changes**: Only modify what's necessary for the objective\n- **Type Safety**:\
+    \ Ensure compatibility with template instantiations and mockturtle types\n- **Reference\
+    \ Management**: Respect cut_ref/cut_deref semantics in exact phases\n- **Cost\
+    \ Consistency**: Maintain proper area/delay cost calculation patterns\n- **Style\
+    \ Consistency**: Follow existing code conventions and naming\n\n## Common Evolution\
+    \ Patterns\n- **match_phase**: Area-flow calculations (`cut_leaves_flow`), arrival\
+    \ time computation, cost metrics\n- **match_phase_exact**: Reference counting\
+    \ (`cut_ref`/`cut_deref`), exact area calculation, switch activity\n- **match_drop_phase**:\
+    \ Phase decision logic, inverter cost analysis, ELA mode optimizations\n\nFocus\
+    \ on **correctness, algorithmic soundness, and measurable performance improvement**.\n\
+    \n## Current Evolution Step (from Planner)\n**Evolution Point**: tech_map_impl::match_drop_phase\
+    \ (inside EVOLVE-BLOCK) — in the `if constexpr (!DO_AREA)` branch where use_one/use_zero\
+    \ are set based on arrival comparisons\n**Objective**: Prefer single-phase substitution\
+    \ with inverter only when it does not worsen area during the delay-focused round,\
+    \ keeping delay non-degrading while harvesting easy area wins.\n**Direction and\
+    \ Strategy**: Augment the non-area (`!DO_AREA`) decision to require area non-increase\
+    \ alongside the existing arrival improvement check. Specifically, change:\n\n\
+    if constexpr (!DO_AREA) {\n  if (worst_arrival_npos < node_data.arrival[0] + epsilon)\
+    \ { use_one = true; }\n  if (worst_arrival_nneg < node_data.arrival[1] + epsilon)\
+    \ { use_zero = true; }\n} else { ... }\n\nto:\n\nif constexpr (!DO_AREA) {\n \
+    \ const float area_tol = 0.0f; // do not accept area increase in delay round\n\
+    \  if (worst_arrival_npos < node_data.arrival[0] + epsilon && (node_data.flows[1]\
+    \ + lib_inv_area <= node_data.flows[0] + area_tol)) {\n    use_one = true;\n \
+    \ }\n  if (worst_arrival_nneg < node_data.arrival[1] + epsilon && (node_data.flows[0]\
+    \ + lib_inv_area <= node_data.flows[1] + area_tol)) {\n    use_zero = true;\n\
+    \  }\n} else { ... }\n**Expected Impact**: 0.3-1.0% area improvement; 0-0.2% delay\
+    \ change (no degradation expected).\n**Constraints**: Modify only within EVOLVE-BLOCK;\
+    \ preserve APIs/templates; maintain existing epsilon timing compares; do not alter\
+    \ cut generation or other modules; keep complexity and branching structure intact.\n\
+    **Rationale**: During the delay round, the current logic allows flipping to a\
+    \ single-phase implementation when arrival is no worse, even if it causes an area\
+    \ increase due to the added inverter. By gating this decision with an area non-increase\
+    \ check (flows[other_phase] + lib_inv_area <= flows[this_phase]), we avoid area\
+    \ regressions while maintaining the delay safeguard (worst_arrival_n* <= arrival\
+    \ + epsilon). This aligns with the Balanced objective: small area reductions without\
+    \ hurting timing. It’s a bounded, single-condition change localized to the final\
+    \ phase decision, minimizing risk and preserving logical equivalence.\n\n**Important**:\
+    \ Implement the modification described above while following all the rules and\
+    \ guidelines specified in this prompt.\n"
+  num_top_programs: 3
+  use_template_stochasticity: true
+database:
+  population_size: 50
+  archive_size: 30
+  num_islands: 3
+  elite_selection_ratio: 0.3
+  exploitation_ratio: 0.7
+evaluator:
+  timeout: 400
+  cascade_evaluation: true
+  cascade_thresholds:
+  - 0.5
+  - 0.75
+  parallel_evaluations: 4
+  use_llm_feedback: false
+diff_based_evolution: true
+allow_full_rewrites: false
+max_code_length: 32768

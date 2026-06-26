@@ -1,0 +1,27 @@
+Iteration: 30
+Target File: match_phase_exact.cpp
+Strategy: Balanced Optimizer
+Reward: 0.22983229213077297
+Overall Score: 0.29841850000000003
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration achieved strong area gains but suffered significant delay regression. With objective_hint=Balanced and no delay_stagnation flag, we should defend timing without discarding recent area progress. Among modules: (1) match_phase.cpp already modified last iteration and likely contributed to delay regression; another change there risks oscillation. (2) match_phase_exact.cpp governs exact area recovery where area-first choices can erode timing; tightening its acceptance criteria can curb delay worsening with minimal ripple effects. (3) match_drop_phase.cpp mainly handles phase sharing/inverter trade-offs and is lighter-impact; however, limiting delay regression at the exact stage is more direct. Hence we adjust match_phase_exact to be more timing-aware while staying balanced."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact.cpp :: match_phase_exact() compare_map block — area_gain_gate threshold",
+    "objective": "Reduce acceptance of area-improving substitutions that worsen arrival time in the exact recovery phase to mitigate delay regression while keeping area gains largely intact.",
+    "direction_and_strategy": "In the compare_map logic inside match_phase_exact, change the gating threshold for allowing area-improvement with delay degradation from 0.5x to 1.0x inverter area. Specifically, replace: `const float area_gain_gate = 0.5f * lib_inv_area;` with `const float area_gain_gate = 1.0f * lib_inv_area;` leaving all other conditions unchanged.",
+    "expected_impact": "0.5-1.5% delay improvement; 0.2-0.8% area increase",
+    "constraints": "EVOLVE-BLOCK only; preserve APIs/templates; no change to cut generation; keep existing epsilon-based compares; single-threshold modification only.",
+    "rationale": "The exact area phase currently permits accepting worse arrival if area_exact improves by at least 0.5*inv_area, which can propagate timing regressions. Raising this threshold to 1.0*inv_area makes the exact recovery more timing-preserving: only substantial area wins can justify any timing loss. This should recover some of the lost delay from the previous iteration while retaining most of the area benefit, aligning with a balanced objective and keeping logical equivalence intact."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

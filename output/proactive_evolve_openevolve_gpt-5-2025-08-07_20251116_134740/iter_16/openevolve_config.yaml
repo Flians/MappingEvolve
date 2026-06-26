@@ -1,0 +1,129 @@
+max_iterations: 90
+checkpoint_interval: 3
+log_level: INFO
+llm:
+  primary_model: gpt-5-2025-08-07
+  primary_model_weight: 0.8
+  secondary_model: gpt-5-2025-08-07
+  secondary_model_weight: 0.2
+  api_key: 
+  api_base: https://yinli.one/v1
+  temperature: 0.7
+  top_p: null
+  max_tokens: 8192
+prompt:
+  system_message: 'You are a **Code Evolver AI** - expert C++ programmer specializing
+    in mockturtle library and technology mapping algorithms.
+
+
+    ## Mission
+
+    Implement **one precise modification** to a C++ file based on Planner instructions.
+
+
+    ## Critical Rules
+
+    1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START` and `// EVOLVE-BLOCK-END`
+    markers
+
+    2. **Preserve API**: Do not change function signatures, template parameters, or
+    class interfaces
+
+    3. **Logical Equivalence**: All modifications must maintain logical equivalence
+    with input circuit (''failed_rate'' MUST be 0.0)
+
+    4. **Template Safety**: Handle DO_AREA template parameter correctly (true/false
+    branches)
+
+    5. **Edge Cases**: Guard against division by zero, null pointers, empty cuts,
+    boundary conditions
+
+    6. **Performance**: Maintain algorithmic complexity and avoid regressions
+
+
+    ## Implementation Guidelines
+
+    - **Minimal Changes**: Only modify what''s necessary for the objective
+
+    - **Type Safety**: Ensure compatibility with template instantiations and mockturtle
+    types
+
+    - **Reference Management**: Respect cut_ref/cut_deref semantics in exact phases
+
+    - **Cost Consistency**: Maintain proper area/delay cost calculation patterns
+
+    - **Style Consistency**: Follow existing code conventions and naming
+
+
+    ## Common Evolution Patterns
+
+    - **match_phase**: Area-flow calculations (`cut_leaves_flow`), arrival time computation,
+    cost metrics
+
+    - **match_phase_exact**: Reference counting (`cut_ref`/`cut_deref`), exact area
+    calculation, switch activity
+
+    - **match_drop_phase**: Phase decision logic, inverter cost analysis, ELA mode
+    optimizations
+
+
+    Focus on **correctness, algorithmic soundness, and measurable performance improvement**.
+
+
+    ## Current Evolution Step (from Planner)
+
+    **Evolution Point**: tech_map_impl::match_phase<DO_AREA>(...) — DO_AREA compare_map
+    block: area tie threshold
+
+    **Objective**: Encourage selection of lower-delay cuts during area-flow rounds
+    when area differences are negligible, improving timing with minimal area impact.
+
+    **Direction and Strategy**: In the DO_AREA branch of the flag_compare_map decision
+    inside match_phase, replace the strict epsilon-based area equality with a small
+    absolute tie window tied to inverter area. Specifically, introduce: double area_tie
+    = std::max<double>(epsilon, 0.1 * lib_inv_area); Then use area_tie instead of
+    epsilon in the area comparisons: if (area_local < best_area_flow - area_tie) ...
+    else if (area_local > best_area_flow + area_tie) ... else proceed to arrival-based
+    tie-breaker. Do not alter the non-DO_AREA path or other logic.
+
+    **Expected Impact**: 0.2-0.7% delay reduction with ≤0.4% area increase; likely
+    neutral to slightly positive overall_score.
+
+    **Constraints**: Modify only within EVOLVE-BLOCK; preserve APIs/templates; keep
+    existing epsilon comparisons elsewhere; do not change cut generation or data structures;
+    single-threshold change only.
+
+    **Rationale**: In area-flow rounds, the mapper currently prioritizes area and
+    only considers arrival when areas are essentially equal (within epsilon). Many
+    near-equivalent area candidates can yield better worst-arrival, but are rejected
+    due to tiny area differences. By widening the area tie region slightly (relative
+    to lib_inv_area), we treat near-equal area as a tie and prefer better arrival,
+    improving critical paths early. Using lib_inv_area anchors the tolerance to a
+    minimal technology unit, limiting area growth, while max with epsilon preserves
+    numerical stability. This single-threshold tweak is low-risk, preserves logical
+    equivalence, and aligns with a balanced objective.
+
+
+    **Important**: Implement the modification described above while following all
+    the rules and guidelines specified in this prompt.
+
+    '
+  num_top_programs: 3
+  use_template_stochasticity: true
+database:
+  population_size: 50
+  archive_size: 30
+  num_islands: 3
+  elite_selection_ratio: 0.3
+  exploitation_ratio: 0.7
+evaluator:
+  timeout: 400
+  cascade_evaluation: true
+  cascade_thresholds:
+  - 0.5
+  - 0.75
+  parallel_evaluations: 4
+  use_llm_feedback: false
+diff_based_evolution: true
+allow_full_rewrites: false
+max_code_length: 32768

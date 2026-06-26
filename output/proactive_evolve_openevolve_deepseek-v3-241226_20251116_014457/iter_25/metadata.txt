@@ -1,0 +1,29 @@
+Iteration: 25
+Target File: match_phase.cpp
+Strategy: Delay Optimizer
+Reward: 0.1837024562801239
+Overall Score: 0.22504349999999995
+==================================================
+PLANNER OUTPUT:
+==================================================
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Given the delay stagnation and the objective hint of 'Delay Priority', match_phase.cpp is the most suitable module for delay optimization. It allows for fine-tuning the arrival time comparison and cost formula to prioritize low-delay cuts, which is critical for addressing the current delay degradation."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "compare_map",
+    "objective": "Improve delay by prioritizing low-delay cuts while maintaining area efficiency",
+    "direction_and_strategy": "Adjust the compare_map logic to dynamically weight delay improvements more heavily, especially when delay improvements are significant. Modify the threshold and scoring system to be more responsive to delay changes.",
+    "expected_impact": "1-3% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous iteration showed a significant delay degradation (-1.466161) despite a good area improvement (1.916248). By adjusting the compare_map logic to prioritize delay improvements more aggressively, we can target the delay stagnation issue while keeping area increases within acceptable bounds."
+  }
+}
+```
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

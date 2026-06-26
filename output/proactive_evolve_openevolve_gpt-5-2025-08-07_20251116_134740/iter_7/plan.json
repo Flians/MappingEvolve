@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous step already targeted match_phase.cpp with an Area Optimizer and yielded only a marginal area gain with no delay change. With objective_hint indicating Area Priority and diversity pressure LOW, focusing on exact area refinement is appropriate. Among the three: (1) match_phase.cpp controls area-flow heuristics but was just tuned and is coarser; (2) match_phase_exact.cpp performs exact area accounting via cut_ref/cut_deref and is ideal for precise area tie-breaking without timing risk; (3) match_drop_phase.cpp offers light cleanup but is less impactful than exact tie-break improvements at this stage. Therefore, adjusting the exact-phase tie-breaker to favor smaller intrinsic gate area when area_exact and arrival are tied is the safest, highest-leverage next step."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact(node<Ntk> const& n, uint8_t phase) -> compare_map block inside EVOLVE-BLOCK where flag_compare_map is decided",
+    "objective": "Reduce final area by preferring matches with smaller intrinsic gate area when exact area and arrival are tied.",
+    "direction_and_strategy": "In the compare_map decision (the if constexpr(true) branch that prioritizes area_exact), insert an additional tie-breaker before the existing cut-size tie-break: when area_exact and worst_arrival are within epsilon, compare gate.area against best_area and prefer the smaller gate.area. Concretely, add:\n- else if (gate.area < best_area - epsilon) flag_compare_map = true;\n- else if (gate.area > best_area + epsilon) flag_compare_map = false;\nPlace these two lines just before the existing 'else if (cut->size() < best_size)' clause. No other logic changes.",
+    "expected_impact": "0.1-0.5% area improvement; negligible delay impact (<=0.0%)",
+    "constraints": "Modify only within EVOLVE-BLOCK; keep API/templates intact; retain existing epsilon-based comparisons; do not alter cut generation or required-time checks; change is a pure tie-breaker (no new state).",
+    "rationale": "In exact area mode, area_exact already captures the node’s gate area plus recursive reference/inverter costs. When two candidates are equal in area_exact within epsilon and have equal arrival, selecting the smaller intrinsic gate area reduces local area and often improves reference sharing downstream. This tie-break is safe (does not relax timing, maintains logical equivalence) and targets precisely the observed need for incremental area reduction after coarse mapping, complementing the previous match_phase.cpp adjustment."
+  }
+}

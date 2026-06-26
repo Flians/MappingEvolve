@@ -1,0 +1,27 @@
+Iteration: 3
+Target File: match_drop_phase.cpp
+Strategy: Balanced Optimizer
+Reward: 0.00010198959706109977
+Overall Score: 0.000102
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_drop_phase.cpp",
+    "selection_rationale": "Previous balanced change in match_phase_exact.cpp yielded no improvement. With a Balanced objective and LOW diversity pressure, we should target small, safe gains. Comparing modules: (1) match_phase.cpp influences initial cut selection, but was already exercised and can shift global behavior more aggressively; (2) match_phase_exact.cpp was just used without effect; (3) match_drop_phase.cpp governs final single-phase vs dual-phase decisions and inverter accounting, ideal for light area cleanup without hurting timing. It is also in recommended_explore and unused so far, offering a low-risk exploration avenue aligned with Balanced optimization."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_drop_phase (inside EVOLVE-BLOCK) — in the `if constexpr (!DO_AREA)` branch where use_one/use_zero are set based on arrival comparisons",
+    "objective": "Prefer single-phase substitution with inverter only when it does not worsen area during the delay-focused round, keeping delay non-degrading while harvesting easy area wins.",
+    "direction_and_strategy": "Augment the non-area (`!DO_AREA`) decision to require area non-increase alongside the existing arrival improvement check. Specifically, change:\n\nif constexpr (!DO_AREA) {\n  if (worst_arrival_npos < node_data.arrival[0] + epsilon) { use_one = true; }\n  if (worst_arrival_nneg < node_data.arrival[1] + epsilon) { use_zero = true; }\n} else { ... }\n\nto:\n\nif constexpr (!DO_AREA) {\n  const float area_tol = 0.0f; // do not accept area increase in delay round\n  if (worst_arrival_npos < node_data.arrival[0] + epsilon && (node_data.flows[1] + lib_inv_area <= node_data.flows[0] + area_tol)) {\n    use_one = true;\n  }\n  if (worst_arrival_nneg < node_data.arrival[1] + epsilon && (node_data.flows[0] + lib_inv_area <= node_data.flows[1] + area_tol)) {\n    use_zero = true;\n  }\n} else { ... }",
+    "expected_impact": "0.3-1.0% area improvement; 0-0.2% delay change (no degradation expected).",
+    "constraints": "Modify only within EVOLVE-BLOCK; preserve APIs/templates; maintain existing epsilon timing compares; do not alter cut generation or other modules; keep complexity and branching structure intact.",
+    "rationale": "During the delay round, the current logic allows flipping to a single-phase implementation when arrival is no worse, even if it causes an area increase due to the added inverter. By gating this decision with an area non-increase check (flows[other_phase] + lib_inv_area <= flows[this_phase]), we avoid area regressions while maintaining the delay safeguard (worst_arrival_n* <= arrival + epsilon). This aligns with the Balanced objective: small area reductions without hurting timing. It’s a bounded, single-condition change localized to the final phase decision, minimizing risk and preserving logical equivalence."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

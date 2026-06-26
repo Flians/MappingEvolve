@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration (Balanced in match_phase.cpp) yielded small area gain (+1.26%) with neutral delay. Objective hint is Area Priority, delay_stagnation is false, and diversity pressure is LOW. Among modules: (1) match_phase.cpp controls initial cost heuristics; we just touched it and further area tweaks risk timing side-effects early. (2) match_phase_exact.cpp runs in ELA rounds with cut_ref/deref and an explicit required-time gate, ideal for safe, fine-grained area recovery while preserving timing. (3) match_drop_phase.cpp primarily does phase consolidation/inverter accounting; it's already been used more often recently (usage 2) and offers lighter cleanup. Given recommended_explore includes match_phase_exact and its strong lever for area without timing violations, it is the best next step."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact.cpp: tech_map_impl::match_phase_exact (begin compare_map) - area_gain_gate threshold",
+    "objective": "Increase acceptance of small exact-area reductions during ELA even if local arrival is slightly worse, while still satisfying required time, to improve total area.",
+    "direction_and_strategy": "Within the compare_map block in match_phase_exact, change the area trade-off threshold from half an inverter to a quarter inverter: replace `const float area_gain_gate = 0.5f * lib_inv_area;` with `const float area_gain_gate = 0.25f * lib_inv_area;`. Do not modify any other logic; keep the required-time check and epsilon comparisons unchanged.",
+    "expected_impact": "0.3-1.0% area; delay 0% on worst-path (maintained by required_time gating)",
+    "constraints": "Preserve API/templates; modify only inside EVOLVE-BLOCK; keep complexity and existing epsilon-based compares; do not alter cut generation or required_time logic.",
+    "rationale": "During ELA, worst_arrival must satisfy `worst_arrival <= required + epsilon`, so global worst delay is safeguarded. The current area-first policy only accepts a mapping with slightly worse local arrival if the exact-area gain exceeds 0.5×inv area, which can be conservative. Lowering it to 0.25×inv area unlocks additional safe area-improving substitutions that still respect required timing, likely yielding modest area reductions without degrading the worst-path delay. This targets area as hinted, with bounded risk and a single controlled parameter change."
+  }
+}

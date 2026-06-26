@@ -1,0 +1,27 @@
+Iteration: 12
+Target File: match_phase.cpp
+Strategy: Area Optimizer
+Reward: 0.0045720008003241105
+Overall Score: 0.004593
+==================================================
+PLANNER OUTPUT:
+==================================================
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration achieved small area improvement with no delay change using match_phase_exact.cpp. Objective hint is Area Priority with no delay stagnation and LOW diversity pressure. Among modules: (1) match_phase.cpp influences initial cut-to-gate pick and can bias choices toward lower area early with minimal timing risk via tie-breakers; (2) match_phase_exact.cpp was just used twice and already has an area-first policy; further tweaks risk diminishing returns; (3) match_drop_phase.cpp offers light cleanup but less leverage than initial selection. Given recommended_explore includes match_phase.cpp and it’s least used recently, adjusting its tie-break to prefer smaller gate area when cost and timing tie is a safe, targeted way to further reduce area without harming delay."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "tech_map_impl::match_phase (for each gate in cut loop) compare_map tie-break when area_flow and arrival are within epsilon",
+    "objective": "Reduce mapped area by preferring smaller intrinsic gate area when area_flow and arrival are effectively tied",
+    "direction_and_strategy": "Inside match_phase, in the compare_map logic for both DO_AREA and non-DO_AREA branches, insert an additional tie-break before the cut-size comparison to prefer the candidate with smaller gate.area when area_local vs best_area_flow and worst_arrival vs best_arrival are within epsilon. Concretely, in the existing flag_compare_map decision chain, add: `else if (gate.area < best_area - epsilon) { flag_compare_map = true; }` just before the `else if (cut->size() < best_size)` lines in both branches. This reuses the existing best_area variable and epsilon, and does not alter cut generation or primary cost comparisons.",
+    "expected_impact": "0.3-0.8% area reduction; ~0% delay impact",
+    "constraints": "Preserve API/templates; modify only within EVOLVE-BLOCK; do not change cut generation; keep existing epsilon-based comparisons; change exactly one tie-break rule and no other logic.",
+    "rationale": "In area-flow (and delay) selection, many candidates tie within epsilon on area_flow and arrival. Currently the next tie-break is cut size, which may not correlate with final area when leaf sharing is considered. Preferring smaller intrinsic gate area in these tie situations nudges mapping toward lower-area implementations without relaxing timing constraints. Because this tie-break triggers only under near-equality in both area_flow and arrival, it avoids degrading delay while improving exact area during subsequent referencing. This aligns with Area Priority and keeps risk low."
+  }
+}
+==================================================
+EVOLVER OUTPUT:
+==================================================
+Evolved via OpenEvolve

@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration achieved area gains with no delay benefit by tuning initial matching (match_phase.cpp). With Area Priority and no delay stagnation, the fine-grained exact phase is best suited to harvest additional area via precise cut_ref/cut_deref trade-offs while still respecting required times. Compared to match_drop_phase.cpp (light cleanup) and further tweaks in match_phase.cpp (diminishing returns, broader impact), match_phase_exact.cpp offers a controlled, local threshold change that should yield additional area reduction without risking logical equivalence."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact::compare_map block in match_phase_exact (EVOLVE-BLOCK) — area_gain_gate threshold for accepting area wins with slight timing degradation",
+    "objective": "Increase acceptance of exact area-reducing candidates even if they slightly worsen arrival (but still meet required time), to improve total mapped area",
+    "direction_and_strategy": "Reduce the guard threshold area_gain_gate from 0.5f * lib_inv_area to 0.25f * lib_inv_area in the compare_map logic. Specifically, change: `const float area_gain_gate = 0.5f * lib_inv_area;` to `const float area_gain_gate = 0.25f * lib_inv_area;`. No other logic changes.",
+    "expected_impact": "0.3-1.0% area improvement; delay change 0 to -0.2% (kept within required_time gating).",
+    "constraints": "Modify only within EVOLVE-BLOCK; keep APIs/templates intact; do not alter cut generation; preserve epsilon-based comparisons and required-time checks; maintain complexity of the loop and comparisons.",
+    "rationale": "In exact mapping, we already enforce `worst_arrival <= required_time`. The current guard only accepts area-improving choices that degrade timing if the area gain exceeds 0.5×inv_area. Lowering this to 0.25×inv_area admits more safe area reductions with minimal timing impact, aligning with Area Priority. This single-threshold tweak is low-risk, localized, and leverages cut_ref/deref accuracy to reduce total area without compromising logical equivalence or violating timing constraints."
+  }
+}

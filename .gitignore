@@ -1,6 +1,4 @@
-simulator
 **/*.pyc
 build/*
 data/
 output/
-evolve/

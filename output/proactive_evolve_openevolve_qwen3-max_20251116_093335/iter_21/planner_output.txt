@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration used match_phase.cpp with Delay Optimizer but resulted in significant delay degradation (-0.818704) despite area improvement. The adaptive signals indicate delay_stagnation=true and objective_hint='Delay Priority', requiring a shift to more aggressive delay optimization. While match_phase.cpp already attempted delay optimization, match_phase_exact.cpp operates during exact local area (ELA) rounds and uses precise cut_ref/cut_deref for accurate area accounting while still being able to prioritize delay. This module offers stronger timing constraint enforcement through required time checks and can make better delay-vs-area trade-offs with exact area information. The diversity_pressure is LOW and recommended_explore includes match_drop_phase.cpp, but given the critical need to address delay stagnation, we should leverage the more powerful exact optimization phase rather than the final cleanup phase."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact comparison logic inside flag_compare_map calculation",
+    "objective": "Strengthen delay prioritization by accepting candidates with better arrival times even with modest area cost increases",
+    "direction_and_strategy": "Modify the delay comparison condition to be more aggressive: change the current condition 'worst_arrival < best_arrival - epsilon && area_exact <= best_exact_area + epsilon * 2.0f' to 'worst_arrival < best_arrival - epsilon * 0.5 && area_exact <= best_exact_area + epsilon * 3.0f' to accept smaller delay improvements with slightly higher area tolerance",
+    "expected_impact": "1-2% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous delay optimization in match_phase.cpp failed to improve delay, indicating that the current timing constraints are too restrictive. In match_phase_exact.cpp, the exact area computation provides more accurate cost information, making it safer to relax area constraints slightly for delay gains. By reducing the required delay improvement threshold from epsilon to epsilon*0.5 and increasing area tolerance from 2.0*epsilon to 3.0*epsilon, we can capture more delay-improving candidates that were previously rejected. This addresses the delay stagnation while maintaining logical correctness through the existing required time constraint check."
+  }
+}
+```

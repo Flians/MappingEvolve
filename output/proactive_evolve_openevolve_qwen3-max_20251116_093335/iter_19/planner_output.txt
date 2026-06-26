@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration used match_phase.cpp with Delay Optimizer but caused significant delay degradation (-0.82) despite area improvement. Adaptive signals show delay_stagnation=true and objective_hint='Delay Priority', requiring a shift to a module better suited for precise timing control. match_phase_exact.cpp operates during exact local area (ELA) rounds with access to required time constraints and exact area accounting via cut_ref/cut_deref, making it ideal for enforcing timing-critical decisions that match_phase.cpp cannot handle due to its reliance on estimated flows. Although diversity_pressure is LOW, the technical need for timing recovery overrides module usage patterns."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact comparison logic within flag_compare_map calculation",
+    "objective": "Strengthen timing constraint enforcement to prioritize cuts that meet or improve required time even with modest area cost",
+    "direction_and_strategy": "Replace the current timing slack check 'if (worst_arrival > node_data.required[phase] + epsilon) continue;' with a stricter constraint that rejects cuts violating required time by more than half an inverter delay: 'if (worst_arrival > node_data.required[phase] + lib_inv_delay * 0.5f) continue;'. This ensures only timing-feasible cuts are considered during exact optimization rounds.",
+    "expected_impact": "1-2% delay reduction by eliminating timing-violating cuts earlier, tolerate up to 1.5% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous match_phase.cpp delay optimization failed because its DO_AREA=false path lacks access to required time constraints, leading to selections that degraded timing. match_phase_exact.cpp already uses required time for filtering but with only epsilon tolerance, which is insufficient when library delays are larger. Using half an inverter delay (a technology-aware margin) as the violation threshold aligns with the inverter-based phase modeling in match_drop_phase.cpp and prevents selection of cuts that would require excessive buffering later. This change targets the root cause of delay degradation while operating in the ELA round where exact area impact can be properly evaluated."
+  }
+}
+```

@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement. Adaptive signals indicate delay_stagnation=true and objective_hint='Delay Priority', requiring immediate focus on delay recovery. While match_phase_exact.cpp handles exact area optimization, the initial cut selection in match_phase.cpp (DO_AREA=false mode) has higher leverage for delay improvement as it establishes the baseline arrival times before exact refinement. match_drop_phase.cpp is less suitable as it primarily handles phase dropping decisions rather than core delay optimization."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp compare_map logic in DO_AREA=false branch",
+    "objective": "Prioritize cuts with better arrival times even when area flow is slightly worse",
+    "direction_and_strategy": "Modify the tie-breaking logic in the DO_AREA=false branch to add an explicit check that prioritizes lower arrival time within epsilon bounds, similar to the existing pattern but more aggressive: replace the current 'else if (worst_arrival < best_arrival)' condition with a stronger preference that accepts modest area flow increases for clear delay benefits",
+    "expected_impact": "1-2% delay reduction, tolerate up to 2% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous Delay Optimizer attempt in match_phase_exact.cpp failed to improve delay, likely because the foundational cut selections in match_phase.cpp were too area-conservative. In DO_AREA=false mode (delay round), the current tie-breaker only considers arrival time differences outside epsilon bounds, missing opportunities where cuts have nearly identical arrival times but different area flows. By strengthening the arrival time priority within epsilon bounds, we can select cuts that provide genuine delay improvements while accepting reasonable area costs, directly addressing the delay stagnation signal."
+  }
+}
+```

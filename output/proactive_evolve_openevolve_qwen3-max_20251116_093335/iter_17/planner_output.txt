@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Previous iteration used match_phase.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement. Adaptive signals indicate delay_stagnation=true and objective_hint='Delay Priority', requiring immediate focus on delay recovery. While match_phase.cpp was already tried, match_phase_exact.cpp operates during exact local area (ELA) rounds with precise cut referencing and has stronger required time enforcement, making it better suited for aggressive delay optimization without compromising correctness. The recommended_explore includes match_drop_phase.cpp, but diversity_pressure is LOW, so we prioritize the module with highest delay optimization potential given current stagnation."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact comparison logic inside flag_compare_map calculation",
+    "objective": "Prioritize cuts that meet timing constraints with better arrival times even at modest area cost",
+    "direction_and_strategy": "Strengthen the delay priority by accepting candidates with up to 1.5*epsilon area increase when they provide meaningful delay improvement. Specifically, modify the condition to: if (worst_arrival < best_arrival - epsilon * 0.5 && area_exact <= best_exact_area + epsilon * 1.5f) { flag_compare_map = true; }",
+    "expected_impact": "1-2% delay reduction, tolerate up to 1.5% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "Current match_phase_exact comparison logic already attempts delay prioritization but uses conservative thresholds. Given the severe delay degradation in previous iteration (-0.82) and delay_stagnation signal, we need more aggressive delay optimization. The proposed change allows slightly higher area cost (1.5*epsilon instead of 2.0*epsilon) for meaningful delay improvements (0.5*epsilon threshold), which should recover timing without excessive area growth. This targets the root cause of delay violations while maintaining logical equivalence since we still respect required time constraints."
+  }
+}
+```

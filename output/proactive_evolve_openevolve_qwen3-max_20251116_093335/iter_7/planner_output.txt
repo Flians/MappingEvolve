@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration used match_phase_exact.cpp with Delay Optimizer but resulted in significant delay degradation (-0.82) despite area improvement. The adaptive signals show consistent delay regression (0/5 recent iterations improved delay) while area improved once. With objective_hint='Balanced' and low diversity pressure, we should target the initial mapping phase (match_phase.cpp) which handles both delay and area optimization through its DO_AREA template parameter. This module offers better opportunity to recover delay without sacrificing the area gains, especially since match_phase_exact.cpp has been overused (3/5 iterations) and may be stuck in local optima."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase<DO_AREA=false> cost comparison logic",
+    "objective": "Improve delay performance while maintaining area efficiency by adjusting the tie-breaking behavior in the primary delay optimization phase",
+    "direction_and_strategy": "In the non-area mode (DO_AREA=false), modify the comparison logic to prioritize cuts with better timing slack when arrival times are nearly equal, rather than defaulting to area flow as secondary criterion. Specifically, when |worst_arrival - best_arrival| <= epsilon, compare (node_data.required[phase] - worst_arrival) vs (node_data.required[phase] - best_arrival) to favor cuts with better timing margin.",
+    "expected_impact": "0.8-1.5% delay improvement with minimal area impact (±0.5%)",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The previous Delay Optimizer attempt in match_phase_exact.cpp failed because exact area optimization phases are too constrained by existing cut references and struggle to escape local minima. The initial match_phase with DO_AREA=false is the true delay optimization round where cuts are selected primarily for timing. By enhancing the tie-breaking logic to consider timing slack when arrival times are equivalent, we can select cuts that provide better timing headroom for downstream optimization without compromising the primary delay objective. This addresses the root cause of delay degradation while maintaining the balanced approach recommended by the adaptive signals."
+  }
+}
+```

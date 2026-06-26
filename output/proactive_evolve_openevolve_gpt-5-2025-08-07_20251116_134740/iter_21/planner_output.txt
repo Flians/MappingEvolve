@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "Area Priority is indicated and delay is not stagnating. Among the modules: (1) match_phase.cpp was tuned last iteration and already yielded area gains; further gains there risk harming timing heuristics. (2) match_phase_exact.cpp operates during exact area recovery using cut_ref/cut_deref and can extract additional area with fine-grained, timing-respecting decisions—well-suited for Area Priority. It is also in the recommended_explore list and less used recently. (3) match_drop_phase.cpp can save some area via phase sharing but has smaller headroom and more sensitivity to inverter accounting. Therefore, adjusting the exact-area compare logic in match_phase_exact.cpp offers the best next step for additional area reduction without violating timing."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact::compare_map block inside tech_map_impl::match_phase_exact (the constant area_gain_gate = 0.5f * lib_inv_area)",
+    "objective": "Relax the acceptance threshold for area-reducing candidates that slightly worsen local arrival (but still meet required time) to harvest additional exact-area savings.",
+    "direction_and_strategy": "In the compare_map section of match_phase_exact, change the guard constant used when area_exact improves but worst_arrival slightly worsens. Replace: `const float area_gain_gate = 0.5f * lib_inv_area;` with `const float area_gain_gate = 0.25f * lib_inv_area;`. Keep the rest of the decision logic and all epsilon checks unchanged.",
+    "expected_impact": "0.3-0.8% area reduction; no worst-case delay regression (delay maintained within required constraints).",
+    "constraints": "Modify only within EVOLVE-BLOCK; do not alter cut generation; preserve existing epsilon-based compares and required-time guards; retain API/templates and complexity; ensure logical equivalence remains intact.",
+    "rationale": "match_phase_exact evaluates exact area via cut_ref/cut_deref and enforces `worst_arrival <= required`. The current policy accepts an area-improving candidate that slightly worsens local arrival only if the area gain exceeds 0.5×INV area. Lowering this threshold to 0.25×INV area allows more area-saving substitutions while still respecting required time, thus not increasing the global worst-case delay. This aligns with Area Priority and should yield additional area gains with minimal risk to timing or correctness."
+  }
+}

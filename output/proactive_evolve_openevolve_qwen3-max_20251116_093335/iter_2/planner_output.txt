@@ -1,0 +1,17 @@
+```json
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase_exact.cpp",
+    "selection_rationale": "The previous iteration targeted match_phase.cpp with Delay Optimizer but achieved no improvement (0.0 scores). Given the objective_hint is 'Balanced' and diversity_pressure is LOW, we can stay within optimization modules but should shift to a different phase for fresh leverage. match_phase_exact.cpp operates during exact area rounds (ela_rounds) and uses precise cut_ref/cut_deref to evaluate true area impact while respecting required time constraints—making it ideal for balanced improvements. match_drop_phase.cpp is more about cleanup and correctness, offering less optimization headroom. Thus, match_phase_exact.cpp provides the best next step for balanced gains without violating diversity rules."
+  },
+  "chosen_strategy": "Balanced Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase_exact compare_map logic",
+    "objective": "Improve balanced area-delay trade-off by prioritizing cuts that meet timing with lower exact area",
+    "direction_and_strategy": "In the compare_map section of match_phase_exact, adjust the comparison logic to slightly relax the strict area-first priority when timing is well-met, allowing modest area increase for better delay. Specifically, in the DO_AREA=true branch (which is always active in match_phase_exact), add a condition that if worst_arrival is significantly better than required time, allow slightly higher area if it reduces delay further.",
+    "expected_impact": "0.5-1.5% area increase tolerated for 0.5-2% delay reduction, leading to net balanced improvement",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "Current match_phase_exact strictly minimizes exact area first, then delay. Since required_time constraints are already checked (cuts exceeding required[phase] are skipped), cuts with arrival well below required_time have slack that can be traded for area. By adjusting the tie-breaker to favor lower delay when area difference is small (< epsilon) and arrival has margin, we can achieve balanced gains. This avoids the stagnation seen in the previous match_phase.cpp attempt while leveraging the precise area accounting in exact mode."
+  }
+}
+```

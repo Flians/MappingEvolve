@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Objective hint is Area Priority and there is no delay stagnation. The last iteration already targeted match_phase_exact with only a tiny area gain and no delay change, suggesting diminishing returns in exact mode. Comparing modules: (1) match_phase.cpp controls the area-flow selection early and can bias choices consistently across nodes with minimal risk; (2) match_phase_exact.cpp would again tweak exact ref/deref, but recent use indicates limited incremental benefit; (3) match_drop_phase.cpp mainly does cleanup/phase sharing and is less impactful than improving the initial selection. Diversity pressure is LOW, so staying with a different module than last iteration (match_phase.cpp) is acceptable and aligns with recommended_explore."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase::match_phase<DO_AREA> compare_map tie-breaker inside EVOLVE-BLOCK (DO_AREA branch)",
+    "objective": "Improve area by preferring smaller intrinsic gate area when area-flow and timing are effectively tied in the DO_AREA round",
+    "direction_and_strategy": "Within match_phase<DO_AREA>, in the DO_AREA compare_map block, add a single extra tie-break step before the existing cut-size check: when area_local and worst_arrival are within epsilon of the current best, compare gate.area against best_area. Concretely, after the arrival comparisons and before the cut->size() comparison, insert:\n- else if (gate.area < best_area - epsilon) flag_compare_map = true;\n- else if (gate.area > best_area + epsilon) flag_compare_map = false;\nKeep all existing logic unchanged and continue to update best_area when a new best is selected.",
+    "expected_impact": "0.2-0.6% area, ~neutral delay",
+    "constraints": "Preserve API/templates; modify only inside EVOLVE-BLOCK; do not touch cut generation; retain existing epsilon-based compares; do not alter the DO_AREA=false (delay) ordering besides keeping current behavior intact.",
+    "rationale": "In area-flow mapping, many candidates have almost identical area_local (gate.area + leaf flows) and similar arrival within epsilon. Currently, such ties fall through directly to cut-size, which may not correlate with physical area. By inserting a lightweight tie-break favoring smaller gate.area only when area_local and arrival are tied, we nudge choices towards intrinsically smaller gates without violating required time checks (the DO_AREA branch already enforces required). This single-point decision change is safe, localized, and should accumulate small area gains across nodes while keeping delay neutral."
+  }
+}

@@ -1,0 +1,680 @@
+2025-11-16 15:07:24,419 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/logs/openevolve_20251116_150724.log
+2025-11-16 15:07:24,419 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:07:24,464 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:07:24,507 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:07:24,509 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:07:24,509 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:07:24,512 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:07:24,513 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:07:24,513 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/initial_match_drop_phase.cpp
+2025-11-16 15:07:24,514 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:08:03,576 - openevolve.evaluator - INFO - Evaluated program f810b398-d967-4f1c-9b36-c8087621a025 in 39.06s: area_score=0.0126, delay_score=0.0000, speed_score=-2.2916, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:08:03,577 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:08:03,578 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:08:03,580 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:08:03,580 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:08:03,581 - openevolve.database - INFO - Island Status:
+2025-11-16 15:08:03,581 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0063, avg=0.0063, diversity=0.00, gen=0 (best: f810b398-d967-4f1c-9b36-c8087621a025)
+2025-11-16 15:08:03,582 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:08:03,582 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:08:03,583 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:08:03,596 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:08:03,658 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,660 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,660 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,705 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,707 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:08:03,707 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,708 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:08:03,709 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:08:03,709 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:08:03,710 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,710 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,711 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,711 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,712 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:08:03,730 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,731 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/evaluator.py
+2025-11-16 15:08:03,733 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:08:03,731 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:08:12,810 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:08:18,359 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:08:31,042 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:08:53,203 - openevolve.evaluator - INFO - Evaluated program 640a0ed0-6301-4047-b1eb-ea43199cfd03 in 40.38s: area_score=0.0126, delay_score=0.0000, speed_score=-1.8150, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:08:53,217 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 5}
+2025-11-16 15:08:53,219 - openevolve.process_parallel - INFO - Iteration 3: Program 640a0ed0-6301-4047-b1eb-ea43199cfd03 (parent: f810b398-d967-4f1c-9b36-c8087621a025) completed in 49.47s
+2025-11-16 15:08:53,220 - openevolve.process_parallel - INFO - Metrics: area_score=0.0126, delay_score=0.0000, speed_score=-1.8150, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:08:53,222 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:08:53,224 - openevolve.database - INFO - Island Status:
+2025-11-16 15:08:53,225 - openevolve.database - INFO -  * Island 0: 2 programs, best=0.0063, avg=0.0063, diversity=1.90, gen=1 (best: f810b398-d967-4f1c-9b36-c8087621a025)
+2025-11-16 15:08:53,226 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:08:53,227 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:08:53,231 - openevolve.database - INFO - Saved database with 2 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:08:53,233 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0126, delay_score=0.0000, speed_score=-2.2916, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:08:53,234 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:09:00,359 - openevolve.evaluator - INFO - Evaluated program bf351b2c-1e06-4ea5-abe8-9762590fd725 in 41.98s: area_score=0.0126, delay_score=0.0000, speed_score=-1.8702, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:00,373 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 0}
+2025-11-16 15:09:00,375 - openevolve.process_parallel - INFO - Iteration 1: Program bf351b2c-1e06-4ea5-abe8-9762590fd725 (parent: f810b398-d967-4f1c-9b36-c8087621a025) completed in 56.65s
+2025-11-16 15:09:00,376 - openevolve.process_parallel - INFO - Metrics: area_score=0.0126, delay_score=0.0000, speed_score=-1.8702, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:11,343 - openevolve.evaluator - INFO - Evaluated program 0b3c2561-bf8b-4ba3-a3f1-0a14a6b7def0 in 40.29s: area_score=0.0126, delay_score=0.0000, speed_score=-1.9450, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:11,347 - openevolve.process_parallel - INFO - Iteration 2: Program 0b3c2561-bf8b-4ba3-a3f1-0a14a6b7def0 (parent: f810b398-d967-4f1c-9b36-c8087621a025) completed in 67.63s
+2025-11-16 15:09:11,349 - openevolve.process_parallel - INFO - Metrics: area_score=0.0126, delay_score=0.0000, speed_score=-1.9450, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:11,350 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:09:11,357 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:09:11,358 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0126, delay_score=0.0000, speed_score=-2.2916, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:11,359 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:09:11,376 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:09:11,377 - openevolve.controller - INFO - Using tracked best program: f810b398-d967-4f1c-9b36-c8087621a025
+2025-11-16 15:09:11,379 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0126, delay_score=0.0000, speed_score=-2.2916, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:09:11,380 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_23/openevolve_output_match_drop_phase/best/best_program_info.json
+2025-11-16 15:09:11,383 - __main__ - INFO - OpenEvolve successfully evolved match_drop_phase.cpp
+2025-11-16 15:09:11,385 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:09:11,388 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:09:51,060 - __main__ - INFO - Valid improvement: overall_score=0.0063
+2025-11-16 15:09:51,062 - __main__ - INFO - Evaluation completed: reward=0.0063, area_score=0.012623, delay_score=0.0, overall_score=0.0063115, failed_rate=0.0
+2025-11-16 15:09:51,063 - __main__ - INFO - Iteration 23 completed
+2025-11-16 15:09:51,065 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0063)
+2025-11-16 15:09:51,066 - __main__ - INFO - ============================================================
+2025-11-16 15:09:51,067 - __main__ - INFO - Starting evolution iteration 24
+2025-11-16 15:09:51,069 - __main__ - INFO - ============================================================
+2025-11-16 15:09:51,070 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:11:30,303 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:11:30,307 - __main__ - INFO - Module switched: match_drop_phase.cpp -> match_phase.cpp
+2025-11-16 15:11:30,309 - __main__ - INFO - Planner selected: match_phase.cpp with strategy: Balanced Optimizer
+2025-11-16 15:11:30,310 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase.cpp
+2025-11-16 15:11:30,314 - __main__ - INFO - Using openevolve to evolve match_phase.cpp
+2025-11-16 15:11:30,332 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_config.yaml
+2025-11-16 15:11:30,340 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/logs/openevolve_20251116_151130.log
+2025-11-16 15:11:30,340 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:11:30,385 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:11:30,428 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:11:30,429 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:11:30,430 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:11:30,433 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:11:30,433 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:11:30,434 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/initial_match_phase.cpp
+2025-11-16 15:11:30,434 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:12:10,629 - openevolve.evaluator - INFO - Evaluated program 1324ab11-6878-4ab1-9998-48b0825d9620 in 40.19s: area_score=0.0126, delay_score=0.0000, speed_score=-2.0009, overall_score=0.0063, combined_score=0.0063, failed_rate=0.0000
+2025-11-16 15:12:10,631 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:12:10,633 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:12:10,637 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:12:10,638 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:12:10,640 - openevolve.database - INFO - Island Status:
+2025-11-16 15:12:10,641 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0063, avg=0.0063, diversity=0.00, gen=0 (best: 1324ab11-6878-4ab1-9998-48b0825d9620)
+2025-11-16 15:12:10,642 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:12:10,643 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:12:10,644 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:12:10,662 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:12:10,711 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,720 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,727 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,758 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,759 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:12:10,760 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,761 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,767 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,768 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:12:10,769 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,770 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,771 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:12:10,780 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:12:10,798 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:12:10,799 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:12:10,800 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,801 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/evaluator.py
+2025-11-16 15:12:10,802 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:12:17,739 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:12:17,886 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:12:17,897 - openevolve.process_parallel - WARNING - Iteration 2 error: No valid diffs found in response
+2025-11-16 15:12:18,830 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:12:58,922 - openevolve.evaluator - INFO - Evaluated program 7a92a89d-96e4-4afc-bd77-d5d1bb535fee in 41.17s: area_score=0.0222, delay_score=0.0000, speed_score=-1.7138, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:58,929 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 0, 'diversity': 5}
+2025-11-16 15:12:58,931 - openevolve.database - INFO - New best program 7a92a89d-96e4-4afc-bd77-d5d1bb535fee replaces 1324ab11-6878-4ab1-9998-48b0825d9620 (combined_score: 0.0063 → 0.0111, +0.0048)
+2025-11-16 15:12:58,932 - openevolve.process_parallel - INFO - Iteration 3: Program 7a92a89d-96e4-4afc-bd77-d5d1bb535fee (parent: 1324ab11-6878-4ab1-9998-48b0825d9620) completed in 48.12s
+2025-11-16 15:12:58,934 - openevolve.process_parallel - INFO - Metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.7138, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:58,935 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 3: 7a92a89d-96e4-4afc-bd77-d5d1bb535fee
+2025-11-16 15:12:58,937 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:12:58,938 - openevolve.database - INFO - Island Status:
+2025-11-16 15:12:58,940 - openevolve.database - INFO -  * Island 0: 2 programs, best=0.0111, avg=0.0087, diversity=0.10, gen=1 (best: 7a92a89d-96e4-4afc-bd77-d5d1bb535fee)
+2025-11-16 15:12:58,941 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:12:58,942 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:12:58,946 - openevolve.database - INFO - Saved database with 2 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:12:58,947 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.7138, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:58,948 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:12:59,704 - openevolve.evaluator - INFO - Evaluated program 53a338cd-d6cd-49ed-a330-bb9973616eb2 in 40.85s: area_score=0.0222, delay_score=0.0000, speed_score=-1.3939, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:59,709 - openevolve.process_parallel - INFO - Iteration 1: Program 53a338cd-d6cd-49ed-a330-bb9973616eb2 (parent: 1324ab11-6878-4ab1-9998-48b0825d9620) completed in 48.94s
+2025-11-16 15:12:59,711 - openevolve.process_parallel - INFO - Metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.3939, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:59,712 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:12:59,716 - openevolve.database - INFO - Saved database with 3 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:12:59,718 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.7138, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:59,720 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:12:59,736 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:12:59,737 - openevolve.controller - INFO - Using tracked best program: 7a92a89d-96e4-4afc-bd77-d5d1bb535fee
+2025-11-16 15:12:59,738 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.7138, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0909
+2025-11-16 15:12:59,739 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_24/openevolve_output_match_phase/best/best_program_info.json
+2025-11-16 15:12:59,741 - __main__ - INFO - OpenEvolve successfully evolved match_phase.cpp
+2025-11-16 15:12:59,742 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:12:59,745 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:13:38,245 - __main__ - INFO - Valid improvement: overall_score=0.0111
+2025-11-16 15:13:38,247 - __main__ - INFO - Evaluation completed: reward=0.0110, area_score=0.022195, delay_score=0.0, overall_score=0.0110975, failed_rate=0.0
+2025-11-16 15:13:38,249 - __main__ - INFO - Iteration 24 completed
+2025-11-16 15:13:38,250 - __main__ - INFO - 🎉 New best SUCCESS: 0.0110 (overall_score: 0.0110975) at iteration 24
+2025-11-16 15:13:38,252 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0110)
+2025-11-16 15:13:38,254 - __main__ - INFO - ============================================================
+2025-11-16 15:13:38,255 - __main__ - INFO - Starting evolution iteration 25
+2025-11-16 15:13:38,256 - __main__ - INFO - ============================================================
+2025-11-16 15:13:38,258 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:14:12,242 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:14:12,247 - __main__ - INFO - Module switched: match_phase.cpp -> match_phase_exact.cpp
+2025-11-16 15:14:12,248 - __main__ - INFO - Planner selected: match_phase_exact.cpp with strategy: Area Optimizer
+2025-11-16 15:14:12,250 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase_exact.cpp
+2025-11-16 15:14:12,253 - __main__ - INFO - Using openevolve to evolve match_phase_exact.cpp
+2025-11-16 15:14:12,268 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_config.yaml
+2025-11-16 15:14:12,275 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/logs/openevolve_20251116_151412.log
+2025-11-16 15:14:12,276 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:14:12,320 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:12,361 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:12,363 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:14:12,363 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:14:12,366 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:12,366 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:12,367 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/initial_match_phase_exact.cpp
+2025-11-16 15:14:12,367 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:14:51,195 - openevolve.evaluator - INFO - Evaluated program 6aaa3c9d-7c7e-4641-b113-817c18db0153 in 38.83s: area_score=0.0222, delay_score=0.0000, speed_score=-1.6731, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:14:51,197 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:14:51,198 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:14:51,200 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:14:51,201 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:14:51,202 - openevolve.database - INFO - Island Status:
+2025-11-16 15:14:51,203 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0111, avg=0.0111, diversity=0.00, gen=0 (best: 6aaa3c9d-7c7e-4641-b113-817c18db0153)
+2025-11-16 15:14:51,204 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:14:51,204 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:14:51,205 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:14:51,226 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:14:51,291 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,291 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,291 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,337 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,337 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,337 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:14:51,338 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:14:51,338 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:14:51,338 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:14:51,340 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,340 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,340 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,340 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,342 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:14:51,362 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,362 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/evaluator.py
+2025-11-16 15:14:51,358 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:14:51,364 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:14:58,721 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:15:02,167 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:15:05,720 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:15:40,115 - openevolve.evaluator - INFO - Evaluated program 45d37e5c-c8b9-4016-8e5d-d3c797451dcf in 41.39s: area_score=0.0188, delay_score=0.0000, speed_score=-1.4511, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:15:40,125 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 5}
+2025-11-16 15:15:40,127 - openevolve.process_parallel - INFO - Iteration 3: Program 45d37e5c-c8b9-4016-8e5d-d3c797451dcf (parent: 6aaa3c9d-7c7e-4641-b113-817c18db0153) completed in 48.76s
+2025-11-16 15:15:40,128 - openevolve.process_parallel - INFO - Metrics: area_score=0.0188, delay_score=0.0000, speed_score=-1.4511, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:15:40,130 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:15:40,132 - openevolve.database - INFO - Island Status:
+2025-11-16 15:15:40,133 - openevolve.database - INFO -  * Island 0: 2 programs, best=0.0111, avg=0.0102, diversity=0.10, gen=1 (best: 6aaa3c9d-7c7e-4641-b113-817c18db0153)
+2025-11-16 15:15:40,134 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:15:40,136 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:15:40,140 - openevolve.database - INFO - Saved database with 2 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:15:40,141 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.6731, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:15:40,142 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:15:41,485 - openevolve.evaluator - INFO - Evaluated program 17b64ad1-d0bb-4cb0-8350-45dc18d6062b in 39.30s: area_score=0.0188, delay_score=0.0000, speed_score=-1.4415, overall_score=0.0094, combined_score=0.0094, failed_rate=0.1818
+2025-11-16 15:15:41,496 - openevolve.process_parallel - INFO - Iteration 1: Program 17b64ad1-d0bb-4cb0-8350-45dc18d6062b (parent: 6aaa3c9d-7c7e-4641-b113-817c18db0153) completed in 50.15s
+2025-11-16 15:15:41,498 - openevolve.process_parallel - INFO - Metrics: area_score=0.0188, delay_score=0.0000, speed_score=-1.4415, overall_score=0.0094, combined_score=0.0094, failed_rate=0.1818
+2025-11-16 15:15:45,729 - openevolve.evaluator - INFO - Evaluated program a3dd6bc0-e211-4685-a3b9-b0ea51d9d8eb in 40.00s: area_score=0.0188, delay_score=0.0000, speed_score=-1.7928, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:15:45,734 - openevolve.process_parallel - INFO - Iteration 2: Program a3dd6bc0-e211-4685-a3b9-b0ea51d9d8eb (parent: 6aaa3c9d-7c7e-4641-b113-817c18db0153) completed in 54.39s
+2025-11-16 15:15:45,736 - openevolve.process_parallel - INFO - Metrics: area_score=0.0188, delay_score=0.0000, speed_score=-1.7928, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:15:45,738 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:15:45,744 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:15:45,746 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.6731, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:15:45,747 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:15:45,764 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:15:45,766 - openevolve.controller - INFO - Using tracked best program: 6aaa3c9d-7c7e-4641-b113-817c18db0153
+2025-11-16 15:15:45,768 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.6731, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:15:45,769 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_25/openevolve_output_match_phase_exact/best/best_program_info.json
+2025-11-16 15:15:45,772 - __main__ - INFO - OpenEvolve successfully evolved match_phase_exact.cpp
+2025-11-16 15:15:45,774 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:15:45,778 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:16:23,617 - __main__ - INFO - Valid improvement: overall_score=0.0111
+2025-11-16 15:16:23,619 - __main__ - INFO - Evaluation completed: reward=0.0110, area_score=0.022195, delay_score=0.0, overall_score=0.0110975, failed_rate=0.0
+2025-11-16 15:16:23,621 - __main__ - INFO - Iteration 25 completed
+2025-11-16 15:16:23,623 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0110)
+2025-11-16 15:16:23,624 - __main__ - INFO - ============================================================
+2025-11-16 15:16:23,626 - __main__ - INFO - Starting evolution iteration 26
+2025-11-16 15:16:23,627 - __main__ - INFO - ============================================================
+2025-11-16 15:16:23,629 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:16:53,970 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:16:53,974 - __main__ - INFO - Module switched: match_phase_exact.cpp -> match_phase.cpp
+2025-11-16 15:16:53,976 - __main__ - INFO - Planner selected: match_phase.cpp with strategy: Area Optimizer
+2025-11-16 15:16:53,978 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase.cpp
+2025-11-16 15:16:53,981 - __main__ - INFO - Using openevolve to evolve match_phase.cpp
+2025-11-16 15:16:53,996 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_config.yaml
+2025-11-16 15:16:54,003 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/logs/openevolve_20251116_151654.log
+2025-11-16 15:16:54,004 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:16:54,048 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:16:54,090 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:16:54,091 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:16:54,092 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:16:54,095 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:16:54,095 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:16:54,096 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/initial_match_phase.cpp
+2025-11-16 15:16:54,096 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:17:32,677 - openevolve.evaluator - INFO - Evaluated program 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73 in 38.58s: area_score=0.0222, delay_score=0.0000, speed_score=-1.8003, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:17:32,679 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:17:32,681 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:17:32,684 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:17:32,686 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:17:32,687 - openevolve.database - INFO - Island Status:
+2025-11-16 15:17:32,689 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0111, avg=0.0111, diversity=0.00, gen=0 (best: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73)
+2025-11-16 15:17:32,690 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:17:32,691 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:17:32,693 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:17:32,711 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:17:32,771 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,772 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,773 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,817 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,819 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,819 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:17:32,820 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:17:32,820 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,821 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,821 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,822 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,823 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:17:32,842 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:17:32,844 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:17:32,845 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,846 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/evaluator.py
+2025-11-16 15:17:32,841 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:17:32,847 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:17:38,093 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:17:39,494 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:17:50,678 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:18:17,298 - openevolve.evaluator - INFO - Evaluated program 102b64db-010c-4a15-9b93-dfe521f25ba9 in 39.20s: area_score=0.0092, delay_score=0.0000, speed_score=-1.8045, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:17,311 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 0, 'diversity': 5}
+2025-11-16 15:18:17,313 - openevolve.process_parallel - INFO - Iteration 2: Program 102b64db-010c-4a15-9b93-dfe521f25ba9 (parent: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73) completed in 44.48s
+2025-11-16 15:18:17,315 - openevolve.process_parallel - INFO - Metrics: area_score=0.0092, delay_score=0.0000, speed_score=-1.8045, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:18,973 - openevolve.evaluator - INFO - Evaluated program a6c88e7b-5bd1-4374-859a-ac2374adefd4 in 39.46s: area_score=0.0092, delay_score=0.0000, speed_score=-1.7750, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:18,981 - openevolve.process_parallel - INFO - Iteration 1: Program a6c88e7b-5bd1-4374-859a-ac2374adefd4 (parent: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73) completed in 46.15s
+2025-11-16 15:18:18,983 - openevolve.process_parallel - INFO - Metrics: area_score=0.0092, delay_score=0.0000, speed_score=-1.7750, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:29,554 - openevolve.evaluator - INFO - Evaluated program 0c5f6950-f2bf-4abb-b9bf-69a8c4b24a82 in 38.87s: area_score=0.0092, delay_score=0.0000, speed_score=-1.5995, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:29,565 - openevolve.process_parallel - INFO - Iteration 3: Program 0c5f6950-f2bf-4abb-b9bf-69a8c4b24a82 (parent: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73) completed in 56.71s
+2025-11-16 15:18:29,568 - openevolve.process_parallel - INFO - Metrics: area_score=0.0092, delay_score=0.0000, speed_score=-1.5995, overall_score=0.0046, combined_score=0.0046, failed_rate=0.0000
+2025-11-16 15:18:29,571 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:18:29,574 - openevolve.database - INFO - Island Status:
+2025-11-16 15:18:29,576 - openevolve.database - INFO -    Island 0: 4 programs, best=0.0111, avg=0.0062, diversity=2.05, gen=2 (best: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73)
+2025-11-16 15:18:29,577 - openevolve.database - INFO -  * Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=1
+2025-11-16 15:18:29,578 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:18:29,582 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:18:29,583 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8003, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:18:29,583 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:18:29,584 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:18:29,587 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:18:29,588 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8003, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:18:29,588 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:18:29,606 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:18:29,607 - openevolve.controller - INFO - Using tracked best program: 9b1b06e7-4ac6-4122-a9c3-99a2739dcc73
+2025-11-16 15:18:29,608 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8003, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:18:29,609 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_26/openevolve_output_match_phase/best/best_program_info.json
+2025-11-16 15:18:29,611 - __main__ - INFO - OpenEvolve successfully evolved match_phase.cpp
+2025-11-16 15:18:29,612 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:18:29,615 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:19:10,494 - __main__ - INFO - Valid improvement: overall_score=0.0111
+2025-11-16 15:19:10,497 - __main__ - INFO - Evaluation completed: reward=0.0110, area_score=0.022195, delay_score=0.0, overall_score=0.0110975, failed_rate=0.0
+2025-11-16 15:19:10,499 - __main__ - INFO - Iteration 26 completed
+2025-11-16 15:19:10,500 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0110)
+2025-11-16 15:19:10,502 - __main__ - INFO - ============================================================
+2025-11-16 15:19:10,503 - __main__ - INFO - Starting evolution iteration 27
+2025-11-16 15:19:10,505 - __main__ - INFO - ============================================================
+2025-11-16 15:19:10,507 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:20:31,027 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:20:31,032 - __main__ - INFO - Module switched: match_phase.cpp -> match_phase_exact.cpp
+2025-11-16 15:20:31,034 - __main__ - INFO - Planner selected: match_phase_exact.cpp with strategy: Area Optimizer
+2025-11-16 15:20:31,037 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase_exact.cpp
+2025-11-16 15:20:31,042 - __main__ - INFO - Using openevolve to evolve match_phase_exact.cpp
+2025-11-16 15:20:31,057 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_config.yaml
+2025-11-16 15:20:31,064 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/logs/openevolve_20251116_152031.log
+2025-11-16 15:20:31,065 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:20:31,109 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:20:31,152 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:20:31,154 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:20:31,155 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:20:31,157 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:20:31,158 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:20:31,159 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/initial_match_phase_exact.cpp
+2025-11-16 15:20:31,159 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:21:10,451 - openevolve.evaluator - INFO - Evaluated program ed9aa930-bb75-483a-81bf-3fe6df10f107 in 39.29s: area_score=0.0222, delay_score=0.0000, speed_score=-1.9456, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:21:10,453 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:21:10,456 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:21:10,459 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:21:10,461 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:21:10,462 - openevolve.database - INFO - Island Status:
+2025-11-16 15:21:10,463 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0111, avg=0.0111, diversity=0.00, gen=0 (best: ed9aa930-bb75-483a-81bf-3fe6df10f107)
+2025-11-16 15:21:10,464 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:21:10,465 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:21:10,466 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:21:10,483 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:21:10,534 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,545 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,547 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,581 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,582 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:21:10,584 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,584 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,592 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,593 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:21:10,593 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:21:10,594 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:21:10,595 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,596 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,597 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:21:10,609 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:21:10,618 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,619 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/evaluator.py
+2025-11-16 15:21:10,620 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:21:17,064 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:21:19,739 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:21:20,335 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:21:55,906 - openevolve.evaluator - INFO - Evaluated program ca3f898e-6efb-4a3c-a1da-5d237f477d89 in 35.56s: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, combined_score=nan, failed_rate=0.0000
+2025-11-16 15:21:55,918 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 5}
+2025-11-16 15:21:55,920 - openevolve.process_parallel - INFO - Iteration 3: Program ca3f898e-6efb-4a3c-a1da-5d237f477d89 (parent: ed9aa930-bb75-483a-81bf-3fe6df10f107) completed in 45.29s
+2025-11-16 15:21:55,922 - openevolve.process_parallel - INFO - Metrics: area_score=nan, delay_score=nan, speed_score=nan, overall_score=nan, combined_score=nan, failed_rate=0.0000
+2025-11-16 15:21:55,923 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:21:55,925 - openevolve.database - INFO - Island Status:
+2025-11-16 15:21:55,927 - openevolve.database - INFO -  * Island 0: 2 programs, best=nan, avg=nan, diversity=12.40, gen=1 (best: ed9aa930-bb75-483a-81bf-3fe6df10f107)
+2025-11-16 15:21:55,928 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:21:55,930 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:21:55,933 - openevolve.database - INFO - Saved database with 2 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:21:55,935 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9456, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:21:55,936 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:21:56,678 - openevolve.evaluator - INFO - Evaluated program 500a9b85-63c5-477e-a3ff-8594ba1ef807 in 39.61s: area_score=0.0188, delay_score=0.0000, speed_score=-1.7922, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:21:56,688 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 0, 'diversity': 0}
+2025-11-16 15:21:56,690 - openevolve.process_parallel - INFO - Iteration 2: Program 500a9b85-63c5-477e-a3ff-8594ba1ef807 (parent: ed9aa930-bb75-483a-81bf-3fe6df10f107) completed in 46.07s
+2025-11-16 15:21:56,691 - openevolve.process_parallel - INFO - Metrics: area_score=0.0188, delay_score=0.0000, speed_score=-1.7922, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:22:01,396 - openevolve.evaluator - INFO - Evaluated program 9bdf79e7-c963-4d61-b3fe-ef156fc7cbcd in 41.64s: area_score=0.0188, delay_score=0.0000, speed_score=-1.8619, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:22:01,404 - openevolve.process_parallel - INFO - Iteration 1: Program 9bdf79e7-c963-4d61-b3fe-ef156fc7cbcd (parent: ed9aa930-bb75-483a-81bf-3fe6df10f107) completed in 50.80s
+2025-11-16 15:22:01,406 - openevolve.process_parallel - INFO - Metrics: area_score=0.0188, delay_score=0.0000, speed_score=-1.8619, overall_score=0.0094, combined_score=0.0094, failed_rate=0.0000
+2025-11-16 15:22:01,407 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:22:01,413 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:22:01,416 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9456, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:22:01,417 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:22:01,435 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:22:01,436 - openevolve.controller - INFO - Using tracked best program: ed9aa930-bb75-483a-81bf-3fe6df10f107
+2025-11-16 15:22:01,438 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9456, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:22:01,440 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_27/openevolve_output_match_phase_exact/best/best_program_info.json
+2025-11-16 15:22:01,443 - __main__ - INFO - OpenEvolve successfully evolved match_phase_exact.cpp
+2025-11-16 15:22:01,445 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:22:01,448 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:22:40,514 - __main__ - INFO - Valid improvement: overall_score=0.0111
+2025-11-16 15:22:40,516 - __main__ - INFO - Evaluation completed: reward=0.0110, area_score=0.022195, delay_score=0.0, overall_score=0.0110975, failed_rate=0.0
+2025-11-16 15:22:40,518 - __main__ - INFO - Iteration 27 completed
+2025-11-16 15:22:40,520 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0110)
+2025-11-16 15:22:40,521 - __main__ - INFO - ============================================================
+2025-11-16 15:22:40,523 - __main__ - INFO - Starting evolution iteration 28
+2025-11-16 15:22:40,524 - __main__ - INFO - ============================================================
+2025-11-16 15:22:40,525 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:24:33,040 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:24:33,045 - __main__ - INFO - Module switched: match_phase_exact.cpp -> match_drop_phase.cpp
+2025-11-16 15:24:33,047 - __main__ - INFO - Planner selected: match_drop_phase.cpp with strategy: Area Optimizer
+2025-11-16 15:24:33,049 - __main__ - INFO - Step 2: Evolver implementing changes to match_drop_phase.cpp
+2025-11-16 15:24:33,053 - __main__ - INFO - Using openevolve to evolve match_drop_phase.cpp
+2025-11-16 15:24:33,071 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_config.yaml
+2025-11-16 15:24:33,079 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/logs/openevolve_20251116_152433.log
+2025-11-16 15:24:33,080 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:24:33,126 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:24:33,172 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:24:33,174 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:24:33,174 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:24:33,177 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:24:33,178 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:24:33,179 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/initial_match_drop_phase.cpp
+2025-11-16 15:24:33,179 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:25:13,037 - openevolve.evaluator - INFO - Evaluated program d4c12efc-ffb1-4a35-8a22-3d8e46144d73 in 39.86s: area_score=0.0222, delay_score=0.0000, speed_score=-1.8508, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:25:13,039 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:25:13,042 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:25:13,045 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:25:13,047 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:25:13,048 - openevolve.database - INFO - Island Status:
+2025-11-16 15:25:13,049 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0111, avg=0.0111, diversity=0.00, gen=0 (best: d4c12efc-ffb1-4a35-8a22-3d8e46144d73)
+2025-11-16 15:25:13,050 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:25:13,051 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:25:13,052 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:25:13,068 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:25:13,129 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,134 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,135 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,175 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,176 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:25:13,181 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,182 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:25:13,182 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:25:13,183 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:25:13,183 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,184 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,184 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,185 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,186 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:25:13,196 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,201 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/evaluator.py
+2025-11-16 15:25:13,203 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:25:13,204 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:25:27,437 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:25:29,856 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:25:55,463 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:26:06,577 - openevolve.evaluator - INFO - Evaluated program a116efbc-8070-47b6-b689-e9a5ce90e014 in 39.13s: area_score=0.0222, delay_score=0.0000, speed_score=-1.9895, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:06,587 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 5}
+2025-11-16 15:26:06,590 - openevolve.process_parallel - INFO - Iteration 3: Program a116efbc-8070-47b6-b689-e9a5ce90e014 (parent: d4c12efc-ffb1-4a35-8a22-3d8e46144d73) completed in 53.38s
+2025-11-16 15:26:06,591 - openevolve.process_parallel - INFO - Metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9895, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:06,593 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:26:06,595 - openevolve.database - INFO - Island Status:
+2025-11-16 15:26:06,597 - openevolve.database - INFO -  * Island 0: 2 programs, best=0.0111, avg=0.0111, diversity=111.90, gen=1 (best: d4c12efc-ffb1-4a35-8a22-3d8e46144d73)
+2025-11-16 15:26:06,598 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:26:06,600 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:26:06,603 - openevolve.database - INFO - Saved database with 2 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:26:06,604 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8508, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:06,605 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:26:09,435 - openevolve.evaluator - INFO - Evaluated program 286e1610-b2fc-4c65-a252-5d0d20b5ffdb in 39.56s: area_score=0.0222, delay_score=0.0000, speed_score=-1.9973, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:09,446 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 0}
+2025-11-16 15:26:09,449 - openevolve.process_parallel - INFO - Iteration 1: Program 286e1610-b2fc-4c65-a252-5d0d20b5ffdb (parent: d4c12efc-ffb1-4a35-8a22-3d8e46144d73) completed in 56.25s
+2025-11-16 15:26:09,450 - openevolve.process_parallel - INFO - Metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9973, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:34,347 - openevolve.evaluator - INFO - Evaluated program 82dae610-af51-4fbd-997d-a7331246c911 in 38.88s: area_score=0.0222, delay_score=0.0000, speed_score=-1.9309, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:34,360 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 8, 'diversity': 0}
+2025-11-16 15:26:34,362 - openevolve.process_parallel - INFO - Iteration 2: Program 82dae610-af51-4fbd-997d-a7331246c911 (parent: d4c12efc-ffb1-4a35-8a22-3d8e46144d73) completed in 81.17s
+2025-11-16 15:26:34,364 - openevolve.process_parallel - INFO - Metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.9309, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:34,365 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:26:34,371 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:26:34,373 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8508, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:34,374 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/checkpoints/checkpoint_3
+2025-11-16 15:26:34,390 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:26:34,392 - openevolve.controller - INFO - Using tracked best program: d4c12efc-ffb1-4a35-8a22-3d8e46144d73
+2025-11-16 15:26:34,393 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=0.0222, delay_score=0.0000, speed_score=-1.8508, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:26:34,395 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_28/openevolve_output_match_drop_phase/best/best_program_info.json
+2025-11-16 15:26:34,398 - __main__ - INFO - OpenEvolve successfully evolved match_drop_phase.cpp
+2025-11-16 15:26:34,400 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:26:34,403 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:27:13,203 - __main__ - INFO - Valid improvement: overall_score=0.0111
+2025-11-16 15:27:13,206 - __main__ - INFO - Evaluation completed: reward=0.0110, area_score=0.022195, delay_score=0.0, overall_score=0.0110975, failed_rate=0.0
+2025-11-16 15:27:13,208 - __main__ - INFO - Iteration 28 completed
+2025-11-16 15:27:13,209 - __main__ - INFO - ✅ Accepted via threshold (reward 0.0110)
+2025-11-16 15:27:13,211 - __main__ - INFO - ============================================================
+2025-11-16 15:27:13,213 - __main__ - INFO - Starting evolution iteration 29
+2025-11-16 15:27:13,214 - __main__ - INFO - ============================================================
+2025-11-16 15:27:13,216 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:27:37,570 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:27:37,575 - __main__ - INFO - Module switched: match_drop_phase.cpp -> match_phase.cpp
+2025-11-16 15:27:37,576 - __main__ - INFO - Planner selected: match_phase.cpp with strategy: Balanced Optimizer
+2025-11-16 15:27:37,578 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase.cpp
+2025-11-16 15:27:37,583 - __main__ - INFO - Using openevolve to evolve match_phase.cpp
+2025-11-16 15:27:37,599 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_config.yaml
+2025-11-16 15:27:37,608 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/logs/openevolve_20251116_152737.log
+2025-11-16 15:27:37,609 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:27:37,654 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:27:37,697 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:27:37,699 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:27:37,699 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:27:37,702 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:27:37,703 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:27:37,703 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/initial_match_phase.cpp
+2025-11-16 15:27:37,704 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:28:17,444 - openevolve.evaluator - INFO - Evaluated program b8679d28-a801-4f87-942d-3cb9ddb50fb1 in 39.74s: area_score=0.0222, delay_score=0.0000, speed_score=-2.0117, overall_score=0.0111, combined_score=0.0111, failed_rate=0.0000
+2025-11-16 15:28:17,447 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:28:17,449 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:28:17,453 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:28:17,455 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:28:17,456 - openevolve.database - INFO - Island Status:
+2025-11-16 15:28:17,458 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0111, avg=0.0111, diversity=0.00, gen=0 (best: b8679d28-a801-4f87-942d-3cb9ddb50fb1)
+2025-11-16 15:28:17,459 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:28:17,461 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:28:17,462 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:28:17,480 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:28:17,538 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,542 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,545 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,585 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,586 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:28:17,588 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,589 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,588 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,590 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:28:17,590 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:28:17,591 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:28:17,591 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,592 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,592 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:28:17,616 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:28:17,617 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,618 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/evaluator.py
+2025-11-16 15:28:17,620 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:28:32,072 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:28:44,310 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:28:48,637 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:29:11,570 - openevolve.evaluator - INFO - Evaluated program 390de045-4ae2-4452-a2e9-b1e46877b9c6 in 39.49s: area_score=1.0976, delay_score=-0.5007, speed_score=-1.6848, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:11,580 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 5}
+2025-11-16 15:29:11,582 - openevolve.database - INFO - New best program 390de045-4ae2-4452-a2e9-b1e46877b9c6 replaces b8679d28-a801-4f87-942d-3cb9ddb50fb1 (combined_score: 0.0111 → 0.2984, +0.2873)
+2025-11-16 15:29:11,584 - openevolve.process_parallel - INFO - Iteration 2: Program 390de045-4ae2-4452-a2e9-b1e46877b9c6 (parent: b8679d28-a801-4f87-942d-3cb9ddb50fb1) completed in 53.96s
+2025-11-16 15:29:11,586 - openevolve.process_parallel - INFO - Metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-1.6848, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:11,588 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 2: 390de045-4ae2-4452-a2e9-b1e46877b9c6
+2025-11-16 15:29:24,231 - openevolve.evaluator - INFO - Evaluated program aa3fbc39-8f26-4458-a11d-1d4860df6b8b in 39.90s: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2254, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:24,245 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 9, 'diversity': 9}
+2025-11-16 15:29:24,247 - openevolve.process_parallel - INFO - Iteration 1: Program aa3fbc39-8f26-4458-a11d-1d4860df6b8b (parent: b8679d28-a801-4f87-942d-3cb9ddb50fb1) completed in 66.65s
+2025-11-16 15:29:24,249 - openevolve.process_parallel - INFO - Metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2254, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,549 - openevolve.evaluator - INFO - Evaluated program 2c01fb93-35a6-4182-a333-30b2355e888f in 39.90s: area_score=1.0976, delay_score=-0.5007, speed_score=-2.0858, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,554 - openevolve.process_parallel - INFO - Iteration 3: Program 2c01fb93-35a6-4182-a333-30b2355e888f (parent: b8679d28-a801-4f87-942d-3cb9ddb50fb1) completed in 70.93s
+2025-11-16 15:29:28,556 - openevolve.process_parallel - INFO - Metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-2.0858, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,558 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:29:28,562 - openevolve.database - INFO - Island Status:
+2025-11-16 15:29:28,563 - openevolve.database - INFO -    Island 0: 4 programs, best=0.2984, avg=0.2266, diversity=54.12, gen=2 (best: 390de045-4ae2-4452-a2e9-b1e46877b9c6)
+2025-11-16 15:29:28,565 - openevolve.database - INFO -  * Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=1
+2025-11-16 15:29:28,566 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:29:28,571 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:29:28,573 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-1.6848, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,574 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:29:28,575 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:29:28,579 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:29:28,580 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-1.6848, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,581 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/checkpoints/checkpoint_3
+2025-11-16 15:29:28,596 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:29:28,597 - openevolve.controller - INFO - Using tracked best program: 390de045-4ae2-4452-a2e9-b1e46877b9c6
+2025-11-16 15:29:28,598 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-1.6848, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:29:28,599 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_29/openevolve_output_match_phase/best/best_program_info.json
+2025-11-16 15:29:28,602 - __main__ - INFO - OpenEvolve successfully evolved match_phase.cpp
+2025-11-16 15:29:28,604 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:29:28,607 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:30:06,710 - __main__ - INFO - Valid improvement: overall_score=0.2984
+2025-11-16 15:30:06,712 - __main__ - INFO - Evaluation completed: reward=0.2298, area_score=1.09756, delay_score=-0.500723, overall_score=0.29841850000000003, failed_rate=0.0
+2025-11-16 15:30:06,714 - __main__ - INFO - Iteration 29 completed
+2025-11-16 15:30:06,716 - __main__ - INFO - 🎉 New best SUCCESS: 0.2298 (overall_score: 0.29841850000000003) at iteration 29
+2025-11-16 15:30:06,718 - __main__ - INFO - ✅ Accepted via threshold (reward 0.2298)
+2025-11-16 15:30:06,720 - __main__ - INFO - ============================================================
+2025-11-16 15:30:06,722 - __main__ - INFO - Starting evolution iteration 30
+2025-11-16 15:30:06,723 - __main__ - INFO - ============================================================
+2025-11-16 15:30:06,725 - __main__ - INFO - Step 1: Planner analyzing context and proposing evolution step
+2025-11-16 15:30:43,605 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:30:43,609 - __main__ - INFO - Module switched: match_phase.cpp -> match_phase_exact.cpp
+2025-11-16 15:30:43,611 - __main__ - INFO - Planner selected: match_phase_exact.cpp with strategy: Balanced Optimizer
+2025-11-16 15:30:43,613 - __main__ - INFO - Step 2: Evolver implementing changes to match_phase_exact.cpp
+2025-11-16 15:30:43,617 - __main__ - INFO - Using openevolve to evolve match_phase_exact.cpp
+2025-11-16 15:30:43,632 - __main__ - INFO - Created config with evolution_step at output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_config.yaml
+2025-11-16 15:30:43,640 - openevolve.controller - INFO - Logging to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/logs/openevolve_20251116_153043.log
+2025-11-16 15:30:43,641 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2025-11-16 15:30:43,686 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:30:43,729 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:30:43,731 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:30:43,732 - openevolve.database - INFO - Initialized program database with 0 programs
+2025-11-16 15:30:43,735 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:30:43,735 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:30:43,736 - openevolve.controller - INFO - Initialized OpenEvolve with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/initial_match_phase_exact.cpp
+2025-11-16 15:30:43,737 - openevolve.controller - INFO - Adding initial program to database
+2025-11-16 15:31:23,911 - openevolve.evaluator - INFO - Evaluated program 4b1027ab-8d5f-4d74-a3c0-3188ea33829e in 40.17s: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2282, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:31:23,914 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 0}
+2025-11-16 15:31:23,916 - openevolve.process_parallel - INFO - Initialized process parallel controller with 4 workers
+2025-11-16 15:31:23,920 - openevolve.process_parallel - INFO - Started process pool with 4 processes
+2025-11-16 15:31:23,922 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2025-11-16 15:31:23,923 - openevolve.database - INFO - Island Status:
+2025-11-16 15:31:23,924 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.2984, avg=0.2984, diversity=0.00, gen=0 (best: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e)
+2025-11-16 15:31:23,925 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:31:23,926 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:31:23,927 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 3 iterations (total: 4)
+2025-11-16 15:31:23,943 - openevolve.process_parallel - INFO - Early stopping disabled
+2025-11-16 15:31:24,008 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,009 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,009 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,055 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,055 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,055 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: gpt-5-2025-08-07 (weight: 0.80), gpt-5-2025-08-07 (weight: 0.20)
+2025-11-16 15:31:24,056 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:31:24,056 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:31:24,057 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2025-11-16 15:31:24,058 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,058 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,059 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,059 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,060 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:31:24,078 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,084 - openevolve.evaluator - INFO - Initialized evaluator with output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/evaluator.py
+2025-11-16 15:31:24,085 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:31:24,080 - openevolve.llm.ensemble - INFO - Sampled model: gpt-5-2025-08-07
+2025-11-16 15:31:30,986 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:31:31,553 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:31:41,301 - httpx - INFO - HTTP Request: POST https://yinli.one/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-16 15:32:10,495 - openevolve.evaluator - INFO - Evaluated program 13ad401b-371c-46a8-b6fa-0ce2017dd906 in 39.50s: area_score=0.9281, delay_score=-0.5022, speed_score=-2.3893, overall_score=0.2129, combined_score=0.2129, failed_rate=0.0909
+2025-11-16 15:32:10,507 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 5, 'diversity': 5}
+2025-11-16 15:32:10,509 - openevolve.process_parallel - INFO - Iteration 2: Program 13ad401b-371c-46a8-b6fa-0ce2017dd906 (parent: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e) completed in 46.44s
+2025-11-16 15:32:10,511 - openevolve.process_parallel - INFO - Metrics: area_score=0.9281, delay_score=-0.5022, speed_score=-2.3893, overall_score=0.2129, combined_score=0.2129, failed_rate=0.0909
+2025-11-16 15:32:11,893 - openevolve.evaluator - INFO - Evaluated program fc818582-0daa-4459-b1e0-48a6d1cce59f in 40.33s: area_score=0.9281, delay_score=-0.5022, speed_score=-2.0724, overall_score=0.2129, combined_score=0.2129, failed_rate=0.1818
+2025-11-16 15:32:11,906 - openevolve.process_parallel - INFO - Iteration 3: Program fc818582-0daa-4459-b1e0-48a6d1cce59f (parent: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e) completed in 47.81s
+2025-11-16 15:32:11,908 - openevolve.process_parallel - INFO - Metrics: area_score=0.9281, delay_score=-0.5022, speed_score=-2.0724, overall_score=0.2129, combined_score=0.2129, failed_rate=0.1818
+2025-11-16 15:32:11,910 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 3
+2025-11-16 15:32:11,913 - openevolve.database - INFO - Island Status:
+2025-11-16 15:32:11,914 - openevolve.database - INFO -    Island 0: 3 programs, best=0.2984, avg=0.2414, diversity=0.33, gen=1 (best: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e)
+2025-11-16 15:32:11,916 - openevolve.database - INFO -  * Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=1
+2025-11-16 15:32:11,917 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2025-11-16 15:32:11,921 - openevolve.database - INFO - Saved database with 3 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:32:11,923 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2282, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:32:11,925 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:32:22,495 - openevolve.evaluator - INFO - Evaluated program 2518b8d2-cc2b-43c4-bba7-21f535f33271 in 41.18s: area_score=0.9281, delay_score=-0.5022, speed_score=-2.0786, overall_score=0.2129, combined_score=0.2129, failed_rate=0.0000
+2025-11-16 15:32:22,507 - openevolve.process_parallel - INFO - Iteration 1: Program 2518b8d2-cc2b-43c4-bba7-21f535f33271 (parent: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e) completed in 58.44s
+2025-11-16 15:32:22,509 - openevolve.process_parallel - INFO - Metrics: area_score=0.9281, delay_score=-0.5022, speed_score=-2.0786, overall_score=0.2129, combined_score=0.2129, failed_rate=0.0000
+2025-11-16 15:32:22,511 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2025-11-16 15:32:22,517 - openevolve.database - INFO - Saved database with 4 programs to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:32:22,520 - openevolve.controller - INFO - Saved best program at checkpoint 3 with metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2282, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:32:22,521 - openevolve.controller - INFO - Saved checkpoint at iteration 3 to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/checkpoints/checkpoint_3
+2025-11-16 15:32:22,539 - openevolve.process_parallel - INFO - Stopped process pool
+2025-11-16 15:32:22,541 - openevolve.controller - INFO - Using tracked best program: 4b1027ab-8d5f-4d74-a3c0-3188ea33829e
+2025-11-16 15:32:22,542 - openevolve.controller - INFO - Evolution complete. Best program has metrics: area_score=1.0976, delay_score=-0.5007, speed_score=-2.2282, overall_score=0.2984, combined_score=0.2984, failed_rate=0.0000
+2025-11-16 15:32:22,544 - openevolve.controller - INFO - Saved best program to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/best/best_program.cpp with program info to output/proactive_evolve_openevolve_gpt-5-2025-08-07_20251116_134740/iter_30/openevolve_output_match_phase_exact/best/best_program_info.json
+2025-11-16 15:32:22,548 - __main__ - INFO - OpenEvolve successfully evolved match_phase_exact.cpp
+2025-11-16 15:32:22,550 - __main__ - INFO - Step 4: Merging files and updating context
+2025-11-16 15:32:22,554 - __main__ - INFO - Step 5: Evaluating evolved code
+2025-11-16 15:33:00,897 - __main__ - INFO - Valid improvement: overall_score=0.2984
+2025-11-16 15:33:00,899 - __main__ - INFO - Evaluation completed: reward=0.2298, area_score=1.09756, delay_score=-0.500723, overall_score=0.29841850000000003, failed_rate=0.0
+2025-11-16 15:33:00,902 - __main__ - INFO - Iteration 30 completed
+2025-11-16 15:33:00,904 - __main__ - INFO - ✅ Accepted via threshold (reward 0.2298)
+2025-11-16 15:33:00,906 - __main__ - INFO - Evolution completed. Best reward: 0.2298 at iteration 29

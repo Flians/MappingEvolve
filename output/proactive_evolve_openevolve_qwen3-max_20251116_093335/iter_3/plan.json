@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "The previous iteration used match_phase_exact.cpp with Balanced Optimizer, achieving minor area gain (0.23%) but zero delay improvement. Current signals indicate Area Priority objective and LOW diversity pressure, but recommended_explore includes match_drop_phase.cpp. However, match_phase.cpp offers the highest leverage for area optimization because it handles the initial cut selection where most area decisions are made. The DO_AREA=true path in match_phase.cpp uses area_flow as primary metric but currently applies a hard timing constraint (worst_arrival > required + epsilon). Relaxing this constraint slightly would allow more area-efficient cuts that marginally violate timing but can be recovered in later exact phases, directly addressing the Area Priority goal."
+  },
+  "chosen_strategy": "Area Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "match_phase.cpp: timing constraint check in DO_AREA mode",
+    "objective": "Allow slightly timing-violating cuts during area optimization to enable better area trade-offs",
+    "direction_and_strategy": "Replace the hard timing constraint 'if (worst_arrival > node_data.required[phase] + epsilon) continue;' with a relaxed constraint that permits small timing violations proportional to the current iteration's timing slack",
+    "expected_impact": "0.8-1.5% area reduction, tolerate up to 0.5% delay increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "The current hard timing cutoff in match_phase.cpp's DO_AREA mode prevents selection of area-efficient cuts that exceed required time by even small margins. Since the mapper runs multiple rounds (area_flow_rounds + ela_rounds), allowing controlled timing violations in early area rounds enables better area exploration while exact phases can recover timing. This aligns with Area Priority objective and builds on the previous iteration's successful area improvement without logical failures."
+  }
+}

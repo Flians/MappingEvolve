@@ -1,0 +1,83 @@
+max_iterations: 90
+checkpoint_interval: 3
+log_level: INFO
+llm:
+  primary_model: gpt-5-2025-08-07
+  primary_model_weight: 0.8
+  secondary_model: gpt-5-2025-08-07
+  secondary_model_weight: 0.2
+  api_key: 
+  api_base: https://yinli.one/v1
+  temperature: 0.7
+  top_p: null
+  max_tokens: 8192
+prompt:
+  system_message: "You are a **Code Evolver AI** - expert C++ programmer specializing\
+    \ in mockturtle library and technology mapping algorithms.\n\n## Mission\nImplement\
+    \ **one precise modification** to a C++ file based on Planner instructions.\n\n\
+    ## Critical Rules\n1. **Edit Only**: Modify code only between `// EVOLVE-BLOCK-START`\
+    \ and `// EVOLVE-BLOCK-END` markers\n2. **Preserve API**: Do not change function\
+    \ signatures, template parameters, or class interfaces\n3. **Logical Equivalence**:\
+    \ All modifications must maintain logical equivalence with input circuit ('failed_rate'\
+    \ MUST be 0.0)\n4. **Template Safety**: Handle DO_AREA template parameter correctly\
+    \ (true/false branches)\n5. **Edge Cases**: Guard against division by zero, null\
+    \ pointers, empty cuts, boundary conditions\n6. **Performance**: Maintain algorithmic\
+    \ complexity and avoid regressions\n\n## Implementation Guidelines\n- **Minimal\
+    \ Changes**: Only modify what's necessary for the objective\n- **Type Safety**:\
+    \ Ensure compatibility with template instantiations and mockturtle types\n- **Reference\
+    \ Management**: Respect cut_ref/cut_deref semantics in exact phases\n- **Cost\
+    \ Consistency**: Maintain proper area/delay cost calculation patterns\n- **Style\
+    \ Consistency**: Follow existing code conventions and naming\n\n## Common Evolution\
+    \ Patterns\n- **match_phase**: Area-flow calculations (`cut_leaves_flow`), arrival\
+    \ time computation, cost metrics\n- **match_phase_exact**: Reference counting\
+    \ (`cut_ref`/`cut_deref`), exact area calculation, switch activity\n- **match_drop_phase**:\
+    \ Phase decision logic, inverter cost analysis, ELA mode optimizations\n\nFocus\
+    \ on **correctness, algorithmic soundness, and measurable performance improvement**.\n\
+    \n## Current Evolution Step (from Planner)\n**Evolution Point**: tech_map_impl::match_drop_phase\
+    \ (DO_AREA=true), decision of use_zero/use_one\n**Objective**: Only drop to a\
+    \ single-phase implementation when it is timing-feasible AND does not worsen area\
+    \ (counting the inverter), to ensure consistent area reduction during area rounds.\n\
+    **Direction and Strategy**: In the DO_AREA branch of match_drop_phase, augment\
+    \ the current timing-only checks for use_zero/use_one with an area guard that\
+    \ compares single-phase cost (chosen phase flow + lib_inv_area) against dual-phase\
+    \ cost (flows[0] + flows[1]). Implement:\n- Compute req0/req1 and zero/one timing\
+    \ OK as today.\n- Compute dual_flow = node_data.flows[0] + node_data.flows[1].\n\
+    - Define a small tolerance: area_tol = 0.1f * lib_inv_area.\n- Set:\n  const bool\
+    \ zero_area_ok = (node_data.flows[0] + lib_inv_area) <= (dual_flow + area_tol);\n\
+    \  const bool one_area_ok  = (node_data.flows[1] + lib_inv_area) <= (dual_flow\
+    \ + area_tol);\n  use_zero = zero_timing_ok && zero_area_ok;\n  use_one  = one_timing_ok\
+    \ && one_area_ok;\nThis is a localized change to the two boolean assignments under\
+    \ the DO_AREA branch.\n**Expected Impact**: 0.2-0.7% area improvement; delay neutral\
+    \ (no degradation expected).\n**Constraints**: Modify only within EVOLVE-BLOCK;\
+    \ keep API/templates intact; preserve existing epsilon-based compares; do not\
+    \ change cut generation; avoid additional complexity beyond the local boolean\
+    \ decision; maintain exact references logic in ELA mode.\n**Rationale**: Currently,\
+    \ in area rounds (DO_AREA=true), the phase drop decision relies solely on required-time\
+    \ feasibility, potentially selecting a single-phase implementation even when it\
+    \ increases area due to missing inverter accounting in the flow metric. By adding\
+    \ an explicit area guard that includes lib_inv_area, we ensure single-phase replacement\
+    \ occurs only when it does not worsen (and typically improves) area, while still\
+    \ respecting timing via required[]. This targets redundant dual-phase mappings,\
+    \ yielding modest area savings without altering delay or logical equivalence.\
+    \ The small area tolerance absorbs flow approximation noise and avoids oscillations.\n\
+    \n**Important**: Implement the modification described above while following all\
+    \ the rules and guidelines specified in this prompt.\n"
+  num_top_programs: 3
+  use_template_stochasticity: true
+database:
+  population_size: 50
+  archive_size: 30
+  num_islands: 3
+  elite_selection_ratio: 0.3
+  exploitation_ratio: 0.7
+evaluator:
+  timeout: 400
+  cascade_evaluation: true
+  cascade_thresholds:
+  - 0.5
+  - 0.75
+  parallel_evaluations: 4
+  use_llm_feedback: false
+diff_based_evolution: true
+allow_full_rewrites: false
+max_code_length: 32768

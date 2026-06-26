@@ -1,0 +1,15 @@
+{
+  "chosen_evolution_point": {
+    "chosen_module": "match_phase.cpp",
+    "selection_rationale": "Previous iteration achieved modest area improvement but degraded delay (-0.8%), triggering 'delay_stagnation' signal. Among the three modules, match_phase.cpp (with DO_AREA=false) directly controls initial delay-driven cut selection and has highest leverage for improving worst-case arrival time by tightening cost comparison to prioritize lower-delay cuts, even at slight area cost. match_phase_exact.cpp operates later under stricter required-time constraints and is less effective for broad delay recovery, while match_drop_phase.cpp only handles phase unification and offers limited delay tuning."
+  },
+  "chosen_strategy": "Delay Optimizer",
+  "evolution_step": {
+    "evolution_point_id": "compare_map logic inside match_phase<DO_AREA=false>",
+    "objective": "Improve worst-case delay by prioritizing cuts with lower arrival time even when area flow is slightly worse",
+    "direction_and_strategy": "In the non-area mode (DO_AREA=false) of match_phase, modify the tie-breaking condition to give stronger preference to lower arrival time over area flow by removing the area flow comparison when arrival times are within epsilon, effectively making arrival time the dominant criterion",
+    "expected_impact": "1-2% delay reduction, tolerate up to 1.5% area increase",
+    "constraints": "Preserve API/templates; EVOLVE-BLOCK only; maintain complexity; keep epsilon compares",
+    "rationale": "Current compare_map in DO_AREA=false mode uses arrival time as primary key but falls back to area flow when arrivals are within epsilon, which can select higher-delay cuts if they have better area. Under delay stagnation, we should avoid this trade-off. By removing the area flow fallback in the delay round, we ensure that any cut with equal or better arrival time is preferred, directly targeting delay improvement without aggressive changes. This aligns with the need to recover from delay degradation observed in the last iteration."
+  }
+}
