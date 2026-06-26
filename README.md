@@ -292,6 +292,23 @@ This project builds upon:
 
 ---
 
-## 📄 License
+## � Citation
+
+If you use MappingEvolve in your research, please cite our paper:
+
+```bibtex
+@inproceedings{fu2026mappingevolve,
+  author    = {Fu, Rongliang and Liu, Yi and Xu, Qiang and Ho, Tsung-Yi},
+  booktitle = {Proceedings of the 63rd ACM/IEEE Design Automation Conference (DAC)},
+  title     = {{MappingEvolve}: {LLM}-Driven Code Evolution for Technology Mapping},
+  year      = {2026},
+  volume    = {},
+  number    = {},
+  pages     = {1-7},
+  doi       = {10.1145/3770743.3803988}
+}
+```
+
+## �📄 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
