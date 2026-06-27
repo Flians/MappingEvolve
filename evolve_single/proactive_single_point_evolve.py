@@ -83,6 +83,10 @@ def _create_modified_config_with_evolution_step(iter_dir: str, original_config_p
         config_dict["prompt"] = {}
     config_dict["prompt"]["system_message"] = modified_system_message
 
+    # Sanitize: never write API key to generated config files
+    if "llm" in config_dict and "api_key" in config_dict["llm"]:
+        config_dict["llm"]["api_key"] = ""
+
     # Create a config file
     cur_config_path = os.path.join(iter_dir, "openevolve_config.yaml")
     with open(cur_config_path, 'w', encoding='utf-8') as f:
